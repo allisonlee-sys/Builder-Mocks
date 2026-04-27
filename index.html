@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Amplitude — See what users do. Fix what breaks. Ship what works.</title>
-<meta name="description" content="Amplitude shows you what users actually experience so you can catch issues early and fix what matters fast. Analytics, session replay, feature flags, and experiments in one platform.">
+<title>Amplitude - See what users do. Fix what breaks. Ship what works.</title>
+<meta name="description" content="See exactly what changed after every release, where users drop off, and what to fix next. Analytics, session replay, feature flags, and experiments in one platform.">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -26,12 +26,11 @@
 }
 html{scroll-behavior:smooth}
 body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary);-webkit-font-smoothing:antialiased;overflow-x:auto;min-width:1024px}
-
-/* Animations */
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes slideRight{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+@keyframes drawLine{from{stroke-dashoffset:600}to{stroke-dashoffset:0}}
+@keyframes growBar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 .fade-up{animation:fadeUp .7s ease both}
 .fade-up-d1{animation:fadeUp .7s ease .1s both}
 .fade-up-d2{animation:fadeUp .7s ease .2s both}
@@ -54,15 +53,12 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
 /* Hero */
 .hero{background:#fff;padding:140px 24px 60px;position:relative;overflow:hidden}
 .hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(to top,#fff,transparent);pointer-events:none;z-index:1}
-.hero-grid{position:absolute;inset:0;background-image:
-  linear-gradient(rgba(0,0,0,.03) 1px,transparent 1px),
-  linear-gradient(90deg,rgba(0,0,0,.03) 1px,transparent 1px);
-  background-size:64px 64px;mask-image:radial-gradient(ellipse at 50% 0%,black 20%,transparent 70%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,0,0,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.03) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse at 50% 0%,black 20%,transparent 70%)}
 .hero-glow{position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse,rgba(30,97,240,.06),transparent 70%);pointer-events:none}
 .hero-content{max-width:720px;margin:0 auto;text-align:center;position:relative;z-index:2}
 .hero h1{font-size:clamp(36px,6vw,60px);font-weight:700;line-height:1.05;letter-spacing:-.04em;color:var(--text-primary);margin-bottom:20px}
 .hero h1 .accent{color:var(--accent)}
-.hero .subtitle{font-size:18px;line-height:1.6;color:var(--text-secondary);max-width:480px;margin:0 auto 36px}
+.hero .subtitle{font-size:18px;line-height:1.6;color:var(--text-secondary);max-width:520px;margin:0 auto 36px}
 .hero-cta{display:flex;flex-direction:column;align-items:center;gap:12px}
 .btn-hero{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border:none;padding:14px 32px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:background .2s,transform .15s}
 .btn-hero:hover{background:var(--accent-hover);transform:translateY(-1px)}
@@ -84,86 +80,105 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
 .mock-editor{display:flex;flex-direction:column;border-right:1px solid #2a2a2f}
 .mock-code-area{flex:1;padding:20px;font-family:var(--mono);font-size:12px;line-height:1.7;color:#666;overflow:hidden}
 .mock-code-area .ln{color:#333;display:inline-block;width:28px;text-align:right;margin-right:12px;user-select:none}
-.mock-code-area .kw{color:#c678dd}
-.mock-code-area .fn{color:#61afef}
-.mock-code-area .str{color:#98c379}
-.mock-code-area .vr{color:#e5c07b}
-.mock-code-area .cm{color:#555}
-.mock-code-area .op{color:#56b6c2}
+.mock-code-area .kw{color:#c678dd}.mock-code-area .fn{color:#61afef}.mock-code-area .str{color:#98c379}
+.mock-code-area .vr{color:#e5c07b}.mock-code-area .cm{color:#555}.mock-code-area .op{color:#56b6c2}
 .mock-terminal{border-top:1px solid #2a2a2f;padding:14px 16px;font-family:var(--mono);font-size:11.5px;line-height:1.8}
-.mock-terminal .pr{color:#666}
-.mock-terminal .cmd{color:#ccc}
-.mock-terminal .ok{color:#4ade80}
-.mock-terminal .fl{color:var(--accent)}
-.mock-terminal .wr{color:#fbbf24}
+.mock-terminal .pr{color:#666}.mock-terminal .cmd{color:#ccc}.mock-terminal .ok{color:#4ade80}
+.mock-terminal .fl{color:var(--accent)}.mock-terminal .wr{color:#fbbf24}
 .tl{opacity:0;animation:fadeIn .3s ease both}
-.tl:nth-child(1){animation-delay:.5s}
-.tl:nth-child(2){animation-delay:1.2s}
-.tl:nth-child(3){animation-delay:1.8s}
-.tl:nth-child(4){animation-delay:2.4s}
+.tl:nth-child(1){animation-delay:.5s}.tl:nth-child(2){animation-delay:1.2s}
+.tl:nth-child(3){animation-delay:1.8s}.tl:nth-child(4){animation-delay:2.4s}
 .mock-claude{display:flex;flex-direction:column;background:#111113}
 .mock-claude-hd{padding:12px 16px;border-bottom:1px solid #2a2a2f;display:flex;align-items:center;gap:8px}
 .mock-claude-hd .cd{width:8px;height:8px;border-radius:50%;background:#D97757}
 .mock-claude-hd span{font-size:12px;font-weight:600;color:#888;font-family:var(--mono)}
 .mock-claude-body{flex:1;padding:16px;display:flex;flex-direction:column;gap:14px;overflow:hidden}
 .cm-msg{opacity:0;animation:fadeUp .4s ease both}
-.cm-d1{animation-delay:3s}
-.cm-d2{animation-delay:3.8s}
-.cm-d3{animation-delay:4.6s}
-.cm-d4{animation-delay:5.6s}
-.cm-d5{animation-delay:6.4s}
+.cm-d1{animation-delay:3s}.cm-d2{animation-delay:3.8s}.cm-d3{animation-delay:4.6s}
+.cm-d4{animation-delay:5.6s}.cm-d5{animation-delay:6.4s}
 .msg-row{display:flex;gap:8px;align-items:flex-start}
 .msg-av{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;font-family:var(--mono)}
-.msg-av-u{background:#2a2a2f;color:#888}
-.msg-av-c{background:#2a2530}
+.msg-av-u{background:#2a2a2f;color:#888}.msg-av-c{background:#2a2530}
 .msg-av-c i{width:10px;height:10px;border-radius:50%;background:#D97757;display:block}
 .msg-t{font-size:12px;line-height:1.6}
-.msg-t-u{color:#ccc;font-family:var(--mono)}
-.msg-t-c{color:#999}
-.msg-t-c b{color:#ccc;font-weight:600}
-.msg-t-c .hl{color:var(--accent);font-weight:500}
+.msg-t-u{color:#ccc;font-family:var(--mono)}.msg-t-c{color:#999}
+.msg-t-c b{color:#ccc;font-weight:600}.msg-t-c .hl{color:var(--accent);font-weight:500}
 .msg-t-c .dr{color:#f87171;font-weight:600}
 .mf{display:flex;gap:4px;align-items:flex-end;height:52px;margin:8px 0 4px}
 .mf-bar{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;opacity:0;animation:fadeUp .3s ease both}
-.mf-bar:nth-child(1){animation-delay:5s}
-.mf-bar:nth-child(2){animation-delay:5.1s}
-.mf-bar:nth-child(3){animation-delay:5.2s}
-.mf-bar:nth-child(4){animation-delay:5.3s}
+.mf-bar:nth-child(1){animation-delay:5s}.mf-bar:nth-child(2){animation-delay:5.1s}
+.mf-bar:nth-child(3){animation-delay:5.2s}.mf-bar:nth-child(4){animation-delay:5.3s}
 .mf-fill{width:100%;border-radius:3px 3px 0 0}
 .mf-lbl{font-size:7.5px;color:#555;font-family:var(--mono);white-space:nowrap}
 .mf-val{font-size:9px;font-family:var(--mono);font-weight:600}
-.mf-ok{color:#4ade80}
-.mf-warn{color:#fbbf24}
-.mf-bad{color:#f87171}
+.mf-ok{color:#4ade80}.mf-warn{color:#fbbf24}.mf-bad{color:#f87171}
 .mf-drop{display:flex;align-items:center;gap:4px;opacity:0;animation:fadeIn .4s ease 5.5s both;margin:2px 0 6px}
 .mf-drop span{font-size:10px;color:#f87171;font-weight:600;font-family:var(--mono)}
-/* mock: desktop only */
 
-/* Proof Strip */
-.proof-strip{background:#fff;padding:0 24px 48px;position:relative;z-index:2}
-.proof-inner{max-width:640px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:12px;overflow:hidden}
-.proof-item{background:var(--bg-light);padding:24px 20px;text-align:center}
-.proof-item .num{font-family:var(--mono);font-size:13px;color:var(--accent);font-weight:500;margin-bottom:6px;display:block}
-.proof-item .label{font-size:14px;color:var(--text-secondary);font-weight:500;line-height:1.4}
+/* Social Proof */
+.social-proof{background:#fff;padding:0 24px 52px;border-bottom:1px solid var(--border)}
+.sp-inner{max-width:960px;margin:0 auto;text-align:center}
+.sp-eyebrow{font-size:13px;font-weight:500;color:var(--text-light);margin-bottom:28px;letter-spacing:.01em}
+.logo-grid{display:grid;grid-template-columns:repeat(6,1fr);margin-bottom:20px;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.logo-item{display:flex;align-items:center;justify-content:center;padding:20px 16px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);min-height:68px}
+.logo-item:nth-child(6n){border-right:none}
+.logo-item:nth-child(n+13){border-bottom:none}
+.logo-img{height:22px;width:auto;max-width:90px;object-fit:contain;filter:grayscale(100%) opacity(38%);transition:filter .2s}
+.logo-item:hover .logo-img{filter:grayscale(100%) opacity(60%)}
+.logo-fallback{display:none;font-size:11px;font-weight:700;letter-spacing:.04em;color:#C8C7C2;text-transform:uppercase;font-family:var(--sans)}
+.sp-stat{font-size:13px;color:var(--text-light);max-width:460px;margin:0 auto;line-height:1.5}
 
-/* Visual Caption */
-.visual-section{background:#fff;padding:0 24px 72px;position:relative;z-index:2}
-.visual-inner{max-width:800px;margin:0 auto;text-align:center}
-.install-pill{display:inline-flex;align-items:center;background:#F0F0EC;border-radius:40px;padding:6px 6px 6px 6px;gap:0;font-family:var(--mono);font-size:15px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
-.install-btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border:none;padding:12px 24px;border-radius:32px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--sans);letter-spacing:-.01em}
-.install-btn svg{flex-shrink:0}
-.install-cmd{padding:12px 20px;color:var(--text-primary);font-family:var(--mono);font-size:15px;font-weight:500;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
-.install-copy{background:none;border:none;cursor:pointer;color:var(--text-light);padding:4px;display:flex;align-items:center;transition:color .2s}
-.install-copy:hover{color:var(--text-primary)}
+/* Real Scenario (Aha Moment) */
+.aha-section{background:#F7F6F2;padding:72px 24px;border-bottom:1px solid var(--border)}
+.aha-inner{max-width:1000px;margin:0 auto}
+.aha-header{text-align:center;margin-bottom:40px}
+.aha-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:rgba(30,97,240,.08);padding:4px 12px;border-radius:20px;margin-bottom:14px}
+.aha-header h2{font-size:clamp(24px,3.5vw,36px);font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-bottom:8px}
+.aha-header p{font-size:16px;color:var(--text-secondary)}
+.aha-cards{display:grid;grid-template-columns:1fr 40px 1fr 40px 1fr;gap:0;align-items:center}
+.aha-arrow{display:flex;align-items:center;justify-content:center;color:var(--text-light);font-size:22px;padding-top:60px}
+.aha-card{background:var(--bg-card);border-radius:16px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.04)}
+.aha-card.problem{border:1px solid #FECACA}
+.aha-card.detect{border:1px solid #BFDBFE}
+.aha-card.fix{border:1px solid #BBF7D0}
+.aha-chart{padding:20px 20px 0;height:120px;position:relative;display:flex;align-items:flex-end}
+.aha-chart.problem-chart{background:linear-gradient(to bottom,#FFF5F5,#fff)}
+.aha-chart.detect-chart{background:linear-gradient(to bottom,#F0F7FF,#fff)}
+.aha-chart.fix-chart{background:linear-gradient(to bottom,#F0FDF4,#fff)}
+.aha-card-body{padding:16px 20px 22px}
+.aha-card-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;display:block}
+.aha-card.problem .aha-card-label{color:#DC2626}
+.aha-card.detect .aha-card-label{color:var(--accent)}
+.aha-card.fix .aha-card-label{color:#16A34A}
+.aha-card-title{font-size:15px;font-weight:700;line-height:1.3;margin-bottom:10px;letter-spacing:-.01em}
+.aha-card.problem .aha-card-title{color:#7F1D1D}
+.aha-card.detect .aha-card-title{color:#1E3A8A}
+.aha-card.fix .aha-card-title{color:#14532D}
+.aha-card-points{list-style:none;display:flex;flex-direction:column;gap:5px}
+.aha-card-points li{font-size:12.5px;color:var(--text-secondary);line-height:1.45;display:flex;gap:7px;align-items:flex-start}
+.aha-card.problem .aha-card-points li::before{content:'>';color:#FCA5A5;flex-shrink:0}
+.aha-card.detect .aha-card-points li::before{content:'>';color:var(--accent);flex-shrink:0;opacity:.6}
+.aha-card.fix .aha-card-points li::before{content:'v';color:#22C55E;flex-shrink:0;font-weight:700}
+/* SVG chart styles */
+.chart-svg{width:100%;overflow:visible}
+.crash-line{stroke:#F87171;stroke-width:2.5;fill:none;stroke-dasharray:600;stroke-dashoffset:600;animation:drawLine 1.4s ease .4s forwards}
+.crash-fill{fill:url(#redGrad);opacity:.25}
+.steady-line{stroke:#86EFAC;stroke-width:2.5;fill:none;stroke-dasharray:200;stroke-dashoffset:200;animation:drawLine .8s ease .2s forwards}
+.recover-line{stroke:#4ADE80;stroke-width:2.5;fill:none;stroke-dasharray:600;stroke-dashoffset:600;animation:drawLine 1.6s ease .4s forwards}
+.recover-fill{fill:url(#greenGrad);opacity:.2}
+.deploy-line{stroke:#E5E7EB;stroke-width:1;stroke-dasharray:4 3}
+.chart-label{font-family:var(--mono);font-size:8.5px;fill:#999}
+.chart-label-red{font-family:var(--mono);font-size:9px;fill:#F87171;font-weight:600}
+.chart-label-green{font-family:var(--mono);font-size:9px;fill:#22C55E;font-weight:600}
+.bar-anim{transform-origin:left center;animation:growBar .5s ease both}
+.bar-1{animation-delay:.2s}.bar-2{animation-delay:.4s}.bar-3{animation-delay:.6s}.bar-4{animation-delay:.8s}
 
-/* Section shared */
+/* Shared Section */
 .section{padding:96px 24px;max-width:960px;margin:0 auto}
 .section-dark{background:var(--bg-dark);color:var(--text-on-dark)}
 .section-dark .section-inner{max-width:960px;margin:0 auto;padding:96px 24px}
-.section-label{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
 .section h2{font-size:clamp(28px,4vw,40px);font-weight:700;line-height:1.1;letter-spacing:-.03em;margin-bottom:16px}
 .section-sub{font-size:17px;line-height:1.6;color:var(--text-secondary);max-width:560px}
-.section-dark .section-sub{color:var(--text-muted-dark)}
 
 /* Core Value */
 .core-value-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:48px;align-items:start}
@@ -173,8 +188,7 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
 .core-value-list .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:8px}
 .core-value-list .emphasis{font-weight:600}
 .core-cta{font-size:15px;line-height:1.6;color:var(--text-secondary);margin-top:24px;font-weight:500}
-
-/* Funnel Visual */
+/* Funnel widget */
 .funnel-frame{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.04)}
 .funnel-topbar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--border);background:#FAFAF8}
 .funnel-topbar .fdot{width:8px;height:8px;border-radius:50%;background:#ddd}
@@ -187,8 +201,8 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
 .funnel-step{display:grid;grid-template-columns:140px 1fr 60px;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0efeb}
 .funnel-step:last-child{border-bottom:none}
 .funnel-step-label{font-size:12px;font-weight:500;color:var(--text-secondary)}
-.funnel-step-bar-wrap{height:28px;background:#F5F4F0;border-radius:6px;overflow:hidden;position:relative}
-.funnel-step-bar{height:100%;border-radius:6px;transition:width .6s ease}
+.funnel-step-bar-wrap{height:28px;background:#F5F4F0;border-radius:6px;overflow:hidden}
+.funnel-step-bar{height:100%;border-radius:6px}
 .funnel-step-bar.good{background:var(--accent);opacity:.7}
 .funnel-step-bar.ok{background:var(--accent);opacity:.5}
 .funnel-step-bar.warn{background:#fbbf24}
@@ -207,69 +221,144 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
 .funnel-stat-val.red{color:#f87171}
 .funnel-stat-val.blue{color:var(--accent)}
 
-/* How It Works */
-.steps-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;margin-top:48px;background:var(--border-dark);border-radius:16px;overflow:hidden}
-.step{background:rgba(255,255,255,.03);padding:36px 28px}
-.step-num{font-family:var(--mono);font-size:48px;font-weight:700;color:rgba(30,97,240,.2);line-height:1;margin-bottom:16px}
-.step-title{font-size:17px;font-weight:700;color:var(--text-on-dark);margin-bottom:8px}
-.step-desc{font-size:14px;line-height:1.6;color:var(--text-muted-dark)}
-
-/* Product Proof */
-.product-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:48px}
-.product-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:32px 28px;transition:border-color .2s}
-.product-card:hover{border-color:#ccc}
-.product-icon{width:40px;height:40px;border-radius:10px;background:#F5F4F0;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px}
-.product-card h3{font-size:17px;font-weight:700;margin-bottom:8px;letter-spacing:-.01em}
-.product-card p{font-size:14px;line-height:1.6;color:var(--text-secondary)}
-
 /* Workflow */
-.workflow-section{background:#F3F2ED;padding:96px 24px}
-.workflow-inner{max-width:960px;margin:0 auto}
-.workflow-examples{display:flex;flex-direction:column;gap:12px;margin-top:32px;max-width:520px}
-.workflow-example{background:var(--bg-dark);color:var(--text-on-dark);padding:16px 20px;border-radius:10px;font-family:var(--mono);font-size:14px;line-height:1.5;display:flex;align-items:center;gap:12px}
-.workflow-example .prompt-char{color:var(--accent);font-weight:600;font-size:16px;flex-shrink:0}
-.workflow-note{font-size:15px;color:var(--text-secondary);margin-top:24px;font-weight:500}
-
-/* Tools */
-.tools-section{padding:64px 24px;text-align:center}
-.tools-inner{max-width:700px;margin:0 auto}
-.tools-row{display:flex;flex-wrap:wrap;justify-content:center;gap:24px;margin-top:24px}
+.workflow-section{background:#F3F2ED;padding:96px 24px;border-top:1px solid var(--border)}
+.workflow-inner{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.wf-left{}
+.wf-questions{display:flex;flex-direction:column;gap:10px;margin-top:28px}
+.wf-q{background:var(--bg-dark);color:var(--text-on-dark);padding:14px 18px;border-radius:10px;font-family:var(--mono);font-size:13.5px;line-height:1.5;display:flex;align-items:center;gap:12px;cursor:pointer;border:1.5px solid transparent;text-align:left;width:100%;transition:border-color .2s,background .2s}
+.wf-q .pchar{color:#555;font-weight:600;font-size:15px;flex-shrink:0;transition:color .2s}
+.wf-q:hover{border-color:rgba(30,97,240,.35);background:#16161a}
+.wf-q.active{border-color:var(--accent);background:#0B1424}
+.wf-q.active .pchar{color:var(--accent)}
+.wf-qtext{flex:1}
+.wf-qarrow{opacity:0;transform:translateX(-4px);transition:opacity .2s,transform .2s;color:var(--accent);flex-shrink:0;font-size:14px}
+.wf-q.active .wf-qarrow{opacity:1;transform:translateX(0)}
+.workflow-note{font-size:14px;color:var(--text-secondary);margin-top:20px;font-weight:500}
 .tool-chip{display:flex;align-items:center;gap:8px;padding:10px 18px;background:#fff;border:1px solid var(--border);border-radius:10px;font-size:14px;font-weight:500;transition:border-color .2s}
 .tool-chip:hover{border-color:#bbb}
-.tool-chip svg{flex-shrink:0}
+/* Install pill inside workflow */
+.install-pill{display:inline-flex;align-items:center;background:#F0F0EC;border-radius:40px;padding:6px;gap:0;font-family:var(--mono);font-size:15px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.install-btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border:none;padding:12px 24px;border-radius:32px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--sans);letter-spacing:-.01em}
+.install-cmd{padding:12px 20px;color:var(--text-primary);font-family:var(--mono);font-size:15px;font-weight:500;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+.install-copy{background:none;border:none;cursor:pointer;color:var(--text-light);padding:4px;display:flex;align-items:center;transition:color .2s}
+.install-copy:hover{color:var(--text-primary)}
+
+/* Workflow right panel */
+.wf-right{position:sticky;top:80px}
+.wf-panel{background:#111113;border:1px solid #2a2a2f;border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.3)}
+.wf-panel-hd{background:#0D0D0F;border-bottom:1px solid #222226;padding:10px 14px;display:flex;align-items:center;gap:8px}
+.wf-panel-dots{display:flex;gap:5px}
+.wf-panel-dots span{width:9px;height:9px;border-radius:50%}
+.wf-panel-dots span:nth-child(1){background:#FF5F57}
+.wf-panel-dots span:nth-child(2){background:#FFBD2E}
+.wf-panel-dots span:nth-child(3){background:#28C840}
+.wf-panel-context{font-size:11px;color:#444;font-family:var(--mono);margin-left:6px;flex:1}
+.wf-panel-tab{font-size:11px;font-family:var(--mono);color:#666;padding:3px 10px;background:#1e1e22;border-radius:5px;border:1px solid #333}
+.wf-panel-body{padding:18px;min-height:360px;display:flex;flex-direction:column;gap:0;position:relative}
+
+/* Empty state */
+.wf-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:320px;gap:10px;text-align:center}
+.wf-empty-icon{font-size:28px;opacity:.2}
+.wf-empty p{font-family:var(--mono);font-size:11px;color:#444;line-height:1.6}
+
+/* Scene switching */
+.wf-scene{display:none;flex-direction:column;gap:12px}
+.wf-scene.active{display:flex;animation:fadeUp .3s ease}
+
+/* Chat messages */
+.wf-user-msg{background:#1C1C28;border:1px solid #2a2a44;border-radius:10px 10px 2px 10px;padding:10px 14px;font-family:var(--mono);font-size:12px;color:#9999bb;align-self:flex-end;max-width:88%;line-height:1.5}
+.wf-ai-wrap{display:flex;flex-direction:column;gap:0}
+.wf-ai-hd{display:flex;align-items:center;gap:7px;margin-bottom:10px}
+.wf-ai-logo{width:18px;height:18px;border-radius:5px;background:linear-gradient(135deg,#1E61F0 0%,#7C3AED 100%);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.wf-ai-logo svg{width:10px;height:10px}
+.wf-ai-name{font-size:11px;color:#666;font-family:var(--mono);font-weight:600}
+.wf-ai-badge{font-size:9px;color:#4ade80;font-family:var(--mono);margin-left:auto;background:rgba(74,222,128,.1);padding:2px 7px;border-radius:4px;border:1px solid rgba(74,222,128,.2)}
+.wf-ai-body{background:#161618;border:1px solid #242428;border-radius:4px 12px 12px 12px;padding:14px 16px;font-family:var(--mono);font-size:12px;line-height:1.9;color:#888}
+.wf-line{display:block}
+.wf-line.dim{color:#444}
+.wf-line.hi{color:#e0e0e0;font-weight:500}
+.wf-line.blu{color:#7aa7ff}
+.wf-line.grn{color:#4ade80}
+.wf-line.org{color:#fbbf24}
+.wf-line.red{color:#f87171}
+.wf-line.ind{padding-left:16px}
+.wf-line.ind2{padding-left:32px}
+.wf-line.sp{display:block;height:6px}
+.wf-divider{display:block;height:1px;background:#242428;margin:6px 0}
+
+/* Stream-in animation */
+@keyframes streamIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+.wf-stream .wf-line,.wf-stream .wf-divider{opacity:0;animation:streamIn .22s ease forwards}
+.wf-stream .wf-line:nth-child(1){animation-delay:.05s}
+.wf-stream .wf-line:nth-child(2){animation-delay:.18s}
+.wf-stream .wf-line:nth-child(3){animation-delay:.32s}
+.wf-stream .wf-line:nth-child(4){animation-delay:.46s}
+.wf-stream .wf-line:nth-child(5){animation-delay:.60s}
+.wf-stream .wf-line:nth-child(6){animation-delay:.74s}
+.wf-stream .wf-line:nth-child(7){animation-delay:.88s}
+.wf-stream .wf-line:nth-child(8){animation-delay:1.02s}
+.wf-stream .wf-line:nth-child(9){animation-delay:1.16s}
+.wf-stream .wf-line:nth-child(10){animation-delay:1.30s}
+.wf-stream .wf-line:nth-child(11){animation-delay:1.44s}
+.wf-stream .wf-line:nth-child(12){animation-delay:1.58s}
+.wf-stream .wf-line:nth-child(13){animation-delay:1.72s}
+.wf-stream .wf-line:nth-child(14){animation-delay:1.86s}
+.wf-stream .wf-line:nth-child(15){animation-delay:2.00s}
+@keyframes blinkCursor{0%,100%{opacity:1}50%{opacity:0}}
+.wf-cursor{display:inline-block;width:6px;height:12px;background:var(--accent);vertical-align:middle;margin-left:2px;border-radius:1px;animation:blinkCursor .85s step-start infinite}
 
 /* Differentiation */
+.diff-section-wrap{background:#FAFAF8;padding:96px 24px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.diff-section-inner{max-width:960px;margin:0 auto}
 .diff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:48px;background:var(--border);border-radius:16px;overflow:hidden}
 .diff-card{background:var(--bg-card);padding:36px 28px;text-align:center}
 .diff-card .tool-name{font-size:13px;font-weight:600;color:var(--text-light);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
-.diff-card .diff-what{font-size:17px;font-weight:600;color:var(--text-primary);line-height:1.4;margin-bottom:4px}
-.diff-card.highlight{background:var(--bg-dark);color:var(--text-on-dark)}
+.diff-card .diff-what{font-size:17px;font-weight:600;color:var(--text-primary);line-height:1.4}
+.diff-card.highlight{background:var(--bg-dark)}
 .diff-card.highlight .tool-name{color:var(--accent)}
 .diff-card.highlight .diff-what{color:#fff}
-.diff-punchline{font-size:17px;font-weight:600;color:var(--text-secondary);text-align:center;margin-top:32px}
+.diff-punchline{font-size:17px;font-weight:600;color:var(--text-secondary);text-align:center;margin-top:32px;max-width:620px;margin-left:auto;margin-right:auto}
 
-/* AI */
-.ai-section{background:var(--bg-dark);color:var(--text-on-dark)}
-.ai-inner{max-width:960px;margin:0 auto;padding:96px 24px}
-.ai-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:48px;align-items:start}
-.ai-list{display:flex;flex-direction:column;gap:20px}
-.ai-item{display:flex;align-items:flex-start;gap:14px}
-.ai-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:7px;animation:pulse 2s ease infinite}
-.ai-item:nth-child(2) .ai-dot{animation-delay:.5s}
-.ai-item:nth-child(3) .ai-dot{animation-delay:1s}
-.ai-item-text{font-size:16px;line-height:1.5;color:var(--text-muted-dark)}
-.ai-cta{font-size:16px;line-height:1.6;color:var(--text-muted-dark);margin-top:8px}
+/* Changelog */
+.changelog-section{background:#fff;padding:80px 24px;border-bottom:1px solid var(--border)}
+.changelog-inner{max-width:960px;margin:0 auto}
+.changelog-hdr{margin-bottom:32px}
+.changelog-hdr h2{font-size:clamp(28px,4vw,40px);font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-bottom:6px}
+.changelog-hdr p{font-size:17px;color:var(--text-secondary);display:flex;justify-content:space-between;align-items:center}
+.changelog-link{font-size:13px;color:var(--accent);text-decoration:none;font-weight:500}
+.changelog-link:hover{opacity:.8}
+.changelog-cards{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.cl-card{background:var(--bg-light);border:1px solid var(--border);border-radius:12px;overflow:hidden;text-decoration:none;transition:border-color .2s,box-shadow .2s;display:flex;flex-direction:column}
+.cl-card:hover{border-color:#ccc;box-shadow:0 4px 16px rgba(0,0,0,.06)}
+.cl-thumb{width:100%;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;position:relative;overflow:hidden}
+.cl-thumb-1{background:linear-gradient(135deg,#0F0A2E 0%,#1E1B4B 50%,#312E81 100%)}
+.cl-thumb-2{background:linear-gradient(135deg,#1C0A2E 0%,#3B0764 50%,#6B21A8 100%)}
+.cl-thumb-3{background:linear-gradient(135deg,#0A1628 0%,#1E3A5F 50%,#1D4ED8 100%)}
+.cl-thumb-4{background:linear-gradient(135deg,#0A1A10 0%,#14532D 50%,#15803D 100%)}
+.cl-thumb-5{background:linear-gradient(135deg,#1A0A0A 0%,#7F1D1D 50%,#DC2626 100%)}
+.cl-thumb-icon{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:32px;opacity:.8}
+.cl-thumb-label{position:absolute;bottom:8px;left:10px;font-size:10px;font-weight:600;color:rgba(255,255,255,.5);font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.cl-body{padding:14px 16px 18px;flex:1;display:flex;flex-direction:column;gap:6px}
+.cl-date{font-size:11px;color:var(--text-light);font-family:var(--mono)}
+.cl-title{font-size:13px;font-weight:600;color:var(--text-primary);line-height:1.4;flex:1}
 
-/* Pricing Preview */
-.pricing-section{padding:96px 24px}
-.pricing-inner{max-width:720px;margin:0 auto;text-align:center}
-.pricing-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:40px 0 32px}
-.pricing-card{background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:32px 28px;text-align:left}
-.pricing-card.featured{border:2px solid var(--text-primary)}
-.pricing-tier{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-light);margin-bottom:8px}
-.pricing-price{font-size:32px;font-weight:700;letter-spacing:-.03em;margin-bottom:4px}
-.pricing-price .mo{font-size:15px;font-weight:500;color:var(--text-light)}
-.pricing-desc{font-size:14px;color:var(--text-secondary);line-height:1.5}
+/* Security (light background) */
+.security-section{background:#F7F6F2;padding:80px 24px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.security-inner{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.security-left h2{font-size:clamp(24px,3.5vw,34px);font-weight:700;letter-spacing:-.03em;color:var(--text-primary);line-height:1.15;margin-bottom:12px}
+.security-left p{font-size:15px;color:var(--text-secondary);line-height:1.6;margin-bottom:28px}
+.security-badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.sec-badge{display:flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--border);padding:6px 12px;border-radius:8px;font-size:11px;font-weight:600;color:var(--text-primary);letter-spacing:.01em}
+.sec-badge-dot{width:6px;height:6px;border-radius:50%;background:#22C55E;flex-shrink:0}
+.security-features{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sec-feature{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text-secondary);line-height:1.45}
+.sec-feature::before{content:'v';color:#22C55E;font-weight:700;flex-shrink:0;font-size:12px;margin-top:1px}
+.security-right{display:flex;flex-direction:column;gap:10px}
+.sec-cert{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px 20px;display:flex;align-items:flex-start;gap:14px}
+.sec-cert-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;background:#F5F4F0}
+.sec-cert-label{font-size:13px;font-weight:700;color:var(--text-primary);letter-spacing:-.01em}
+.sec-cert-sub{font-size:12px;color:var(--text-secondary);margin-top:3px;line-height:1.4}
 
 /* Final CTA */
 .final-cta{background:var(--bg-dark);padding:96px 24px;text-align:center}
@@ -279,20 +368,35 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
 .btn-final{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border:none;padding:16px 36px;border-radius:12px;font-size:17px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:background .2s,transform .15s}
 .btn-final:hover{background:var(--accent-hover);transform:translateY(-1px)}
 
-/* Desktop only — no responsive breakpoints for this mockup */
-
-/* Section CTAs */
+/* CTAs */
 .scta{text-align:center;margin-top:40px}
 .scta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border:none;padding:12px 28px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:background .2s,transform .15s}
 .scta-btn:hover{background:var(--accent-hover);transform:translateY(-1px)}
-.scta-btn svg{transition:transform .2s}
-.scta-btn:hover svg{transform:translateX(3px)}
+.scta-btn svg,.scta-ghost svg,.scta-dark svg{transition:transform .2s}
+.scta-btn:hover svg,.scta-ghost:hover svg{transform:translateX(3px)}
 .scta-ghost{display:inline-flex;align-items:center;gap:8px;background:none;color:var(--accent);border:1px solid var(--accent);padding:12px 28px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:all .2s}
 .scta-ghost:hover{background:var(--accent);color:#fff}
-.scta-dark{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.15);padding:12px 28px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:all .2s}
-.scta-dark:hover{background:rgba(255,255,255,.18)}
-.scta-dark svg{transition:transform .2s}
-.scta-dark:hover svg{transform:translateX(3px)}
+
+/* Amplitude Footer */
+.amp-footer{background:#0C0C0E;border-top:1px solid #1E1E22;padding:64px 32px 32px;color:#fff}
+.amp-footer-inner{max-width:1120px;margin:0 auto}
+.amp-footer-top{display:grid;grid-template-columns:auto 1fr;gap:80px;margin-bottom:56px;align-items:start}
+.amp-footer-brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;letter-spacing:-.02em;color:#fff;margin-bottom:16px}
+.amp-footer-brand-block p{font-size:13px;color:#56554E;line-height:1.6;max-width:200px;margin-top:4px}
+.amp-footer-cols{display:grid;grid-template-columns:repeat(5,1fr);gap:40px}
+.amp-footer-col h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#56554E;margin-bottom:16px}
+.amp-footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.amp-footer-col ul li a{font-size:13px;color:#78776F;text-decoration:none;transition:color .2s;line-height:1.4}
+.amp-footer-col ul li a:hover{color:#EEEEE8}
+.amp-footer-bottom{border-top:1px solid #1E1E22;padding-top:28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.amp-footer-legal{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.amp-footer-legal a{font-size:12px;color:#56554E;text-decoration:none;transition:color .2s}
+.amp-footer-legal a:hover{color:#78776F}
+.amp-footer-copy{font-size:12px;color:#3A3A3E}
+.amp-footer-social{display:flex;align-items:center;gap:16px}
+.amp-footer-social a{color:#56554E;text-decoration:none;font-size:12px;font-weight:600;letter-spacing:.04em;transition:color .2s;display:flex;align-items:center;gap:5px}
+.amp-footer-social a:hover{color:#EEEEE8}
+.amp-footer-social svg{fill:currentColor}
 </style>
 </head>
 <body>
@@ -305,20 +409,20 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
       amplitude
     </div>
     <div class="nav-actions">
-      <a href="#pricing" class="nav-link">Pricing</a>
+      <a href="#" class="nav-link">Pricing</a>
       <button class="btn-nav-ghost">Log in</button>
-      <button class="btn-nav-primary">Start free →</button>
+      <button class="btn-nav-primary">Start free &rarr;</button>
     </div>
   </div>
 </nav>
 
-<!-- Hero -->
+<!-- 1. Hero -->
 <section class="hero">
   <div class="hero-grid"></div>
   <div class="hero-glow"></div>
   <div class="hero-content">
     <h1 class="fade-up">Know what changed.<br><span class="accent">Decide what to build next.</span></h1>
-    <p class="subtitle fade-up-d1">See how users actually experience your product so you can catch issues early, fix what matters, and make better decisions with every release.</p>
+    <p class="subtitle fade-up-d1">See exactly what changed after every release, where users drop off, and what to fix next.</p>
     <div class="hero-cta fade-up-d2">
       <button class="btn-hero">Start free <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <span class="hero-note">No credit card. <span>Data in minutes.</span> Works with your existing stack.</span>
@@ -326,7 +430,7 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
   </div>
 </section>
 
-<!-- Hero Visual: IDE + Claude Chat -->
+<!-- 2. Hero Visual -->
 <section class="hero-visual">
   <div class="mock-container">
     <div class="mock-titlebar">
@@ -337,7 +441,6 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
       </div>
     </div>
     <div class="mock-split">
-      <!-- Editor + Terminal -->
       <div class="mock-editor">
         <div class="mock-code-area">
           <div><span class="ln">14</span><span class="kw">const</span> <span class="vr">CheckoutCTA</span> <span class="op">=</span> () <span class="op">=&gt;</span> {</div>
@@ -345,140 +448,187 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
           <div><span class="ln">16</span>  <span class="kw">return</span> <span class="vr">flag</span> <span class="op">?</span> &lt;<span class="fn">NewCheckout</span> /&gt; <span class="op">:</span> &lt;<span class="fn">LegacyCheckout</span> /&gt;</div>
           <div><span class="ln">17</span>}</div>
           <div><span class="ln">18</span></div>
-          <div><span class="ln">19</span><span class="cm">// Deployed 2h ago — watching rollout</span></div>
+          <div><span class="ln">19</span><span class="cm">// Deployed 2h ago, watching rollout</span></div>
           <div><span class="ln">20</span><span class="kw">export default</span> <span class="vr">CheckoutCTA</span></div>
         </div>
         <div class="mock-terminal">
           <div class="tl"><span class="pr">~/checkout $</span> <span class="cmd">git push origin main</span></div>
-          <div class="tl"><span class="ok">✓</span> <span class="cmd">Deployed</span> <span class="fl">checkout_redesign_v2</span> <span class="cmd">to 5% of traffic</span></div>
-          <div class="tl"><span class="ok">✓</span> <span class="cmd">Amplitude flag linked — guardrail metrics active</span></div>
-          <div class="tl"><span class="wr">⚠</span> <span class="wr">Guardrail alert: checkout_completion below threshold</span></div>
+          <div class="tl"><span class="ok">v</span> <span class="cmd">Deployed</span> <span class="fl">checkout_redesign_v2</span> <span class="cmd">to 5% of traffic</span></div>
+          <div class="tl"><span class="ok">v</span> <span class="cmd">Amplitude flag linked, guardrail metrics active</span></div>
+          <div class="tl"><span class="wr">!</span> <span class="wr">Guardrail alert: checkout_completion below threshold</span></div>
         </div>
       </div>
-
-      <!-- Claude Chat -->
       <div class="mock-claude">
-        <div class="mock-claude-hd">
-          <span class="cd"></span>
-          <span>Claude · Amplitude MCP</span>
-        </div>
+        <div class="mock-claude-hd"><span class="cd"></span><span>Claude · Amplitude MCP</span></div>
         <div class="mock-claude-body">
-          <!-- User message -->
-          <div class="cm-msg cm-d1">
-            <div class="msg-row">
-              <div class="msg-av msg-av-u">M</div>
-              <div class="msg-t msg-t-u">How is checkout_redesign_v2 performing since the deploy?</div>
-            </div>
-          </div>
-
-          <!-- AI response 1 -->
-          <div class="cm-msg cm-d2">
-            <div class="msg-row">
-              <div class="msg-av msg-av-c"><i></i></div>
-              <div class="msg-t msg-t-c">I pulled your <span class="hl">Amplitude funnel</span> for the flagged cohort. Here's the last 2 hours:</div>
-            </div>
-          </div>
-
-          <!-- Mini funnel chart -->
+          <div class="cm-msg cm-d1"><div class="msg-row"><div class="msg-av msg-av-u">M</div><div class="msg-t msg-t-u">How is checkout_redesign_v2 performing since the deploy?</div></div></div>
+          <div class="cm-msg cm-d2"><div class="msg-row"><div class="msg-av msg-av-c"><i></i></div><div class="msg-t msg-t-c">I pulled your <span class="hl">Amplitude funnel</span> for the flagged cohort. Here's the last 2 hours:</div></div></div>
           <div class="cm-msg cm-d3">
             <div class="mf">
-              <div class="mf-bar">
-                <div class="mf-val mf-ok">12.4K</div>
-                <div class="mf-fill" style="height:48px;background:#4ade80"></div>
-                <div class="mf-lbl">Landing</div>
-              </div>
-              <div class="mf-bar">
-                <div class="mf-val mf-ok">3.1K</div>
-                <div class="mf-fill" style="height:36px;background:#4ade80"></div>
-                <div class="mf-lbl">CTA click</div>
-              </div>
-              <div class="mf-bar">
-                <div class="mf-val mf-bad">890</div>
-                <div class="mf-fill" style="height:14px;background:#f87171"></div>
-                <div class="mf-lbl">Checkout</div>
-              </div>
-              <div class="mf-bar">
-                <div class="mf-val mf-warn">340</div>
-                <div class="mf-fill" style="height:8px;background:#fbbf24"></div>
-                <div class="mf-lbl">Purchase</div>
-              </div>
+              <div class="mf-bar"><div class="mf-val mf-ok">12.4K</div><div class="mf-fill" style="height:48px;background:#4ade80"></div><div class="mf-lbl">Landing</div></div>
+              <div class="mf-bar"><div class="mf-val mf-ok">3.1K</div><div class="mf-fill" style="height:36px;background:#4ade80"></div><div class="mf-lbl">CTA click</div></div>
+              <div class="mf-bar"><div class="mf-val mf-bad">890</div><div class="mf-fill" style="height:14px;background:#f87171"></div><div class="mf-lbl">Checkout</div></div>
+              <div class="mf-bar"><div class="mf-val mf-warn">340</div><div class="mf-fill" style="height:8px;background:#fbbf24"></div><div class="mf-lbl">Purchase</div></div>
             </div>
-            <div class="mf-drop">
-              <span>▼ 73% drop-off at checkout start vs 41% on control</span>
-            </div>
+            <div class="mf-drop"><span>73% drop-off at checkout start vs 41% on control</span></div>
           </div>
-
-          <!-- AI response 2 -->
-          <div class="cm-msg cm-d4">
-            <div class="msg-row">
-              <div class="msg-av msg-av-c"><i></i></div>
-              <div class="msg-t msg-t-c"><span class="dr">The new CTA is converting to clicks but losing users at checkout.</span> Session replays show most users abandoning at the address form — it renders below the fold on mobile.</div>
-            </div>
-          </div>
-
-          <!-- AI response 3 -->
-          <div class="cm-msg cm-d5">
-            <div class="msg-row">
-              <div class="msg-av msg-av-c"><i></i></div>
-              <div class="msg-t msg-t-c">Recommend rolling back the flag or fixing the mobile layout. Want me to <b>open a PR with the fix</b>?</div>
-            </div>
-          </div>
+          <div class="cm-msg cm-d4"><div class="msg-row"><div class="msg-av msg-av-c"><i></i></div><div class="msg-t msg-t-c"><span class="dr">The new CTA is converting to clicks but losing users at checkout.</span> Session replays show most users abandoning at the address form. It renders below the fold on mobile.</div></div></div>
+          <div class="cm-msg cm-d5"><div class="msg-row"><div class="msg-av msg-av-c"><i></i></div><div class="msg-t msg-t-c">Recommend rolling back the flag or fixing the mobile layout. Want me to <b>open a PR with the fix</b>?</div></div></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Proof Strip -->
-<section class="proof-strip">
-  <div class="proof-inner fade-up-d3">
-    <div class="proof-item">
-      <span class="num">01</span>
-      <span class="label">Install in under a minute</span>
+<!-- 3. Social Proof -->
+<section class="social-proof">
+  <div class="sp-inner">
+    <p class="sp-eyebrow">Trusted by teams building products at scale</p>
+    <div class="logo-grid">
+      <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/squareup.com" alt="Square" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">Square</span></div>
+      <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/clay.com" alt="Clay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">Clay</span></div>
+      <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/doordash.com" alt="DoorDash" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">DoorDash</span></div>
+      <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/walmart.com" alt="Walmart" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">Walmart</span></div>
+      <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/qualtrics.com" alt="Qualtrics" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">Qualtrics</span></div>
+      <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/zoom.us" alt="Zoom" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">Zoom</span></div>
+      <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/capitalone.com" alt="Capital One" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">Capital One</span></div>
+      <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/atlassian.com" alt="Atlassian" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">Atlassian</span></div>
+      <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/autodesk.com" alt="Autodesk" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">Autodesk</span></div>
+      <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/coursera.org" alt="Coursera" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">Coursera</span></div>
+      <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/paloaltonetworks.com" alt="Palo Alto Networks" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">Palo Alto</span></div>
+      <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/adidas.com" alt="Adidas" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">Adidas</span></div>
     </div>
-    <div class="proof-item">
-      <span class="num">02</span>
-      <span class="label">Auto-captures key events</span>
+    <p class="sp-stat">Thousands of teams use Amplitude to catch issues and improve product decisions faster</p>
+  </div>
+</section>
+
+<!-- 4. Real Scenario with Visuals -->
+<section class="aha-section">
+  <div class="aha-inner">
+    <div class="aha-header">
+      <span class="aha-tag">Real scenario</span>
+      <h2>From deploy to fix in under 30 minutes</h2>
+      <p>We shipped a checkout redesign. Here's exactly what happened next.</p>
     </div>
-    <div class="proof-item">
-      <span class="num">03</span>
-      <span class="label">See real user behavior instantly</span>
+    <div class="aha-cards">
+      <!-- Card 1: The crash -->
+      <div class="aha-card problem">
+        <div class="aha-chart problem-chart">
+          <svg class="chart-svg" viewBox="0 0 240 90" preserveAspectRatio="none" style="height:90px">
+            <defs>
+              <linearGradient id="redGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#F87171" stop-opacity=".4"/>
+                <stop offset="100%" stop-color="#F87171" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <line x1="0" y1="20" x2="240" y2="20" stroke="#F5F5F5" stroke-width="1"/>
+            <line x1="0" y1="75" x2="240" y2="75" stroke="#F5F5F5" stroke-width="1"/>
+            <line x1="120" y1="0" x2="120" y2="90" class="deploy-line"/>
+            <text x="122" y="10" class="chart-label">Deploy</text>
+            <text x="4" y="18" class="chart-label">14%</text>
+            <text x="4" y="73" class="chart-label">7%</text>
+            <polygon points="120,20 120,20 180,72 240,74 240,90 120,90" class="crash-fill"/>
+            <polyline points="0,20 30,19 60,21 90,19 120,20" class="steady-line"/>
+            <polyline points="120,20 150,48 180,72 210,74 240,74" class="crash-line"/>
+            <text x="200" y="68" class="chart-label-red">6.9%</text>
+          </svg>
+        </div>
+        <div class="aha-card-body">
+          <span class="aha-card-label">What happened</span>
+          <div class="aha-card-title">Checkout conversion crashed 51% after the release</div>
+          <ul class="aha-card-points">
+            <li>Revenue metrics turned red within the hour</li>
+            <li>No one on the team knew why</li>
+            <li>Guardrail alert fired, rollout paused</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="aha-arrow">&#8594;</div>
+
+      <!-- Card 2: The funnel -->
+      <div class="aha-card detect">
+        <div class="aha-chart detect-chart">
+          <svg class="chart-svg" viewBox="0 0 240 90" preserveAspectRatio="none" style="height:90px">
+            <text x="4" y="16" class="chart-label">Landing</text>
+            <text x="4" y="36" class="chart-label">CTA click</text>
+            <text x="4" y="56" class="chart-label">Checkout</text>
+            <text x="4" y="76" class="chart-label">Purchase</text>
+            <rect x="68" y="7" width="168" height="12" rx="3" fill="#BFDBFE" class="bar-anim bar-1"/>
+            <rect x="68" y="27" width="104" height="12" rx="3" fill="#93C5FD" class="bar-anim bar-2"/>
+            <rect x="68" y="43" width="168" height="4" rx="2" fill="#FEE2E2"/>
+            <text x="72" y="51" style="font-family:var(--mono);font-size:8px;fill:#DC2626;font-weight:700">73% drop-off</text>
+            <rect x="68" y="47" width="24" height="12" rx="3" fill="#FCA5A5" class="bar-anim bar-3"/>
+            <rect x="68" y="67" width="12" height="12" rx="3" fill="#FDBA74" class="bar-anim bar-4"/>
+            <text x="200" y="17" class="chart-label" style="fill:#3B82F6;font-weight:700">100%</text>
+            <text x="180" y="37" class="chart-label" style="fill:#3B82F6;font-weight:700">62%</text>
+            <text x="98" y="57" class="chart-label" style="fill:#DC2626;font-weight:700">14%</text>
+            <text x="86" y="77" class="chart-label" style="fill:#EA580C;font-weight:700">7%</text>
+          </svg>
+        </div>
+        <div class="aha-card-body">
+          <span class="aha-card-label">What Amplitude showed</span>
+          <div class="aha-card-title">Exactly where users dropped off and why</div>
+          <ul class="aha-card-points">
+            <li>73% drop between CTA click and checkout start</li>
+            <li>Control group: only 38% at this step</li>
+            <li>Session replays: address form below fold on mobile</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="aha-arrow">&#8594;</div>
+
+      <!-- Card 3: The recovery -->
+      <div class="aha-card fix">
+        <div class="aha-chart fix-chart">
+          <svg class="chart-svg" viewBox="0 0 240 90" preserveAspectRatio="none" style="height:90px">
+            <defs>
+              <linearGradient id="greenGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#4ADE80" stop-opacity=".35"/>
+                <stop offset="100%" stop-color="#4ADE80" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <line x1="0" y1="20" x2="240" y2="20" stroke="#F0FDF4" stroke-width="1"/>
+            <line x1="0" y1="75" x2="240" y2="75" stroke="#F0FDF4" stroke-width="1"/>
+            <line x1="100" y1="0" x2="100" y2="90" class="deploy-line" style="stroke:#D1FAE5"/>
+            <text x="102" y="10" class="chart-label" style="fill:#22C55E">Fix shipped</text>
+            <text x="4" y="18" class="chart-label">14%</text>
+            <text x="4" y="73" class="chart-label">7%</text>
+            <polygon points="100,74 140,52 180,26 220,20 240,20 240,90 100,90" class="recover-fill"/>
+            <polyline points="0,74 30,75 60,73 100,74" stroke="#FCA5A5" stroke-width="2" fill="none" stroke-dasharray="200" stroke-dashoffset="200" style="animation:drawLine .8s ease .1s forwards"/>
+            <polyline points="100,74 140,52 180,26 220,20 240,20" class="recover-line"/>
+            <text x="10" y="70" style="font-family:var(--mono);font-size:9px;fill:#FCA5A5">6.9%</text>
+            <text x="200" y="16" class="chart-label-green">14.2%</text>
+          </svg>
+        </div>
+        <div class="aha-card-body">
+          <span class="aha-card-label">What happened next</span>
+          <div class="aha-card-title">Conversion recovered in 20 minutes</div>
+          <ul class="aha-card-points">
+            <li>Flag rolled back while scroll fix was PR'd</li>
+            <li>Fix shipped, flag re-enabled</li>
+            <li>Conversion back to 14.2% baseline</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- Visual Caption -->
-<section class="visual-section">
-  <div class="visual-inner fade-up-d4">
-    <div class="install-pill">
-      <button class="install-btn">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8.5 1L3 9.5H7.5L7 15L13 6.5H8.5L8.5 1Z" fill="currentColor"/></svg>
-        Install via AI
-      </button>
-      <span class="install-cmd">
-        npx @amplitude/wizard
-        <button class="install-copy" title="Copy command">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3 11V3.5C3 2.67 3.67 2 4.5 2H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
-        </button>
-      </span>
-    </div>
-    <p style="margin-top:14px;font-size:14px;color:var(--text-light);font-family:var(--mono);letter-spacing:-.01em">Install once. See what changed in minutes.</p>
-  </div>
-</section>
-
-<!-- Core Value -->
+<!-- 5. Core Value (new benefit-oriented headline) -->
 <section class="section">
   <div class="core-value-grid">
     <div class="core-value-text">
-      <h2>Stop guessing. See exactly where users get stuck.</h2>
+      <h2>Make smarter product decisions on every sprint.</h2>
       <p class="lead">Most tools show events, logs, or dashboards.<br>Amplitude shows what actually happened to your users and what to do next.</p>
       <ul class="core-value-list">
         <li><span class="dot"></span><span><span class="emphasis">Where users drop off</span></span></li>
         <li><span class="dot"></span><span><span class="emphasis">What changed after your last release</span></span></li>
-        <li><span class="dot"></span><span><span class="emphasis">Which changes made things better or worse</span></span></li>
+        <li><span class="dot"></span><span><span class="emphasis">Which changes caused the drop in conversion</span></span></li>
         <li><span class="dot"></span><span><span class="emphasis">What's worth fixing or building next</span></span></li>
       </ul>
-      <p class="core-cta">So you can fix the right thing and build what matters next.</p>
+      <p class="core-cta">So you fix the right thing and ship what matters next.</p>
     </div>
     <div>
       <div class="funnel-frame">
@@ -492,44 +642,19 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
             <span class="funnel-meta">Apr 24, 2026</span>
           </div>
           <div class="funnel-steps">
-            <div class="funnel-step">
-              <span class="funnel-step-label">Landing page</span>
-              <div class="funnel-step-bar-wrap"><div class="funnel-step-bar good" style="width:100%"></div></div>
-              <span class="funnel-step-val good">12,847</span>
-            </div>
-            <div class="funnel-step">
-              <span class="funnel-step-label">CTA clicked</span>
-              <div class="funnel-step-bar-wrap"><div class="funnel-step-bar ok" style="width:62%"></div></div>
-              <span class="funnel-step-val good">7,965</span>
-            </div>
-            <div class="funnel-step">
-              <span class="funnel-step-label">Checkout started</span>
-              <div class="funnel-step-bar-wrap"><div class="funnel-step-bar bad" style="width:14%"></div></div>
-              <span class="funnel-step-val bad">1,798</span>
-            </div>
-            <div class="funnel-step">
-              <span class="funnel-step-label">Purchase complete</span>
-              <div class="funnel-step-bar-wrap"><div class="funnel-step-bar warn" style="width:7%"></div></div>
-              <span class="funnel-step-val bad">891</span>
-            </div>
+            <div class="funnel-step"><span class="funnel-step-label">Landing page</span><div class="funnel-step-bar-wrap"><div class="funnel-step-bar good" style="width:100%"></div></div><span class="funnel-step-val good">12,847</span></div>
+            <div class="funnel-step"><span class="funnel-step-label">CTA clicked</span><div class="funnel-step-bar-wrap"><div class="funnel-step-bar ok" style="width:62%"></div></div><span class="funnel-step-val good">7,965</span></div>
+            <div class="funnel-step"><span class="funnel-step-label">Checkout started</span><div class="funnel-step-bar-wrap"><div class="funnel-step-bar bad" style="width:14%"></div></div><span class="funnel-step-val bad">1,798</span></div>
+            <div class="funnel-step"><span class="funnel-step-label">Purchase complete</span><div class="funnel-step-bar-wrap"><div class="funnel-step-bar warn" style="width:7%"></div></div><span class="funnel-step-val bad">891</span></div>
           </div>
           <div class="funnel-alert">
-            <span class="funnel-alert-icon">⚠</span>
-            <span class="funnel-alert-text"><b>77% drop-off between CTA click and checkout start.</b> Control group shows 38% at this step. Session replays show address form renders below the fold on mobile.</span>
+            <span class="funnel-alert-icon">!</span>
+            <span class="funnel-alert-text"><b>77% drop-off between CTA click and checkout start.</b> Control group: 38% at this step. Session replays: address form renders below the fold on mobile.</span>
           </div>
           <div class="funnel-conversion">
-            <div class="funnel-stat">
-              <div class="funnel-stat-label">Conversion rate</div>
-              <div class="funnel-stat-val red">6.9%</div>
-            </div>
-            <div class="funnel-stat">
-              <div class="funnel-stat-label">Control rate</div>
-              <div class="funnel-stat-val blue">14.2%</div>
-            </div>
-            <div class="funnel-stat">
-              <div class="funnel-stat-label">Users impacted</div>
-              <div class="funnel-stat-val red">6,167</div>
-            </div>
+            <div class="funnel-stat"><div class="funnel-stat-label">Conversion rate</div><div class="funnel-stat-val red">6.9%</div></div>
+            <div class="funnel-stat"><div class="funnel-stat-label">Control rate</div><div class="funnel-stat-val blue">14.2%</div></div>
+            <div class="funnel-stat"><div class="funnel-stat-label">Users impacted</div><div class="funnel-stat-val red">6,167</div></div>
           </div>
         </div>
       </div>
@@ -538,171 +663,454 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
   <div class="scta"><button class="scta-btn">Find your drop-off <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
 </section>
 
-<!-- How It Works -->
-<section class="section-dark">
-  <div class="section-inner">
-    <h2>Every release changes something. This shows you what.</h2>
-    <div class="steps-grid">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-title">Ship</div>
-        <div class="step-desc">Release behind flags or push changes live</div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-title">See</div>
-        <div class="step-desc">Watch real sessions and track what users do</div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-title">Understand</div>
-        <div class="step-desc">Know which issues actually impact users</div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div class="step-title">Decide</div>
-        <div class="step-desc">See what's worth fixing, improving, or building next</div>
-      </div>
-      <div class="step">
-        <div class="step-num">5</div>
-        <div class="step-title">Fix</div>
-        <div class="step-desc">Roll back, test, and ship improvements fast</div>
-      </div>
-    </div>
-    <div class="scta" style="margin-top:48px"><button class="scta-dark">Start building <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
-  </div>
-</section>
-
-<!-- Product Proof -->
-<section class="section">
-  <h2>Everything you need to go from "something's wrong" to "it's fixed"</h2>
-  <div class="product-grid">
-    <div class="product-card">
-      <div class="product-icon">📊</div>
-      <h3>See where users drop off</h3>
-      <p>Not just trends. See exactly where things break.</p>
-    </div>
-    <div class="product-card">
-      <div class="product-icon">▶️</div>
-      <h3>Watch what actually happened</h3>
-      <p>Jump straight to the moment things went wrong.</p>
-    </div>
-    <div class="product-card">
-      <div class="product-icon">🧪</div>
-      <h3>Test changes safely</h3>
-      <p>Ship without guessing. Know before you roll out.</p>
-    </div>
-    <div class="product-card">
-      <div class="product-icon">✓</div>
-      <h3>Know what worked</h3>
-      <p>See impact immediately, not days later.</p>
-    </div>
-  </div>
-  <div class="scta"><button class="scta-ghost">See it in action <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
-</section>
-
-<!-- Workflow -->
+<!-- 6. Workflow -->
 <section class="workflow-section">
   <div class="workflow-inner">
-    <h2>Use it where you already build</h2>
-    <p class="section-sub">Ask what broke. Or ask what to do next.</p>
-    <div class="workflow-examples">
-      <div class="workflow-example">
-        <span class="prompt-char">→</span>
-        "Why did signups drop this week?"
-      </div>
-      <div class="workflow-example">
-        <span class="prompt-char">→</span>
-        "Show me users who hit this error"
-      </div>
-      <div class="workflow-example">
-        <span class="prompt-char">→</span>
-        "What should we fix next?"
-      </div>
-    </div>
-    <p class="workflow-note">No digging. No stitching tools together.</p>
 
-    <div style="margin-top:40px">
-      <div style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-light);margin-bottom:16px">Works inside your tools</div>
-      <div style="display:flex;flex-wrap:wrap;gap:12px">
-        <span class="tool-chip"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2L10.5 6.5H15L11.25 9.5L12.75 14L9 11L5.25 14L6.75 9.5L3 6.5H7.5L9 2Z" fill="#D97757"/></svg>Claude</span>
-        <span class="tool-chip"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="14" height="14" rx="4" fill="#000"/><path d="M6.5 12V7.5C6.5 6.67 7.17 6 8 6H10C10.83 6 11.5 6.67 11.5 7.5V12" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>Cursor</span>
-        <span class="tool-chip"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 15.5C9 15.5 2 11 2 6.5C2 4 4 2 6 2C7.5 2 8.5 3 9 4C9.5 3 10.5 2 12 2C14 2 16 4 16 6.5C16 11 9 15.5 9 15.5Z" fill="#E5484D"/></svg>Lovable</span>
-        <span class="tool-chip"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M9 1C4.58 1 1 4.58 1 9C1 12.54 3.29 15.53 6.47 16.59C6.87 16.66 7.02 16.42 7.02 16.21V14.78C4.73 15.27 4.26 13.71 4.26 13.71C3.89 12.77 3.35 12.53 3.35 12.53C2.6 12.02 3.4 12.03 3.4 12.03C4.22 12.09 4.65 12.87 4.65 12.87C5.37 14.1 6.55 13.74 7.05 13.53C7.12 13.01 7.33 12.66 7.56 12.45C5.78 12.24 3.92 11.5 3.92 8.46C3.92 7.56 4.24 6.83 4.67 6.26C4.59 6.04 4.32 5.22 4.74 4.1C4.74 4.1 5.43 3.87 7.01 4.93C7.68 4.74 8.35 4.65 9.02 4.64C9.69 4.65 10.36 4.74 11.03 4.93C12.61 3.87 13.3 4.1 13.3 4.1C13.72 5.22 13.45 6.04 13.37 6.26C13.8 6.83 14.12 7.56 14.12 8.46C14.12 11.51 12.25 12.24 10.47 12.44C10.76 12.7 11.01 13.19 11.01 13.95V16.21C11.01 16.42 11.16 16.67 11.57 16.59C14.74 15.53 17.02 12.54 17.02 9C17 4.58 13.42 1 9 1Z" fill="#333"/></svg>GitHub</span>
-        <span class="tool-chip"><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 13.5L9 3L15 13.5" stroke="#5E6AD2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10H13" stroke="#5E6AD2" stroke-width="2" stroke-linecap="round"/></svg>Linear</span>
-        <span class="tool-chip" style="color:var(--text-light);border-style:dashed">+ any MCP tool</span>
+    <!-- LEFT: copy + question buttons -->
+    <div class="wf-left">
+      <h2 style="font-size:clamp(26px,3.5vw,38px);font-weight:700;line-height:1.1;letter-spacing:-.03em;margin-bottom:14px">Ask questions about your product<br>without leaving your workflow</h2>
+      <p class="section-sub" style="margin-bottom:0">Your analytics, session data, and feature flags, queryable from the tools you already use.</p>
+
+      <div class="wf-questions">
+        <button class="wf-q" data-q="1" onclick="wfSelect(1)">
+          <span class="pchar">&gt;</span>
+          <span class="wf-qtext">"Why did signups drop this week?"</span>
+          <span class="wf-qarrow">&#8594;</span>
+        </button>
+        <button class="wf-q" data-q="2" onclick="wfSelect(2)">
+          <span class="pchar">&gt;</span>
+          <span class="wf-qtext">"Show me users who hit this error"</span>
+          <span class="wf-qarrow">&#8594;</span>
+        </button>
+        <button class="wf-q" data-q="3" onclick="wfSelect(3)">
+          <span class="pchar">&gt;</span>
+          <span class="wf-qtext">"What should we launch next?"</span>
+          <span class="wf-qarrow">&#8594;</span>
+        </button>
+      </div>
+
+      <p class="workflow-note" style="margin-top:18px">No dashboards. No context-switching. Just answers.</p>
+
+      <div style="margin-top:32px">
+        <div style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-light);margin-bottom:14px">Works inside your existing tools</div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:32px">
+          <span class="tool-chip" style="font-size:13px;padding:8px 14px"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M9 2L10.5 6.5H15L11.25 9.5L12.75 14L9 11L5.25 14L6.75 9.5L3 6.5H7.5L9 2Z" fill="#D97757"/></svg>Claude</span>
+          <span class="tool-chip" style="font-size:13px;padding:8px 14px"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="14" height="14" rx="4" fill="#000"/><path d="M6.5 12V7.5C6.5 6.67 7.17 6 8 6H10C10.83 6 11.5 6.67 11.5 7.5V12" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>Cursor</span>
+          <span class="tool-chip" style="font-size:13px;padding:8px 14px"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M9 1C4.58 1 1 4.58 1 9C1 12.54 3.29 15.53 6.47 16.59C6.87 16.66 7.02 16.42 7.02 16.21V14.78C4.73 15.27 4.26 13.71 4.26 13.71C3.89 12.77 3.35 12.53 3.35 12.53C2.6 12.02 3.4 12.03 3.4 12.03C4.22 12.09 4.65 12.87 4.65 12.87C5.37 14.1 6.55 13.74 7.05 13.53C7.12 13.01 7.33 12.66 7.56 12.45C5.78 12.24 3.92 11.5 3.92 8.46C3.92 7.56 4.24 6.83 4.67 6.26C4.59 6.04 4.32 5.22 4.74 4.1C4.74 4.1 5.43 3.87 7.01 4.93C7.68 4.74 8.35 4.65 9.02 4.64C9.69 4.65 10.36 4.74 11.03 4.93C12.61 3.87 13.3 4.1 13.3 4.1C13.72 5.22 13.45 6.04 13.37 6.26C13.8 6.83 14.12 7.56 14.12 8.46C14.12 11.51 12.25 12.24 10.47 12.44C10.76 12.7 11.01 13.19 11.01 13.95V16.21C11.01 16.42 11.16 16.67 11.57 16.59C14.74 15.53 17.02 12.54 17.02 9C17 4.58 13.42 1 9 1Z" fill="#333"/></svg>GitHub</span>
+          <span class="tool-chip" style="font-size:13px;padding:8px 14px"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M3 13.5L9 3L15 13.5" stroke="#5E6AD2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10H13" stroke="#5E6AD2" stroke-width="2" stroke-linecap="round"/></svg>Linear</span>
+          <span class="tool-chip" style="font-size:13px;padding:8px 14px;color:var(--text-light);border-style:dashed">+ any MCP tool</span>
+        </div>
+        <!-- Install pill -->
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+          <div class="install-pill">
+            <button class="install-btn" style="padding:10px 20px;font-size:13px">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8.5 1L3 9.5H7.5L7 15L13 6.5H8.5L8.5 1Z" fill="currentColor"/></svg>
+              Install via AI
+            </button>
+            <span class="install-cmd" style="font-size:13px;padding:10px 16px">
+              npx @amplitude/wizard
+              <button class="install-copy" title="Copy" onclick="navigator.clipboard.writeText('npx @amplitude/wizard');this.innerHTML='<svg width=16 height=16 viewBox=\'0 0 16 16\' fill=none><path d=\'M3 8l3.5 3.5L13 4\' stroke=\'#4ade80\' stroke-width=1.5 stroke-linecap=round stroke-linejoin=round/></svg>'"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3 11V3.5C3 2.67 3.67 2 4.5 2H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
+            </span>
+          </div>
+          <span style="font-size:12px;color:var(--text-light);font-family:var(--mono)">Install once. Data in minutes.</span>
+        </div>
       </div>
     </div>
-    <div class="scta" style="text-align:left;margin-top:32px"><button class="scta-btn">Try it in your stack <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+
+    <!-- RIGHT: interactive IDE panel -->
+    <div class="wf-right">
+      <div class="wf-panel">
+        <!-- Panel titlebar -->
+        <div class="wf-panel-hd">
+          <div class="wf-panel-dots"><span></span><span></span><span></span></div>
+          <span class="wf-panel-context" id="wf-ctx">cursor &mdash; Chat</span>
+          <span class="wf-panel-tab" id="wf-tool-tab">Amplitude MCP</span>
+        </div>
+
+        <!-- Panel body -->
+        <div class="wf-panel-body">
+
+          <!-- Empty state -->
+          <div class="wf-empty" id="wf-empty">
+            <div class="wf-empty-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            </div>
+            <p>Click a question to see<br>Amplitude answer it live</p>
+          </div>
+
+          <!-- Scene 1: "Why did signups drop this week?" — Cursor -->
+          <div class="wf-scene" id="wf-scene-1">
+            <div class="wf-user-msg">&gt; "Why did signups drop this week?"</div>
+            <div class="wf-ai-wrap">
+              <div class="wf-ai-hd">
+                <div class="wf-ai-logo"><svg viewBox="0 0 10 10" fill="white"><circle cx="5" cy="5" r="3"/></svg></div>
+                <span class="wf-ai-name">Amplitude</span>
+                <span class="wf-ai-badge">via MCP</span>
+              </div>
+              <div class="wf-ai-body wf-stream">
+                <span class="wf-line dim">Querying signup funnel (last 7d vs prior 7d)...</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-line hi">Signup completion dropped 23%</span>
+                <span class="wf-line">Mon Apr 21 baseline: 4,102 completions</span>
+                <span class="wf-line red">Thu Apr 24 drop to: 3,162 completions</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-divider"></span>
+                <span class="wf-line org">Root cause: Email verification step</span>
+                <span class="wf-line ind">847 verification emails bounced</span>
+                <span class="wf-line ind dim">DNS: MX record TTL expired Apr 22 at 2:14 PM</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-line grn">Users who passed verification converted at 91%</span>
+                <span class="wf-line dim ind">(normal baseline: 89%) &mdash; no behavior change</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-line blu">Fix deployed Apr 23 recovered ~60% of lost flow</span>
+                <span class="wf-line">Session replays: 1,204 available &#8594;<span class="wf-cursor"></span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scene 2: "Show me users who hit this error" — VS Code -->
+          <div class="wf-scene" id="wf-scene-2">
+            <div class="wf-user-msg">&gt; "Show me users who hit this error"</div>
+            <div class="wf-ai-wrap">
+              <div class="wf-ai-hd">
+                <div class="wf-ai-logo"><svg viewBox="0 0 10 10" fill="white"><circle cx="5" cy="5" r="3"/></svg></div>
+                <span class="wf-ai-name">Amplitude</span>
+                <span class="wf-ai-badge">via MCP</span>
+              </div>
+              <div class="wf-ai-body wf-stream">
+                <span class="wf-line dim">Scanning event stream for TypeError in checkout.js:147...</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-line hi">2,341 users affected</span>
+                <span class="wf-line dim">Since v2.3.1 deploy &mdash; Apr 19, 3:41 PM</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-divider"></span>
+                <span class="wf-line org">Breakdown</span>
+                <span class="wf-line ind">Browser:  Chrome 123 on Windows &mdash; 68%</span>
+                <span class="wf-line ind">Device:   Desktop 81% / Mobile 19%</span>
+                <span class="wf-line ind red">Spike:    3&ndash;7 PM daily (4x baseline)</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-line red">Revenue impact: ~$8,400 blocked checkouts</span>
+                <span class="wf-line dim ind">847 users on free &rarr; paid conversion path</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-line blu">Session replays: 1,847 available</span>
+                <span class="wf-line grn">Suggested fix: null check on user.id before checkout init<span class="wf-cursor"></span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scene 3: "What should we launch next?" — CLI -->
+          <div class="wf-scene" id="wf-scene-3">
+            <div class="wf-user-msg">&gt; "What should we launch next?"</div>
+            <div class="wf-ai-wrap">
+              <div class="wf-ai-hd">
+                <div class="wf-ai-logo"><svg viewBox="0 0 10 10" fill="white"><circle cx="5" cy="5" r="3"/></svg></div>
+                <span class="wf-ai-name">Amplitude</span>
+                <span class="wf-ai-badge">via MCP</span>
+              </div>
+              <div class="wf-ai-body wf-stream">
+                <span class="wf-line dim">Analyzing feature requests, drop-offs, and retention signals (30d)...</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-line hi">Top opportunities by user demand + revenue impact</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-line grn">#1  Bulk export for power users</span>
+                <span class="wf-line ind">Requested by 38% of $500+ MRR accounts</span>
+                <span class="wf-line ind dim">Correlated with 2.4x retention at 90 days</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-line org">#2  Slack digest integration</span>
+                <span class="wf-line ind">Top requested feature in NPS comments (last 60d)</span>
+                <span class="wf-line ind dim">Users who connect Slack churn 41% less</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-line blu">#3  Mobile push notifications</span>
+                <span class="wf-line ind">34% of active users have no re-engagement path</span>
+                <span class="wf-line ind dim">Segment shows highest DAU lift potential<span class="wf-cursor"></span></span>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /panel body -->
+      </div><!-- /wf-panel -->
+    </div><!-- /wf-right -->
+
+  </div><!-- /workflow-inner -->
+</section>
+
+<script>
+function wfSelect(n){
+  // Update buttons
+  document.querySelectorAll('.wf-q').forEach(function(b){b.classList.remove('active')});
+  document.querySelector('[data-q="'+n+'"]').classList.add('active');
+  // Hide empty state
+  document.getElementById('wf-empty').style.display='none';
+  // Hide all scenes
+  document.querySelectorAll('.wf-scene').forEach(function(s){s.classList.remove('active')});
+  // Show selected scene and re-trigger animation
+  var scene=document.getElementById('wf-scene-'+n);
+  scene.classList.add('active');
+  // Reset stream animation by re-cloning the ai-body
+  var body=scene.querySelector('.wf-ai-body');
+  var clone=body.cloneNode(true);
+  body.parentNode.replaceChild(clone,body);
+  // Update context label
+  var labels=['','Cursor \u2014 Chat','VS Code \u2014 Amplitude','Cursor \u2014 Chat'];
+  document.getElementById('wf-ctx').textContent=labels[n];
+}
+</script>
+
+<!-- 7. Differentiation -->
+<section class="diff-section-wrap">
+  <div class="diff-section-inner">
+    <div style="text-align:center">
+      <h2 style="font-size:clamp(28px,4vw,40px);font-weight:700;line-height:1.1;letter-spacing:-.03em;margin-bottom:16px">Other tools show you what happened.<br>We show you why and what to fix.</h2>
+    </div>
+    <div class="diff-grid">
+      <div class="diff-card">
+        <div class="tool-name">Sentry</div>
+        <div class="diff-what">shows the error that fired</div>
+      </div>
+      <div class="diff-card">
+        <div class="tool-name">Datadog</div>
+        <div class="diff-what">shows the system that slowed down</div>
+      </div>
+      <div class="diff-card highlight">
+        <div class="tool-name">Amplitude</div>
+        <div class="diff-what">shows where users dropped off and what caused it</div>
+      </div>
+    </div>
+    <p class="diff-punchline">Errors don't tell you if users recovered. Systems don't tell you if revenue dropped. Amplitude does.</p>
+    <div class="scta"><button class="scta-btn">Start free <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
   </div>
 </section>
 
-<!-- Differentiation -->
-<section class="section">
-  <div style="text-align:center">
-    <h2>Most tools show events. We show impact.</h2>
+<!-- 8. Changelog (under differentiation) -->
+<section class="changelog-section">
+  <div class="changelog-inner">
+    <div class="changelog-hdr">
+      <h2>Changelog</h2>
+      <p>
+        <span>What's new in Amplitude</span>
+        <a href="https://amplitude.com/releases" class="changelog-link">See all updates &rarr;</a>
+      </p>
+    </div>
+    <div class="changelog-cards">
+
+      <a class="cl-card" href="https://amplitude.com/ai-agents">
+        <div class="cl-thumb cl-thumb-1"><span class="cl-thumb-icon">&#129302;</span><span class="cl-thumb-label">AI Agents</span></div>
+        <div class="cl-body">
+          <span class="cl-date">April 14, 2026</span>
+          <span class="cl-title">AI Agents: Sense, decide, and act on product data faster than ever</span>
+        </div>
+      </a>
+
+      <a class="cl-card" href="https://amplitude.com/ai-feedback">
+        <div class="cl-thumb cl-thumb-2"><span class="cl-thumb-icon">&#128172;</span><span class="cl-thumb-label">AI Feedback</span></div>
+        <div class="cl-body">
+          <span class="cl-date">April 7, 2026</span>
+          <span class="cl-title">AI Feedback: Distill exactly what customers say they want</span>
+        </div>
+      </a>
+
+      <a class="cl-card" href="https://amplitude.com/ai-assistant">
+        <div class="cl-thumb cl-thumb-3"><span class="cl-thumb-icon">&#129302;</span><span class="cl-thumb-label">AI Assistant</span></div>
+        <div class="cl-body">
+          <span class="cl-date">March 28, 2026</span>
+          <span class="cl-title">AI Assistant: Support powered by your product data, not generic answers</span>
+        </div>
+      </a>
+
+      <a class="cl-card" href="https://amplitude.com/mcp-server">
+        <div class="cl-thumb cl-thumb-4"><span class="cl-thumb-icon">&#128279;</span><span class="cl-thumb-label">MCP Server</span></div>
+        <div class="cl-body">
+          <span class="cl-date">March 14, 2026</span>
+          <span class="cl-title">Amplitude MCP Server: Query your product data from any AI tool</span>
+        </div>
+      </a>
+
+      <a class="cl-card" href="https://amplitude.com/heatmaps">
+        <div class="cl-thumb cl-thumb-5"><span class="cl-thumb-icon">&#128293;</span><span class="cl-thumb-label">Heatmaps</span></div>
+        <div class="cl-body">
+          <span class="cl-date">February 21, 2026</span>
+          <span class="cl-title">Heatmaps: Visualize exactly where users click, scroll, and stop engaging</span>
+        </div>
+      </a>
+
+    </div>
   </div>
-  <div class="diff-grid">
-    <div class="diff-card">
-      <div class="tool-name">Sentry</div>
-      <div class="diff-what">shows errors</div>
-    </div>
-    <div class="diff-card">
-      <div class="tool-name">Datadog</div>
-      <div class="diff-what">shows systems</div>
-    </div>
-    <div class="diff-card highlight">
-      <div class="tool-name">Amplitude</div>
-      <div class="diff-what">shows what users experienced</div>
-    </div>
-  </div>
-  <p class="diff-punchline">That's the difference between guessing and knowing what to fix.</p>
-  <div class="scta"><button class="scta-btn">Start free <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
 </section>
 
-<!-- AI -->
-<section class="ai-section">
-  <div class="ai-inner">
-    <div class="ai-grid">
-      <div>
-        <h2 style="color:#fff">Don't go looking for problems. Know what to do next.</h2>
+<!-- 9. Security (light background, not adjacent to dark final CTA) -->
+<section class="security-section">
+  <div class="security-inner">
+    <div class="security-left">
+      <h2>Your data is safe.<br>We have receipts.</h2>
+      <p>Amplitude ships with enterprise-grade data protection out of the box. No separate compliance plugin, no additional cost, no headache.</p>
+      <div class="security-badges">
+        <span class="sec-badge"><span class="sec-badge-dot"></span>SOC 2 Type II</span>
+        <span class="sec-badge"><span class="sec-badge-dot"></span>ISO 27001 &amp; 27018</span>
+        <span class="sec-badge"><span class="sec-badge-dot"></span>GDPR Compliant</span>
+        <span class="sec-badge"><span class="sec-badge-dot"></span>CCPA Compliant</span>
+        <span class="sec-badge"><span class="sec-badge-dot"></span>HIPAA Compliant</span>
       </div>
-      <div>
-        <p class="ai-cta" style="font-size:15px;line-height:1.7">Amplitude surfaces where users struggle, what changed after releases, and what's worth fixing first.</p>
-        <p class="ai-cta" style="margin-top:16px">And when it's time to decide what to build next, your behavior data already has the answer.</p>
-        <p class="ai-cta" style="margin-top:16px">So you spend less time digging and more time building the right things.</p>
-        <div style="margin-top:28px"><button class="scta-dark">See what Amplitude surfaces <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+      <div class="security-features">
+        <span class="sec-feature">Event retention &amp; data controls</span>
+        <span class="sec-feature">PII protection built in</span>
+        <span class="sec-feature">AI-driven data governance</span>
+        <span class="sec-feature">Query from your data warehouse</span>
+        <span class="sec-feature">End-to-end encryption</span>
+        <span class="sec-feature">Independently audited</span>
+      </div>
+    </div>
+    <div class="security-right">
+      <div class="sec-cert">
+        <div class="sec-cert-icon">&#128274;</div>
+        <div>
+          <div class="sec-cert-label">SOC 2 Type II Certified</div>
+          <div class="sec-cert-sub">Annually audited. Security, availability, and confidentiality controls verified.</div>
+        </div>
+      </div>
+      <div class="sec-cert">
+        <div class="sec-cert-icon">&#127757;</div>
+        <div>
+          <div class="sec-cert-label">GDPR &amp; CCPA Compliant</div>
+          <div class="sec-cert-sub">Data subject rights, consent flows, and regional data residency supported.</div>
+        </div>
+      </div>
+      <div class="sec-cert">
+        <div class="sec-cert-icon">&#127973;</div>
+        <div>
+          <div class="sec-cert-label">HIPAA Compliant</div>
+          <div class="sec-cert-sub">BAA available. Used by healthcare and fintech teams handling sensitive data.</div>
+        </div>
+      </div>
+      <div class="sec-cert">
+        <div class="sec-cert-icon">&#128203;</div>
+        <div>
+          <div class="sec-cert-label">ISO 27001 &amp; 27018 Certified</div>
+          <div class="sec-cert-sub">International standards for information security management and cloud privacy.</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Pricing Preview -->
-<section class="pricing-section" id="pricing">
-  <div class="pricing-inner">
-    <h2>Start free. See value immediately.</h2>
-    <p class="section-sub" style="margin:0 auto">No setup friction. No gated features. Just start tracking your product.</p>
-    <p style="font-size:15px;color:var(--text-secondary);margin-top:12px">Most teams see value in their first session.</p>
-    <div style="margin-top:32px"><button class="btn-hero">Start free <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
-  </div>
-</section>
-
-<!-- Final CTA -->
+<!-- 10. Final CTA (dark, now separated from security by light section above) -->
 <section class="final-cta">
   <div class="final-inner">
     <h2>You shipped it.<br><span class="accent">Did it work?</span></h2>
-    <p style="font-size:17px;color:var(--text-muted-dark);margin-bottom:32px;line-height:1.6">Fix what didn't. Build what matters next.</p>
+    <p style="font-size:17px;color:var(--text-muted-dark);margin-bottom:32px;line-height:1.6">See exactly what changed. Fix what didn't. Ship what works next.</p>
     <button class="btn-final">Start free <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </div>
 </section>
 
+<!-- Amplitude Footer -->
+<footer class="amp-footer">
+  <div class="amp-footer-inner">
+    <div class="amp-footer-top">
+      <div class="amp-footer-brand-block">
+        <div class="amp-footer-brand">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" stroke="#fff" stroke-width="1.5"/><path d="M8 16L12 6L16 16" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9.5" y1="13" x2="14.5" y2="13" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
+          amplitude
+        </div>
+        <p>Build better products with the leading digital analytics platform.</p>
+      </div>
+      <div class="amp-footer-cols">
+        <div class="amp-footer-col">
+          <h4>Platform</h4>
+          <ul>
+            <li><a href="https://amplitude.com/ai-agents">AI Agents</a></li>
+            <li><a href="https://amplitude.com/ai-visibility">AI Visibility</a></li>
+            <li><a href="https://amplitude.com/mcp-server">Amplitude MCP</a></li>
+            <li><a href="https://amplitude.com/amplitude-analytics">Product Analytics</a></li>
+            <li><a href="https://amplitude.com/web-analytics">Web Analytics</a></li>
+            <li><a href="https://amplitude.com/session-replay">Session Replay</a></li>
+            <li><a href="https://amplitude.com/amplitude-experiment">Feature Experimentation</a></li>
+            <li><a href="https://amplitude.com/feature-management">Feature Management</a></li>
+            <li><a href="https://amplitude.com/web-experimentation">Web Experimentation</a></li>
+            <li><a href="https://amplitude.com/guides-and-surveys">Guides and Surveys</a></li>
+            <li><a href="https://amplitude.com/activation">Activation</a></li>
+          </ul>
+        </div>
+        <div class="amp-footer-col">
+          <h4>Compare us</h4>
+          <ul>
+            <li><a href="https://amplitude.com/compare/adobe">Adobe</a></li>
+            <li><a href="https://amplitude.com/compare/google-analytics">Google Analytics</a></li>
+            <li><a href="https://amplitude.com/compare/contentsquare">Contentsquare</a></li>
+            <li><a href="https://amplitude.com/compare/fullstory">Fullstory</a></li>
+            <li><a href="https://amplitude.com/compare/heap">Heap</a></li>
+            <li><a href="https://amplitude.com/compare/launchdarkly">LaunchDarkly</a></li>
+            <li><a href="https://amplitude.com/compare/mixpanel">Mixpanel</a></li>
+            <li><a href="https://amplitude.com/compare/optimizely">Optimizely</a></li>
+            <li><a href="https://amplitude.com/compare/pendo">Pendo</a></li>
+            <li><a href="https://amplitude.com/compare/posthog">PostHog</a></li>
+          </ul>
+        </div>
+        <div class="amp-footer-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="https://amplitude.com/resources">Resource Library</a></li>
+            <li><a href="https://amplitude.com/blog">Blog</a></li>
+            <li><a href="https://amplitude.com/prompt-library">Agent Prompt Library</a></li>
+            <li><a href="https://amplitude.com/releases">Product Updates</a></li>
+            <li><a href="https://amplitude.com/amp-champs">Amp Champs</a></li>
+            <li><a href="https://academy.amplitude.com">Amplitude Academy</a></li>
+            <li><a href="https://amplitude.com/events">Events</a></li>
+            <li><a href="https://amplitude.com/glossary/terms">Glossary</a></li>
+          </ul>
+        </div>
+        <div class="amp-footer-col">
+          <h4>Partners &amp; Support</h4>
+          <ul>
+            <li><a href="https://status.amplitude.com">Status</a></li>
+            <li><a href="https://amplitude.com/contact">Contact Us</a></li>
+            <li><a href="https://gethelp.amplitude.com/hc/en-us">Customer Help Center</a></li>
+            <li><a href="https://amplitude.com/community">Community</a></li>
+            <li><a href="https://developers.amplitude.com/docs">Developer Docs</a></li>
+            <li><a href="https://amplitude.com/partner-program">Partner Program</a></li>
+            <li><a href="https://amplitude.com/partners">Partner Directory</a></li>
+            <li><a href="https://amplitude.com/affiliates">Become an affiliate</a></li>
+          </ul>
+        </div>
+        <div class="amp-footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="https://amplitude.com/company">About Us</a></li>
+            <li><a href="https://amplitude.com/careers">Careers</a></li>
+            <li><a href="https://amplitude.com/press">Press &amp; News</a></li>
+            <li><a href="https://investors.amplitude.com">Investor Relations</a></li>
+            <li><a href="https://amplitude.com/diversity-equity-inclusion">Diversity, Equity &amp; Inclusion</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="amp-footer-bottom">
+      <div class="amp-footer-social">
+        <a href="https://www.linkedin.com/company/amplitude-analytics/" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+        <a href="https://twitter.com/Amplitude_HQ" target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          Twitter
+        </a>
+        <a href="https://www.g2.com/products/amplitude/reviews" target="_blank" rel="noopener">G2</a>
+      </div>
+      <div class="amp-footer-legal">
+        <a href="https://amplitude.com/terms">Terms of Service</a>
+        <a href="https://amplitude.com/privacy/archive/2025-12">Privacy Notice</a>
+        <a href="https://amplitude.com/aup">Acceptable Use Policy</a>
+        <a href="https://amplitude.com/legal">Legal</a>
+      </div>
+      <p class="amp-footer-copy">&copy; 2026 Amplitude, Inc. All rights reserved. Amplitude is a registered trademark of Amplitude, Inc.</p>
+    </div>
+  </div>
+</footer>
+
 <script>
-// Nav scroll effect
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 40);
 });
 </script>
-
 </body>
 </html>
