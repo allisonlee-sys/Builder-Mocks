@@ -320,28 +320,6 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
 .diff-card.highlight .diff-what{color:#fff}
 .diff-punchline{font-size:17px;font-weight:600;color:var(--text-secondary);text-align:center;margin-top:32px;max-width:620px;margin-left:auto;margin-right:auto}
 
-/* Changelog */
-.changelog-section{background:#fff;padding:80px 24px;border-bottom:1px solid var(--border)}
-.changelog-inner{max-width:960px;margin:0 auto}
-.changelog-hdr{margin-bottom:32px}
-.changelog-hdr h2{font-size:clamp(28px,4vw,40px);font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-bottom:6px}
-.changelog-hdr p{font-size:17px;color:var(--text-secondary);display:flex;justify-content:space-between;align-items:center}
-.changelog-link{font-size:13px;color:var(--accent);text-decoration:none;font-weight:500}
-.changelog-link:hover{opacity:.8}
-.changelog-cards{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
-.cl-card{background:var(--bg-light);border:1px solid var(--border);border-radius:12px;overflow:hidden;text-decoration:none;transition:border-color .2s,box-shadow .2s;display:flex;flex-direction:column}
-.cl-card:hover{border-color:#ccc;box-shadow:0 4px 16px rgba(0,0,0,.06)}
-.cl-thumb{width:100%;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;position:relative;overflow:hidden}
-.cl-thumb-1{background:linear-gradient(135deg,#0F0A2E 0%,#1E1B4B 50%,#312E81 100%)}
-.cl-thumb-2{background:linear-gradient(135deg,#1C0A2E 0%,#3B0764 50%,#6B21A8 100%)}
-.cl-thumb-3{background:linear-gradient(135deg,#0A1628 0%,#1E3A5F 50%,#1D4ED8 100%)}
-.cl-thumb-4{background:linear-gradient(135deg,#0A1A10 0%,#14532D 50%,#15803D 100%)}
-.cl-thumb-5{background:linear-gradient(135deg,#1A0A0A 0%,#7F1D1D 50%,#DC2626 100%)}
-.cl-thumb-icon{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:32px;opacity:.8}
-.cl-thumb-label{position:absolute;bottom:8px;left:10px;font-size:10px;font-weight:600;color:rgba(255,255,255,.5);font-family:var(--mono);letter-spacing:.06em;text-transform:uppercase}
-.cl-body{padding:14px 16px 18px;flex:1;display:flex;flex-direction:column;gap:6px}
-.cl-date{font-size:11px;color:var(--text-light);font-family:var(--mono)}
-.cl-title{font-size:13px;font-weight:600;color:var(--text-primary);line-height:1.4;flex:1}
 
 /* Security (light background) */
 .security-section{background:#F7F6F2;padding:80px 24px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
@@ -506,8 +484,8 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
 <section class="aha-section">
   <div class="aha-inner">
     <div class="aha-header">
-      <span class="aha-tag">How it works</span>
-      <h2>You shipped. Conversion dropped. Here’s what happened.</h2>
+      <span class="aha-tag">Real example from a live product</span>
+      <h2>Here's what actually happens after you ship</h2>
       <p>Checkout conversion dropped 51% in 2 hours. Amplitude showed where users dropped off, why it happened, and what to fix.</p>
     </div>
     <div class="aha-cards">
@@ -882,61 +860,6 @@ function wfSelect(n){
   </div>
 </section>
 
-<!-- 8. Changelog (under differentiation) -->
-<section class="changelog-section">
-  <div class="changelog-inner">
-    <div class="changelog-hdr">
-      <h2>Changelog</h2>
-      <p>
-        <span>What's new in Amplitude</span>
-        <a href="https://amplitude.com/releases" class="changelog-link">See all updates &rarr;</a>
-      </p>
-    </div>
-    <div class="changelog-cards">
-
-      <a class="cl-card" href="https://amplitude.com/ai-agents">
-        <div class="cl-thumb cl-thumb-1"><span class="cl-thumb-icon">&#129302;</span><span class="cl-thumb-label">AI Agents</span></div>
-        <div class="cl-body">
-          <span class="cl-date">April 14, 2026</span>
-          <span class="cl-title">AI Agents: Sense, decide, and act on product data faster than ever</span>
-        </div>
-      </a>
-
-      <a class="cl-card" href="https://amplitude.com/ai-feedback">
-        <div class="cl-thumb cl-thumb-2"><span class="cl-thumb-icon">&#128172;</span><span class="cl-thumb-label">AI Feedback</span></div>
-        <div class="cl-body">
-          <span class="cl-date">April 7, 2026</span>
-          <span class="cl-title">AI Feedback: Distill exactly what customers say they want</span>
-        </div>
-      </a>
-
-      <a class="cl-card" href="https://amplitude.com/ai-assistant">
-        <div class="cl-thumb cl-thumb-3"><span class="cl-thumb-icon">&#129302;</span><span class="cl-thumb-label">AI Assistant</span></div>
-        <div class="cl-body">
-          <span class="cl-date">March 28, 2026</span>
-          <span class="cl-title">AI Assistant: Support powered by your product data, not generic answers</span>
-        </div>
-      </a>
-
-      <a class="cl-card" href="https://amplitude.com/mcp-server">
-        <div class="cl-thumb cl-thumb-4"><span class="cl-thumb-icon">&#128279;</span><span class="cl-thumb-label">MCP Server</span></div>
-        <div class="cl-body">
-          <span class="cl-date">March 14, 2026</span>
-          <span class="cl-title">Amplitude MCP Server: Query your product data from any AI tool</span>
-        </div>
-      </a>
-
-      <a class="cl-card" href="https://amplitude.com/heatmaps">
-        <div class="cl-thumb cl-thumb-5"><span class="cl-thumb-icon">&#128293;</span><span class="cl-thumb-label">Heatmaps</span></div>
-        <div class="cl-body">
-          <span class="cl-date">February 21, 2026</span>
-          <span class="cl-title">Heatmaps: Visualize exactly where users click, scroll, and stop engaging</span>
-        </div>
-      </a>
-
-    </div>
-  </div>
-</section>
 
 <!-- 9. Security (light background, not adjacent to dark final CTA) -->
 <section class="security-section">
