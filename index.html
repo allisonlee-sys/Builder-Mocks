@@ -421,8 +421,8 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
   <div class="hero-grid"></div>
   <div class="hero-glow"></div>
   <div class="hero-content">
-    <h1 class="fade-up">Know what changed.<br><span class="accent">Decide what to build next.</span></h1>
-    <p class="subtitle fade-up-d1">See exactly what changed after every release, where users drop off, and what to fix next.</p>
+    <h1 class="fade-up">See what changed.<br>Fix what broke.<br><span class="accent">Ship what works.</span></h1>
+    <p class="subtitle fade-up-d1">Track every release, catch issues fast, and know what to build next.</p>
     <div class="hero-cta fade-up-d2">
       <button class="btn-hero">Start free <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       <span class="hero-note">No credit card. <span>Data in minutes.</span> Works with your existing stack.</span>
@@ -465,12 +465,12 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
           <div class="cm-msg cm-d2"><div class="msg-row"><div class="msg-av msg-av-c"><i></i></div><div class="msg-t msg-t-c">I pulled your <span class="hl">Amplitude funnel</span> for the flagged cohort. Here's the last 2 hours:</div></div></div>
           <div class="cm-msg cm-d3">
             <div class="mf">
-              <div class="mf-bar"><div class="mf-val mf-ok">12.4K</div><div class="mf-fill" style="height:48px;background:#4ade80"></div><div class="mf-lbl">Landing</div></div>
-              <div class="mf-bar"><div class="mf-val mf-ok">3.1K</div><div class="mf-fill" style="height:36px;background:#4ade80"></div><div class="mf-lbl">CTA click</div></div>
-              <div class="mf-bar"><div class="mf-val mf-bad">890</div><div class="mf-fill" style="height:14px;background:#f87171"></div><div class="mf-lbl">Checkout</div></div>
-              <div class="mf-bar"><div class="mf-val mf-warn">340</div><div class="mf-fill" style="height:8px;background:#fbbf24"></div><div class="mf-lbl">Purchase</div></div>
+              <div class="mf-bar" style="opacity:.45"><div class="mf-val mf-ok">12.4K</div><div class="mf-fill" style="height:48px;background:#4ade80"></div><div class="mf-lbl">Landing</div></div>
+              <div class="mf-bar" style="opacity:.45"><div class="mf-val mf-ok">3.1K</div><div class="mf-fill" style="height:36px;background:#4ade80"></div><div class="mf-lbl">CTA click</div></div>
+              <div class="mf-bar" style="transform:scale(1.08);transform-origin:bottom center"><div class="mf-val mf-bad" style="font-size:13px;font-weight:700;color:#f87171">890</div><div class="mf-fill" style="height:14px;background:#f87171;box-shadow:0 0 12px rgba(248,113,113,.6)"></div><div class="mf-lbl" style="color:#f87171;font-weight:600">Checkout</div></div>
+              <div class="mf-bar" style="opacity:.45"><div class="mf-val mf-warn">340</div><div class="mf-fill" style="height:8px;background:#fbbf24"></div><div class="mf-lbl">Purchase</div></div>
             </div>
-            <div class="mf-drop"><span>73% drop-off at checkout start vs 41% on control</span></div>
+            <div class="mf-drop" style="background:rgba(248,113,113,.15);border:1px solid rgba(248,113,113,.4);font-weight:700;font-size:12px;color:#f87171"><span>&#9660; 73% drop at checkout &mdash; flagged after 2h</span></div>
           </div>
           <div class="cm-msg cm-d4"><div class="msg-row"><div class="msg-av msg-av-c"><i></i></div><div class="msg-t msg-t-c"><span class="dr">The new CTA is converting to clicks but losing users at checkout.</span> Session replays show most users abandoning at the address form. It renders below the fold on mobile.</div></div></div>
           <div class="cm-msg cm-d5"><div class="msg-row"><div class="msg-av msg-av-c"><i></i></div><div class="msg-t msg-t-c">Recommend rolling back the flag or fixing the mobile layout. Want me to <b>open a PR with the fix</b>?</div></div></div>
@@ -498,7 +498,7 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
       <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/paloaltonetworks.com" alt="Palo Alto Networks" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">Palo Alto</span></div>
       <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/adidas.com" alt="Adidas" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">Adidas</span></div>
     </div>
-    <p class="sp-stat">Thousands of teams use Amplitude to catch issues and improve product decisions faster</p>
+    <p class="sp-stat">Used by thousands of teams to catch issues and ship faster</p>
   </div>
 </section>
 
@@ -506,9 +506,9 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
 <section class="aha-section">
   <div class="aha-inner">
     <div class="aha-header">
-      <span class="aha-tag">Real scenario</span>
-      <h2>From deploy to fix in under 30 minutes</h2>
-      <p>We shipped a checkout redesign. Here's exactly what happened next.</p>
+      <span class="aha-tag">Real example from a live product</span>
+      <h2>Here's what actually happens after you ship</h2>
+      <p>Checkout conversion dropped 51% in 2 hours. Amplitude showed where users dropped off, why it happened, and what to fix.</p>
     </div>
     <div class="aha-cards">
       <!-- Card 1: The crash -->
@@ -535,11 +535,11 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
         </div>
         <div class="aha-card-body">
           <span class="aha-card-label">What happened</span>
-          <div class="aha-card-title">Checkout conversion crashed 51% after the release</div>
+          <div class="aha-card-title">Checkout conversion dropped 51% within 2 hours of shipping</div>
           <ul class="aha-card-points">
-            <li>Revenue metrics turned red within the hour</li>
-            <li>No one on the team knew why</li>
-            <li>Guardrail alert fired, rollout paused</li>
+            <li>Revenue metrics turned red fast</li>
+            <li>Nobody knew why</li>
+            <li>Guardrail fired, rollout paused</li>
           </ul>
         </div>
       </div>
@@ -568,11 +568,11 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
         </div>
         <div class="aha-card-body">
           <span class="aha-card-label">What Amplitude showed</span>
-          <div class="aha-card-title">Exactly where users dropped off and why</div>
+          <div class="aha-card-title">73% drop between CTA click and checkout start</div>
           <ul class="aha-card-points">
-            <li>73% drop between CTA click and checkout start</li>
-            <li>Control group: only 38% at this step</li>
-            <li>Session replays: address form below fold on mobile</li>
+            <li>Control group: only 38% dropped here</li>
+            <li>Session replays pinpointed the cause</li>
+            <li>Address form rendered below the fold on mobile</li>
           </ul>
         </div>
       </div>
@@ -604,11 +604,11 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
         </div>
         <div class="aha-card-body">
           <span class="aha-card-label">What happened next</span>
-          <div class="aha-card-title">Conversion recovered in 20 minutes</div>
+          <div class="aha-card-title">Flag rolled back. Fix shipped. Conversion recovered.</div>
           <ul class="aha-card-points">
-            <li>Flag rolled back while scroll fix was PR'd</li>
-            <li>Fix shipped, flag re-enabled</li>
-            <li>Conversion back to 14.2% baseline</li>
+            <li>Scrolled the form into view, re-enabled the flag</li>
+            <li>Conversion back to 14.2% within 20 minutes</li>
+            <li>Zero revenue lost after the fix</li>
           </ul>
         </div>
       </div>
@@ -620,15 +620,15 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
 <section class="section">
   <div class="core-value-grid">
     <div class="core-value-text">
-      <h2>Make smarter product decisions on every sprint.</h2>
-      <p class="lead">Most tools show events, logs, or dashboards.<br>Amplitude shows what actually happened to your users and what to do next.</p>
+      <h2>Know what changed before your next sprint.</h2>
+      <p class="lead">Most tools show you charts.<br>Amplitude shows where users drop off, what changed, and what to fix next.</p>
       <ul class="core-value-list">
-        <li><span class="dot"></span><span><span class="emphasis">Where users drop off</span></span></li>
-        <li><span class="dot"></span><span><span class="emphasis">What changed after your last release</span></span></li>
-        <li><span class="dot"></span><span><span class="emphasis">Which changes caused the drop in conversion</span></span></li>
-        <li><span class="dot"></span><span><span class="emphasis">What's worth fixing or building next</span></span></li>
+        <li><span class="dot"></span><span><span class="emphasis">See what changed after every release</span></span></li>
+        <li><span class="dot"></span><span><span class="emphasis">Find where users drop off</span></span></li>
+        <li><span class="dot"></span><span><span class="emphasis">Watch the sessions behind the drop</span></span></li>
+        <li><span class="dot"></span><span><span class="emphasis">Know what to fix or build next</span></span></li>
       </ul>
-      <p class="core-cta">So you fix the right thing and ship what matters next.</p>
+      <p class="core-cta">So your team stops guessing and ships the right next thing.</p>
     </div>
     <div>
       <div class="funnel-frame">
@@ -997,7 +997,7 @@ function wfSelect(n){
 <section class="final-cta">
   <div class="final-inner">
     <h2>You shipped it.<br><span class="accent">Did it work?</span></h2>
-    <p style="font-size:17px;color:var(--text-muted-dark);margin-bottom:32px;line-height:1.6">See exactly what changed. Fix what didn't. Ship what works next.</p>
+    <p style="font-size:17px;color:var(--text-muted-dark);margin-bottom:32px;line-height:1.6">Track every release. Catch issues before they compound. Build what users actually need.</p>
     <button class="btn-final">Start free <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </div>
 </section>
