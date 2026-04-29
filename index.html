@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Amplitude - See what users do. Fix what breaks. Ship what works.</title>
-<meta name="description" content="See exactly what changed after every release, where users drop off, and what to fix next. Analytics, session replay, feature flags, and experiments in one platform.">
+<title>Amplitude - You don't need more data. You need to know what to do.</title>
+<meta name="description" content="See where users drop off, what they actually do, and what to fix next. Ask your product questions and get answers instantly.">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -26,16 +26,17 @@
 }
 html{scroll-behavior:smooth}
 body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary);-webkit-font-smoothing:antialiased;overflow-x:auto;min-width:1024px}
+
 @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
 @keyframes drawLine{from{stroke-dashoffset:600}to{stroke-dashoffset:0}}
 @keyframes growBar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes streamIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+@keyframes blinkCursor{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes pulseRed{0%,100%{box-shadow:0 0 0 0 rgba(248,113,113,.4)}70%{box-shadow:0 0 0 8px rgba(248,113,113,0)}}
 .fade-up{animation:fadeUp .7s ease both}
-.fade-up-d1{animation:fadeUp .7s ease .1s both}
-.fade-up-d2{animation:fadeUp .7s ease .2s both}
-.fade-up-d3{animation:fadeUp .7s ease .3s both}
-.fade-up-d4{animation:fadeUp .7s ease .4s both}
+.fade-up-d1{animation:fadeUp .7s ease .12s both}
+.fade-up-d2{animation:fadeUp .7s ease .24s both}
 
 /* Nav */
 .nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 32px;transition:background .3s,backdrop-filter .3s}
@@ -51,200 +52,114 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
 .btn-nav-primary:hover{background:var(--accent-hover)}
 
 /* Hero */
-.hero{background:#fff;padding:140px 24px 60px;position:relative;overflow:hidden}
+.hero{background:#fff;padding:140px 24px 56px;position:relative;overflow:hidden}
 .hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(to top,#fff,transparent);pointer-events:none;z-index:1}
 .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,0,0,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.03) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse at 50% 0%,black 20%,transparent 70%)}
 .hero-glow{position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse,rgba(30,97,240,.06),transparent 70%);pointer-events:none}
-.hero-content{max-width:720px;margin:0 auto;text-align:center;position:relative;z-index:2}
-.hero h1{font-size:clamp(36px,6vw,60px);font-weight:700;line-height:1.05;letter-spacing:-.04em;color:var(--text-primary);margin-bottom:20px}
+.hero-content{max-width:680px;margin:0 auto;text-align:center;position:relative;z-index:2}
+.hero h1{font-size:clamp(38px,6vw,64px);font-weight:700;line-height:1.02;letter-spacing:-.045em;color:var(--text-primary);margin-bottom:20px}
 .hero h1 .accent{color:var(--accent)}
-.hero .subtitle{font-size:18px;line-height:1.6;color:var(--text-secondary);max-width:520px;margin:0 auto 36px}
-.hero-cta{display:flex;flex-direction:column;align-items:center;gap:12px}
-.btn-hero{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border:none;padding:14px 32px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:background .2s,transform .15s}
+.hero .subtitle{font-size:19px;line-height:1.55;color:var(--text-secondary);max-width:520px;margin:0 auto 36px}
+.hero-cta{display:flex;flex-direction:column;align-items:center;gap:10px}
+.btn-hero{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border:none;padding:14px 34px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:background .2s,transform .15s}
 .btn-hero:hover{background:var(--accent-hover);transform:translateY(-1px)}
 .btn-hero svg{transition:transform .2s}
 .btn-hero:hover svg{transform:translateX(3px)}
-.hero-note{font-size:13px;color:var(--text-light);font-family:var(--mono);letter-spacing:-.01em}
-.hero-note span{color:var(--accent)}
+.hero-note{font-size:13px;color:var(--text-light);font-family:var(--mono)}
+.hero-clarify{font-size:13px;color:var(--text-light);letter-spacing:.01em;margin-bottom:28px}
 
 /* Hero Visual */
-.hero-visual{background:#fff;padding:0 24px 64px;position:relative;z-index:2}
-.mock-container{max-width:880px;margin:0 auto;border-radius:14px;overflow:hidden;border:1px solid #2a2a2f;background:#18181b;box-shadow:0 24px 80px rgba(0,0,0,.5)}
-.mock-titlebar{display:flex;align-items:center;gap:8px;padding:12px 16px;background:#111113;border-bottom:1px solid #2a2a2f}
+.hero-visual{background:#fff;padding:0 24px 72px;position:relative;z-index:2}
+.mock-container{max-width:860px;margin:0 auto;border-radius:14px;overflow:hidden;border:1px solid #2a2a2f;background:#18181b;box-shadow:0 24px 80px rgba(0,0,0,.5)}
+.mock-titlebar{display:flex;align-items:center;gap:8px;padding:11px 16px;background:#111113;border-bottom:1px solid #2a2a2f}
 .mock-dots{display:flex;gap:6px}
 .mock-dots span{width:10px;height:10px;border-radius:50%;background:#2a2a2f}
 .mock-tabs{display:flex;gap:0;margin-left:16px}
-.mock-tab{padding:6px 14px;font-size:11px;font-family:var(--mono);color:#555;border-radius:6px 6px 0 0}
-.mock-tab.active{background:#18181b;color:#aaa}
-.mock-split{display:grid;grid-template-columns:1.4fr 1fr;min-height:380px}
-.mock-editor{display:flex;flex-direction:column;border-right:1px solid #2a2a2f}
-.mock-code-area{flex:1;padding:20px;font-family:var(--mono);font-size:12px;line-height:1.7;color:#666;overflow:hidden}
-.mock-code-area .ln{color:#333;display:inline-block;width:28px;text-align:right;margin-right:12px;user-select:none}
-.mock-code-area .kw{color:#c678dd}.mock-code-area .fn{color:#61afef}.mock-code-area .str{color:#98c379}
-.mock-code-area .vr{color:#e5c07b}.mock-code-area .cm{color:#555}.mock-code-area .op{color:#56b6c2}
-.mock-terminal{border-top:1px solid #2a2a2f;padding:14px 16px;font-family:var(--mono);font-size:11.5px;line-height:1.8}
-.mock-terminal .pr{color:#666}.mock-terminal .cmd{color:#ccc}.mock-terminal .ok{color:#4ade80}
-.mock-terminal .fl{color:var(--accent)}.mock-terminal .wr{color:#fbbf24}
-.tl{opacity:0;animation:fadeIn .3s ease both}
-.tl:nth-child(1){animation-delay:.5s}.tl:nth-child(2){animation-delay:1.2s}
-.tl:nth-child(3){animation-delay:1.8s}.tl:nth-child(4){animation-delay:2.4s}
-.mock-claude{display:flex;flex-direction:column;background:#111113}
-.mock-claude-hd{padding:12px 16px;border-bottom:1px solid #2a2a2f;display:flex;align-items:center;gap:8px}
-.mock-claude-hd .cd{width:8px;height:8px;border-radius:50%;background:#D97757}
-.mock-claude-hd span{font-size:12px;font-weight:600;color:#888;font-family:var(--mono)}
-.mock-claude-body{flex:1;padding:16px;display:flex;flex-direction:column;gap:14px;overflow:hidden}
-.cm-msg{opacity:0;animation:fadeUp .4s ease both}
-.cm-d1{animation-delay:3s}.cm-d2{animation-delay:3.8s}.cm-d3{animation-delay:4.6s}
-.cm-d4{animation-delay:5.6s}.cm-d5{animation-delay:6.4s}
-.msg-row{display:flex;gap:8px;align-items:flex-start}
-.msg-av{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;font-family:var(--mono)}
-.msg-av-u{background:#2a2a2f;color:#888}.msg-av-c{background:#2a2530}
-.msg-av-c i{width:10px;height:10px;border-radius:50%;background:#D97757;display:block}
-.msg-t{font-size:12px;line-height:1.6}
-.msg-t-u{color:#ccc;font-family:var(--mono)}.msg-t-c{color:#999}
-.msg-t-c b{color:#ccc;font-weight:600}.msg-t-c .hl{color:var(--accent);font-weight:500}
-.msg-t-c .dr{color:#f87171;font-weight:600}
-.mf{display:flex;gap:4px;align-items:flex-end;height:52px;margin:8px 0 4px}
-.mf-bar{display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;opacity:0;animation:fadeUp .3s ease both}
-.mf-bar:nth-child(1){animation-delay:5s}.mf-bar:nth-child(2){animation-delay:5.1s}
-.mf-bar:nth-child(3){animation-delay:5.2s}.mf-bar:nth-child(4){animation-delay:5.3s}
-.mf-fill{width:100%;border-radius:3px 3px 0 0}
-.mf-lbl{font-size:7.5px;color:#555;font-family:var(--mono);white-space:nowrap}
-.mf-val{font-size:9px;font-family:var(--mono);font-weight:600}
-.mf-ok{color:#4ade80}.mf-warn{color:#fbbf24}.mf-bad{color:#f87171}
-.mf-drop{display:flex;align-items:center;gap:4px;opacity:0;animation:fadeIn .4s ease 5.5s both;margin:2px 0 6px}
-.mf-drop span{font-size:10px;color:#f87171;font-weight:600;font-family:var(--mono)}
+.mock-tab{padding:5px 14px;font-size:11px;font-family:var(--mono);color:#444}
+.mock-tab.active{color:#aaa}
+.mock-split{display:grid;grid-template-columns:1fr 1fr;min-height:340px}
 
-/* Social Proof */
-.social-proof{background:#fff;padding:0 24px 52px;border-bottom:1px solid var(--border)}
-.sp-inner{max-width:960px;margin:0 auto;text-align:center}
-.sp-eyebrow{font-size:13px;font-weight:500;color:var(--text-light);margin-bottom:28px;letter-spacing:.01em}
-.logo-grid{display:grid;grid-template-columns:repeat(6,1fr);margin-bottom:20px;border:1px solid var(--border);border-radius:12px;overflow:hidden}
-.logo-item{display:flex;align-items:center;justify-content:center;padding:20px 16px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);min-height:68px}
-.logo-item:nth-child(6n){border-right:none}
-.logo-item:nth-child(n+13){border-bottom:none}
-.logo-img{height:22px;width:auto;max-width:90px;object-fit:contain;filter:grayscale(100%) opacity(38%);transition:filter .2s}
-.logo-item:hover .logo-img{filter:grayscale(100%) opacity(60%)}
-.logo-fallback{display:none;font-size:11px;font-weight:700;letter-spacing:.04em;color:#C8C7C2;text-transform:uppercase;font-family:var(--sans)}
-.sp-stat{font-size:13px;color:var(--text-light);max-width:460px;margin:0 auto;line-height:1.5}
+/* Funnel panel */
+.mock-funnel{padding:24px;border-right:1px solid #2a2a2f;display:flex;flex-direction:column;gap:10px}
+.mf-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.mf-hd-title{font-size:11px;font-weight:600;color:#777;font-family:var(--mono);text-transform:uppercase;letter-spacing:.06em}
+.mf-hd-meta{font-size:10px;color:#444;font-family:var(--mono)}
+.mf-step{display:grid;grid-template-columns:80px 1fr 52px;align-items:center;gap:10px}
+.mf-step-label{font-size:11px;color:#666;font-family:var(--mono)}
+.mf-step-track{height:22px;background:#1e1e22;border-radius:4px;overflow:hidden;position:relative}
+.mf-step-fill{height:100%;border-radius:4px;transform-origin:left}
+.mf-step-fill.ok{background:#4ade80;opacity:.7;animation:growBar .6s ease both}
+.mf-step-fill.ok2{background:#4ade80;opacity:.5;animation:growBar .6s ease .1s both}
+.mf-step-fill.warn{background:#fbbf24;animation:growBar .6s ease .2s both}
+.mf-step-fill.bad{background:#f87171;animation:growBar .6s ease .3s both}
+.mf-step-num{font-size:11px;font-weight:600;font-family:var(--mono);text-align:right;color:#777}
+.mf-step-num.bad{color:#f87171}
+.mf-drop-callout{display:flex;align-items:center;gap:8px;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);border-radius:8px;padding:10px 14px;margin-top:4px}
+.mf-drop-dot{width:8px;height:8px;border-radius:50%;background:#f87171;flex-shrink:0;animation:pulseRed 2s ease infinite}
+.mf-drop-text{font-size:11.5px;color:#fca5a5;font-family:var(--mono);line-height:1.5}
+.mf-drop-text b{color:#f87171;font-weight:700}
 
-/* Real Scenario (Aha Moment) */
-.aha-section{background:#F7F6F2;padding:72px 24px;border-bottom:1px solid var(--border)}
-.aha-inner{max-width:1000px;margin:0 auto}
-.aha-header{text-align:center;margin-bottom:40px}
-.aha-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:rgba(30,97,240,.08);padding:4px 12px;border-radius:20px;margin-bottom:14px}
-.aha-header h2{font-size:clamp(24px,3.5vw,36px);font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-bottom:8px}
-.aha-header p{font-size:16px;color:var(--text-secondary)}
-.aha-cards{display:grid;grid-template-columns:1fr 40px 1fr 40px 1fr;gap:0;align-items:center}
-.aha-arrow{display:flex;align-items:center;justify-content:center;color:var(--text-light);font-size:22px;padding-top:60px}
-.aha-card{background:var(--bg-card);border-radius:16px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.04)}
-.aha-card.problem{border:1px solid #FECACA}
-.aha-card.detect{border:1px solid #BFDBFE}
-.aha-card.fix{border:1px solid #BBF7D0}
-.aha-chart{padding:20px 20px 0;height:120px;position:relative;display:flex;align-items:flex-end}
-.aha-chart.problem-chart{background:linear-gradient(to bottom,#FFF5F5,#fff)}
-.aha-chart.detect-chart{background:linear-gradient(to bottom,#F0F7FF,#fff)}
-.aha-chart.fix-chart{background:linear-gradient(to bottom,#F0FDF4,#fff)}
-.aha-card-body{padding:16px 20px 22px}
-.aha-card-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;display:block}
-.aha-card.problem .aha-card-label{color:#DC2626}
-.aha-card.detect .aha-card-label{color:var(--accent)}
-.aha-card.fix .aha-card-label{color:#16A34A}
-.aha-card-title{font-size:15px;font-weight:700;line-height:1.3;margin-bottom:10px;letter-spacing:-.01em}
-.aha-card.problem .aha-card-title{color:#7F1D1D}
-.aha-card.detect .aha-card-title{color:#1E3A8A}
-.aha-card.fix .aha-card-title{color:#14532D}
-.aha-card-points{list-style:none;display:flex;flex-direction:column;gap:5px}
-.aha-card-points li{font-size:12.5px;color:var(--text-secondary);line-height:1.45;display:flex;gap:7px;align-items:flex-start}
-.aha-card.problem .aha-card-points li::before{content:'>';color:#FCA5A5;flex-shrink:0}
-.aha-card.detect .aha-card-points li::before{content:'>';color:var(--accent);flex-shrink:0;opacity:.6}
-.aha-card.fix .aha-card-points li::before{content:'v';color:#22C55E;flex-shrink:0;font-weight:700}
-/* SVG chart styles */
-.chart-svg{width:100%;overflow:visible}
-.crash-line{stroke:#F87171;stroke-width:2.5;fill:none;stroke-dasharray:600;stroke-dashoffset:600;animation:drawLine 1.4s ease .4s forwards}
-.crash-fill{fill:url(#redGrad);opacity:.25}
-.steady-line{stroke:#86EFAC;stroke-width:2.5;fill:none;stroke-dasharray:200;stroke-dashoffset:200;animation:drawLine .8s ease .2s forwards}
-.recover-line{stroke:#4ADE80;stroke-width:2.5;fill:none;stroke-dasharray:600;stroke-dashoffset:600;animation:drawLine 1.6s ease .4s forwards}
-.recover-fill{fill:url(#greenGrad);opacity:.2}
-.deploy-line{stroke:#E5E7EB;stroke-width:1;stroke-dasharray:4 3}
-.chart-label{font-family:var(--mono);font-size:8.5px;fill:#999}
-.chart-label-red{font-family:var(--mono);font-size:9px;fill:#F87171;font-weight:600}
-.chart-label-green{font-family:var(--mono);font-size:9px;fill:#22C55E;font-weight:600}
-.bar-anim{transform-origin:left center;animation:growBar .5s ease both}
-.bar-1{animation-delay:.2s}.bar-2{animation-delay:.4s}.bar-3{animation-delay:.6s}.bar-4{animation-delay:.8s}
+/* AI panel */
+.mock-ai{display:flex;flex-direction:column;background:#0D0D0F}
+.mock-ai-hd{padding:11px 16px;border-bottom:1px solid #1a1a1e;display:flex;align-items:center;gap:8px}
+.mock-ai-hd .ai-dot{width:7px;height:7px;border-radius:50%;background:#D97757}
+.mock-ai-hd span{font-size:11px;font-weight:600;color:#555;font-family:var(--mono)}
+.mock-ai-body{flex:1;padding:16px;display:flex;flex-direction:column;gap:12px;overflow:hidden}
+.ai-msg{opacity:0;animation:fadeUp .35s ease both}
+.ai-d1{animation-delay:.4s}.ai-d2{animation-delay:1.1s}.ai-d3{animation-delay:1.9s}
+.ai-user{background:#18182a;border:1px solid #2a2a44;border-radius:9px 9px 2px 9px;padding:9px 13px;font-family:var(--mono);font-size:11.5px;color:#8888bb;align-self:flex-end;max-width:92%;line-height:1.5}
+.ai-response{display:flex;flex-direction:column;gap:8px}
+.ai-resp-hd{display:flex;align-items:center;gap:7px}
+.ai-resp-logo{width:17px;height:17px;border-radius:4px;background:linear-gradient(135deg,#1E61F0,#7C3AED);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ai-resp-logo svg{width:9px;height:9px}
+.ai-resp-name{font-size:11px;color:#555;font-family:var(--mono);font-weight:600}
+.ai-resp-badge{font-size:9px;color:#4ade80;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.2);padding:2px 7px;border-radius:4px;margin-left:auto;font-family:var(--mono)}
+.ai-resp-body{background:#141416;border:1px solid #222226;border-radius:3px 10px 10px 10px;padding:12px 14px;display:flex;flex-direction:column;gap:0}
+.ai-line{display:block;font-family:var(--mono);font-size:11.5px;line-height:1.85;color:#666}
+.ai-line.dim{color:#383838}
+.ai-line.hi{color:#ddd;font-weight:500}
+.ai-line.grn{color:#4ade80}
+.ai-line.red{color:#f87171}
+.ai-line.org{color:#fbbf24}
+.ai-line.blu{color:#7aa7ff}
+.ai-line.ind{padding-left:14px}
+.ai-line.sp{height:5px;display:block}
+.ai-cursor{display:inline-block;width:6px;height:11px;background:var(--accent);vertical-align:middle;margin-left:2px;border-radius:1px;animation:blinkCursor .85s step-start infinite}
+.ai-stream .ai-line{opacity:0;animation:streamIn .2s ease forwards}
+.ai-stream .ai-line:nth-child(1){animation-delay:.1s}
+.ai-stream .ai-line:nth-child(2){animation-delay:.25s}
+.ai-stream .ai-line:nth-child(3){animation-delay:.42s}
+.ai-stream .ai-line:nth-child(4){animation-delay:.60s}
+.ai-stream .ai-line:nth-child(5){animation-delay:.78s}
+.ai-stream .ai-line:nth-child(6){animation-delay:.96s}
+.ai-stream .ai-line:nth-child(7){animation-delay:1.14s}
+.ai-stream .ai-line:nth-child(8){animation-delay:1.32s}
+.ai-stream .ai-line:nth-child(9){animation-delay:1.50s}
+.ai-stream .ai-line:nth-child(10){animation-delay:1.68s}
 
-/* Shared Section */
-.section{padding:96px 24px;max-width:960px;margin:0 auto}
-.section-dark{background:var(--bg-dark);color:var(--text-on-dark)}
-.section-dark .section-inner{max-width:960px;margin:0 auto;padding:96px 24px}
-.section h2{font-size:clamp(28px,4vw,40px);font-weight:700;line-height:1.1;letter-spacing:-.03em;margin-bottom:16px}
-.section-sub{font-size:17px;line-height:1.6;color:var(--text-secondary);max-width:560px}
-
-/* Core Value */
-.core-value-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:48px;align-items:start}
-.core-value-text .lead{font-size:17px;line-height:1.6;color:var(--text-secondary);margin-bottom:28px}
-.core-value-list{list-style:none;display:flex;flex-direction:column;gap:16px}
-.core-value-list li{display:flex;align-items:flex-start;gap:12px;font-size:15px;line-height:1.5;color:var(--text-primary)}
-.core-value-list .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:8px}
-.core-value-list .emphasis{font-weight:600}
-.core-cta{font-size:15px;line-height:1.6;color:var(--text-secondary);margin-top:24px;font-weight:500}
-/* Funnel widget */
-.funnel-frame{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.04)}
-.funnel-topbar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--border);background:#FAFAF8}
-.funnel-topbar .fdot{width:8px;height:8px;border-radius:50%;background:#ddd}
-.funnel-topbar .ftitle{font-size:12px;font-weight:600;color:var(--text-secondary);margin-left:8px;font-family:var(--mono)}
-.funnel-body{padding:28px 24px 24px}
-.funnel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
-.funnel-header h4{font-size:14px;font-weight:700;color:var(--text-primary)}
-.funnel-header .funnel-meta{font-size:11px;color:var(--text-light);font-family:var(--mono)}
-.funnel-steps{display:flex;flex-direction:column;gap:0}
-.funnel-step{display:grid;grid-template-columns:140px 1fr 60px;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0efeb}
-.funnel-step:last-child{border-bottom:none}
-.funnel-step-label{font-size:12px;font-weight:500;color:var(--text-secondary)}
-.funnel-step-bar-wrap{height:28px;background:#F5F4F0;border-radius:6px;overflow:hidden}
-.funnel-step-bar{height:100%;border-radius:6px}
-.funnel-step-bar.good{background:var(--accent);opacity:.7}
-.funnel-step-bar.ok{background:var(--accent);opacity:.5}
-.funnel-step-bar.warn{background:#fbbf24}
-.funnel-step-bar.bad{background:#f87171}
-.funnel-step-val{font-size:13px;font-weight:600;font-family:var(--mono);text-align:right}
-.funnel-step-val.good{color:var(--text-primary)}
-.funnel-step-val.bad{color:#f87171}
-.funnel-alert{display:flex;align-items:center;gap:10px;margin-top:16px;padding:12px 16px;background:#FEF2F2;border:1px solid #FECACA;border-radius:10px}
-.funnel-alert-icon{font-size:16px;flex-shrink:0}
-.funnel-alert-text{font-size:12px;color:#991B1B;line-height:1.5}
-.funnel-alert-text b{font-weight:700}
-.funnel-conversion{display:flex;gap:16px;margin-top:16px}
-.funnel-stat{flex:1;background:#F9F8F5;border-radius:8px;padding:12px 14px}
-.funnel-stat-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-light);margin-bottom:4px}
-.funnel-stat-val{font-size:20px;font-weight:700;font-family:var(--mono);letter-spacing:-.02em}
-.funnel-stat-val.red{color:#f87171}
-.funnel-stat-val.blue{color:var(--accent)}
-
-/* Workflow */
+/* Workflow / MCP section */
 .workflow-section{background:#F3F2ED;padding:96px 24px;border-top:1px solid var(--border)}
 .workflow-inner{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
-.wf-left{}
-.wf-questions{display:flex;flex-direction:column;gap:10px;margin-top:28px}
-.wf-q{background:var(--bg-dark);color:var(--text-on-dark);padding:14px 18px;border-radius:10px;font-family:var(--mono);font-size:13.5px;line-height:1.5;display:flex;align-items:center;gap:12px;cursor:pointer;border:1.5px solid transparent;text-align:left;width:100%;transition:border-color .2s,background .2s}
-.wf-q .pchar{color:#555;font-weight:600;font-size:15px;flex-shrink:0;transition:color .2s}
+.wf-left h2{font-size:clamp(26px,3.5vw,38px);font-weight:700;line-height:1.1;letter-spacing:-.03em;margin-bottom:14px}
+.wf-left .wf-sub{font-size:16px;line-height:1.6;color:var(--text-secondary);margin-bottom:28px}
+.wf-questions{display:flex;flex-direction:column;gap:9px;margin-bottom:24px}
+.wf-q{background:var(--bg-dark);color:var(--text-on-dark);padding:13px 17px;border-radius:10px;font-family:var(--mono);font-size:12.5px;line-height:1.5;display:flex;align-items:center;gap:11px;cursor:pointer;border:1.5px solid transparent;text-align:left;width:100%;transition:border-color .2s,background .2s}
+.wf-q .pchar{color:#444;font-weight:600;font-size:14px;flex-shrink:0;transition:color .2s}
 .wf-q:hover{border-color:rgba(30,97,240,.35);background:#16161a}
 .wf-q.active{border-color:var(--accent);background:#0B1424}
 .wf-q.active .pchar{color:var(--accent)}
 .wf-qtext{flex:1}
-.wf-qarrow{opacity:0;transform:translateX(-4px);transition:opacity .2s,transform .2s;color:var(--accent);flex-shrink:0;font-size:14px}
+.wf-qarrow{opacity:0;transform:translateX(-4px);transition:opacity .2s,transform .2s;color:var(--accent);flex-shrink:0;font-size:13px}
 .wf-q.active .wf-qarrow{opacity:1;transform:translateX(0)}
-.workflow-note{font-size:14px;color:var(--text-secondary);margin-top:20px;font-weight:500}
-.tool-chip{display:flex;align-items:center;gap:8px;padding:10px 18px;background:#fff;border:1px solid var(--border);border-radius:10px;font-size:14px;font-weight:500;transition:border-color .2s}
+.wf-note{font-size:13.5px;color:var(--text-secondary);font-weight:500;margin-bottom:28px}
+.tool-chips{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:28px}
+.tool-chip{display:flex;align-items:center;gap:7px;padding:8px 13px;background:#fff;border:1px solid var(--border);border-radius:9px;font-size:13px;font-weight:500;transition:border-color .2s;cursor:default}
 .tool-chip:hover{border-color:#bbb}
-/* Install pill inside workflow */
-.install-pill{display:inline-flex;align-items:center;background:#F0F0EC;border-radius:40px;padding:6px;gap:0;font-family:var(--mono);font-size:15px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
-.install-btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border:none;padding:12px 24px;border-radius:32px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--sans);letter-spacing:-.01em}
-.install-cmd{padding:12px 20px;color:var(--text-primary);font-family:var(--mono);font-size:15px;font-weight:500;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
-.install-copy{background:none;border:none;cursor:pointer;color:var(--text-light);padding:4px;display:flex;align-items:center;transition:color .2s}
+.install-pill{display:inline-flex;align-items:center;background:#F0F0EC;border-radius:40px;padding:5px}
+.install-btn{display:inline-flex;align-items:center;gap:7px;background:var(--accent);color:#fff;border:none;padding:9px 18px;border-radius:32px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--sans)}
+.install-cmd{padding:9px 14px;color:var(--text-primary);font-family:var(--mono);font-size:13px;font-weight:500;display:flex;align-items:center;gap:9px}
+.install-copy{background:none;border:none;cursor:pointer;color:var(--text-light);padding:3px;display:flex;align-items:center;transition:color .2s}
 .install-copy:hover{color:var(--text-primary)}
-
-/* Workflow right panel */
 .wf-right{position:sticky;top:80px}
 .wf-panel{background:#111113;border:1px solid #2a2a2f;border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.3)}
 .wf-panel-hd{background:#0D0D0F;border-bottom:1px solid #222226;padding:10px 14px;display:flex;align-items:center;gap:8px}
@@ -253,43 +168,30 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
 .wf-panel-dots span:nth-child(1){background:#FF5F57}
 .wf-panel-dots span:nth-child(2){background:#FFBD2E}
 .wf-panel-dots span:nth-child(3){background:#28C840}
-.wf-panel-context{font-size:11px;color:#444;font-family:var(--mono);margin-left:6px;flex:1}
+.wf-panel-ctx{font-size:11px;color:#444;font-family:var(--mono);margin-left:6px;flex:1}
 .wf-panel-tab{font-size:11px;font-family:var(--mono);color:#666;padding:3px 10px;background:#1e1e22;border-radius:5px;border:1px solid #333}
-.wf-panel-body{padding:18px;min-height:360px;display:flex;flex-direction:column;gap:0;position:relative}
-
-/* Empty state */
-.wf-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:320px;gap:10px;text-align:center}
-.wf-empty-icon{font-size:28px;opacity:.2}
-.wf-empty p{font-family:var(--mono);font-size:11px;color:#444;line-height:1.6}
-
-/* Scene switching */
-.wf-scene{display:none;flex-direction:column;gap:12px}
+.wf-panel-body{padding:18px;min-height:340px;display:flex;flex-direction:column}
+.wf-scene{display:none;flex-direction:column;gap:11px}
 .wf-scene.active{display:flex;animation:fadeUp .3s ease}
-
-/* Chat messages */
-.wf-user-msg{background:#1C1C28;border:1px solid #2a2a44;border-radius:10px 10px 2px 10px;padding:10px 14px;font-family:var(--mono);font-size:12px;color:#9999bb;align-self:flex-end;max-width:88%;line-height:1.5}
-.wf-ai-wrap{display:flex;flex-direction:column;gap:0}
-.wf-ai-hd{display:flex;align-items:center;gap:7px;margin-bottom:10px}
-.wf-ai-logo{width:18px;height:18px;border-radius:5px;background:linear-gradient(135deg,#1E61F0 0%,#7C3AED 100%);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.wf-ai-logo svg{width:10px;height:10px}
-.wf-ai-name{font-size:11px;color:#666;font-family:var(--mono);font-weight:600}
+.wf-user-msg{background:#1C1C28;border:1px solid #2a2a44;border-radius:10px 10px 2px 10px;padding:10px 13px;font-family:var(--mono);font-size:12px;color:#9999bb;align-self:flex-end;max-width:90%;line-height:1.5}
+.wf-ai-wrap{display:flex;flex-direction:column}
+.wf-ai-hd{display:flex;align-items:center;gap:7px;margin-bottom:9px}
+.wf-ai-logo{width:17px;height:17px;border-radius:4px;background:linear-gradient(135deg,#1E61F0,#7C3AED);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.wf-ai-logo svg{width:9px;height:9px}
+.wf-ai-name{font-size:11px;color:#555;font-family:var(--mono);font-weight:600}
 .wf-ai-badge{font-size:9px;color:#4ade80;font-family:var(--mono);margin-left:auto;background:rgba(74,222,128,.1);padding:2px 7px;border-radius:4px;border:1px solid rgba(74,222,128,.2)}
-.wf-ai-body{background:#161618;border:1px solid #242428;border-radius:4px 12px 12px 12px;padding:14px 16px;font-family:var(--mono);font-size:12px;line-height:1.9;color:#888}
+.wf-ai-body{background:#161618;border:1px solid #242428;border-radius:3px 12px 12px 12px;padding:13px 15px;font-family:var(--mono);font-size:12px;line-height:1.9;color:#888}
 .wf-line{display:block}
-.wf-line.dim{color:#444}
-.wf-line.hi{color:#e0e0e0;font-weight:500}
+.wf-line.dim{color:#3a3a3a}
+.wf-line.hi{color:#ddd;font-weight:500}
 .wf-line.blu{color:#7aa7ff}
 .wf-line.grn{color:#4ade80}
 .wf-line.org{color:#fbbf24}
 .wf-line.red{color:#f87171}
-.wf-line.ind{padding-left:16px}
-.wf-line.ind2{padding-left:32px}
-.wf-line.sp{display:block;height:6px}
-.wf-divider{display:block;height:1px;background:#242428;margin:6px 0}
-
-/* Stream-in animation */
-@keyframes streamIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
-.wf-stream .wf-line,.wf-stream .wf-divider{opacity:0;animation:streamIn .22s ease forwards}
+.wf-line.ind{padding-left:14px}
+.wf-line.sp{display:block;height:5px}
+.wf-divider{display:block;height:1px;background:#242428;margin:5px 0}
+.wf-stream .wf-line,.wf-stream .wf-divider{opacity:0;animation:streamIn .2s ease forwards}
 .wf-stream .wf-line:nth-child(1){animation-delay:.05s}
 .wf-stream .wf-line:nth-child(2){animation-delay:.18s}
 .wf-stream .wf-line:nth-child(3){animation-delay:.32s}
@@ -305,58 +207,166 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
 .wf-stream .wf-line:nth-child(13){animation-delay:1.72s}
 .wf-stream .wf-line:nth-child(14){animation-delay:1.86s}
 .wf-stream .wf-line:nth-child(15){animation-delay:2.00s}
-@keyframes blinkCursor{0%,100%{opacity:1}50%{opacity:0}}
 .wf-cursor{display:inline-block;width:6px;height:12px;background:var(--accent);vertical-align:middle;margin-left:2px;border-radius:1px;animation:blinkCursor .85s step-start infinite}
 
-/* Differentiation */
-.diff-section-wrap{background:#FAFAF8;padding:96px 24px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.diff-section-inner{max-width:960px;margin:0 auto}
-.diff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:48px;background:var(--border);border-radius:16px;overflow:hidden}
-.diff-card{background:var(--bg-card);padding:36px 28px;text-align:center}
-.diff-card .tool-name{font-size:13px;font-weight:600;color:var(--text-light);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
-.diff-card .diff-what{font-size:17px;font-weight:600;color:var(--text-primary);line-height:1.4}
-.diff-card.highlight{background:var(--bg-dark)}
-.diff-card.highlight .tool-name{color:var(--accent)}
-.diff-card.highlight .diff-what{color:#fff}
-.diff-punchline{font-size:17px;font-weight:600;color:var(--text-secondary);text-align:center;margin-top:32px;max-width:620px;margin-left:auto;margin-right:auto}
+/* Social proof */
+.social-proof{background:#fff;padding:0 24px 52px;border-bottom:1px solid var(--border)}
+.sp-inner{max-width:880px;margin:0 auto;text-align:center}
+.sp-eyebrow{font-size:13px;font-weight:500;color:var(--text-light);margin-bottom:26px;letter-spacing:.01em}
+.logo-row{display:flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:0}
+.logo-item{display:flex;align-items:center;justify-content:center;padding:20px 0;border-right:1px solid var(--border);flex:1;min-height:64px}
+.logo-item:last-child{border-right:none}
+.logo-img{height:21px;width:auto;max-width:86px;object-fit:contain;filter:grayscale(100%) opacity(30%);transition:filter .2s}
+.logo-item:hover .logo-img{filter:grayscale(100%) opacity(52%)}
+.logo-text{font-size:11px;font-weight:700;letter-spacing:.04em;color:#C0BFB9;text-transform:uppercase}
 
+/* Traction section */
+.traction-section{background:#F7F6F2;padding:80px 24px;border-bottom:1px solid var(--border)}
+.traction-inner{max-width:1000px;margin:0 auto}
+.traction-header{text-align:center;margin-bottom:40px}
+.section-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:rgba(30,97,240,.08);padding:4px 12px;border-radius:20px;margin-bottom:14px}
+.traction-header h2{font-size:clamp(24px,3.5vw,36px);font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-bottom:8px}
+.traction-header p{font-size:16px;color:var(--text-secondary)}
+.traction-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tr-card{background:#fff;border-radius:16px;overflow:hidden;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.tr-card-vis{height:110px;padding:14px 14px 0;display:flex;align-items:flex-end;overflow:hidden}
+.tr-card-vis.arrive{background:linear-gradient(to bottom,#EFF6FF,#fff)}
+.tr-card-vis.stuck{background:linear-gradient(to bottom,#FFF7ED,#fff)}
+.tr-card-vis.next{background:linear-gradient(to bottom,#F0FDF4,#fff)}
+.tr-card-body{padding:16px 18px 20px}
+.tr-card-num{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px;display:block}
+.tr-card.arrive .tr-card-num{color:#2563EB}
+.tr-card.stuck .tr-card-num{color:#D97706}
+.tr-card.next .tr-card-num{color:#16A34A}
+.tr-card-title{font-size:15px;font-weight:700;line-height:1.3;margin-bottom:9px;letter-spacing:-.01em;color:var(--text-primary)}
+.tr-card-points{list-style:none;display:flex;flex-direction:column;gap:5px}
+.tr-card-points li{font-size:12.5px;color:var(--text-secondary);line-height:1.45;display:flex;gap:7px;align-items:flex-start}
+.tr-card.arrive .tr-card-points li::before{content:'↑';color:#60A5FA;flex-shrink:0;font-weight:700}
+.tr-card.stuck .tr-card-points li::before{content:'·';color:#FCA5A5;flex-shrink:0;font-weight:900;font-size:17px;line-height:1}
+.tr-card.next .tr-card-points li::before{content:'→';color:#22C55E;flex-shrink:0;font-weight:700}
 
-/* Security (light background) */
+/* Why Switch */
+.why-switch-section{background:var(--bg-dark);padding:96px 24px}
+.why-switch-inner{max-width:900px;margin:0 auto}
+.why-switch-inner h2{font-size:clamp(26px,3.8vw,38px);font-weight:700;line-height:1.1;letter-spacing:-.03em;color:#fff;text-align:center;margin-bottom:14px}
+.why-switch-inner .ws-sub{font-size:16px;color:var(--text-muted-dark);text-align:center;margin-bottom:52px;line-height:1.5}
+.ws-cols{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border-dark);border-radius:16px;overflow:hidden}
+.ws-col{padding:40px}
+.ws-col.theirs{background:#141416}
+.ws-col.ours{background:#0B1424}
+.ws-col-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:22px;display:block}
+.ws-col.theirs .ws-col-label{color:#888}
+.ws-col.ours .ws-col-label{color:var(--accent)}
+.ws-items{list-style:none;display:flex;flex-direction:column;gap:14px}
+.ws-item,.ws-items li{display:flex;align-items:flex-start;gap:12px;font-size:14.5px;line-height:1.45}
+.ws-item-icon{font-size:12px;flex-shrink:0;margin-top:2px;width:16px;text-align:center}
+.ws-col.theirs .ws-item,.ws-col.theirs .ws-items li{color:#C8C7C0}
+.ws-col.theirs .ws-item-icon{color:#888}
+.ws-col.ours .ws-item,.ws-col.ours .ws-items li{color:#EEEEE8}
+.ws-col.ours .ws-item-icon{color:#4ade80}
+.ws-closer{font-size:16px;font-weight:600;color:var(--text-muted-dark);text-align:center;margin-top:40px;line-height:1.5}
+.ws-closer span{color:#fff}
+
+/* Product breadth */
+.breadth-section{background:#fff;padding:72px 24px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.breadth-inner{max-width:960px;margin:0 auto}
+.breadth-header{text-align:center;margin-bottom:30px}
+.breadth-header h2{font-size:clamp(20px,2.6vw,26px);font-weight:700;letter-spacing:-.03em;margin-bottom:6px}
+.breadth-header p{font-size:15px;color:var(--text-secondary)}
+.breadth-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.breadth-card{background:#fff;padding:19px 10px;text-align:center;transition:background .15s;cursor:default}
+.breadth-card:hover{background:#FAFAF8}
+.breadth-icon{font-size:17px;margin-bottom:7px;display:block}
+.breadth-name{font-size:11px;font-weight:700;color:var(--text-primary);margin-bottom:3px;line-height:1.3}
+.breadth-desc{font-size:10px;color:var(--text-light);line-height:1.4}
+
+/* Teams use cases */
+.teams-section{background:#FAFAF8;padding:96px 24px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.teams-inner{max-width:1040px;margin:0 auto}
+.teams-header{text-align:center;margin-bottom:52px}
+.teams-header h2{font-size:clamp(26px,3.8vw,38px);font-weight:700;line-height:1.1;letter-spacing:-.03em;margin-bottom:12px}
+.teams-header p{font-size:17px;color:var(--text-secondary);max-width:500px;margin:0 auto}
+.teams-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.team-card{background:#fff;border:1px solid var(--border);border-radius:18px;overflow:hidden}
+.team-card-vis{height:160px;position:relative;overflow:hidden}
+.team-card-body{padding:22px 24px 26px}
+.team-card-role{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;display:block}
+.team-card.product .team-card-role{color:#7C3AED}
+.team-card.growth .team-card-role{color:#D97706}
+.team-card.engineering .team-card-role{color:#0EA5E9}
+.team-card-title{font-size:16px;font-weight:700;line-height:1.3;margin-bottom:12px;letter-spacing:-.01em}
+.team-card-points{list-style:none;display:flex;flex-direction:column;gap:6px}
+.team-card-points li{font-size:13px;color:var(--text-secondary);line-height:1.4;display:flex;gap:8px;align-items:flex-start}
+.team-card.product .team-card-points li::before{content:'→';color:#7C3AED;flex-shrink:0;font-weight:700}
+.team-card.growth .team-card-points li::before{content:'→';color:#D97706;flex-shrink:0;font-weight:700}
+.team-card.engineering .team-card-points li::before{content:'→';color:#0EA5E9;flex-shrink:0;font-weight:700}
+/* Product card: priority list */
+.prio-vis{padding:14px 16px;background:#F5F3FF;height:100%;display:flex;flex-direction:column;gap:7px}
+.prio-item{background:#fff;border:1px solid #E5E7EB;border-radius:9px;padding:8px 11px;display:flex;align-items:center;gap:9px;animation:fadeUp .4s ease both}
+.prio-item:nth-child(1){animation-delay:.1s;border-color:#7C3AED;box-shadow:0 0 0 1px rgba(124,58,237,.12)}
+.prio-item:nth-child(2){animation-delay:.25s}
+.prio-item:nth-child(3){animation-delay:.4s}
+.prio-rank{font-size:11px;font-weight:700;font-family:var(--mono);width:18px;text-align:center;flex-shrink:0}
+.prio-item:nth-child(1) .prio-rank{color:#7C3AED}
+.prio-item:nth-child(2) .prio-rank,.prio-item:nth-child(3) .prio-rank{color:#9CA3AF}
+.prio-label{font-size:12px;font-weight:600;color:var(--text-primary);flex:1}
+.prio-signals{display:flex;gap:4px;flex-wrap:wrap}
+.prio-sig{font-size:9px;padding:2px 7px;border-radius:12px;font-weight:600;font-family:var(--mono)}
+.prio-sig.replay{background:#EDE9FE;color:#7C3AED}
+.prio-sig.exp{background:#D1FAE5;color:#065F46}
+.prio-sig.nps{background:#FEF3C7;color:#92400E}
+.prio-sig.gap{background:#E0F2FE;color:#0369A1}
+/* Growth card: trigger moment */
+.trigger-vis{padding:18px 16px;background:#FFFBEB;height:100%;display:flex;flex-direction:column;gap:10px;justify-content:center}
+.trigger-row{display:flex;align-items:center;gap:10px}
+.trigger-user{background:#FEF3C7;border:1px solid #FCD34D;border-radius:8px;padding:7px 11px;font-size:11px;font-weight:600;color:#92400E;font-family:var(--mono);white-space:nowrap}
+.trigger-arrow{font-size:14px;color:#D97706;flex-shrink:0}
+.trigger-guide{background:#fff;border:1.5px solid #F59E0B;border-radius:8px;padding:7px 11px;font-size:11px;font-weight:600;color:#78350F;flex:1;animation:fadeUp .4s ease .35s both;opacity:0}
+.trigger-badge{background:#ECFDF5;border:1px solid #6EE7B7;border-radius:20px;padding:4px 13px;font-size:10px;font-weight:700;color:#065F46;font-family:var(--mono);animation:fadeUp .4s ease .75s both;opacity:0;align-self:flex-start;margin-left:28px}
+/* Engineering card: rollout panel */
+.rollout-vis{padding:12px 14px;background:#EFF6FF;height:100%;display:flex;flex-direction:column;gap:8px}
+.rollout-flag{background:#fff;border:1px solid #BFDBFE;border-radius:9px;padding:7px 11px;display:flex;align-items:center;gap:8px}
+.rollout-flag-name{font-size:11px;font-weight:600;color:var(--text-primary);font-family:var(--mono);flex:1}
+.rollout-pct{font-size:11px;font-weight:700;color:#2563EB;font-family:var(--mono)}
+.rollout-bar-track{height:5px;background:#BFDBFE;border-radius:3px;overflow:hidden}
+.rollout-bar-fill{height:100%;border-radius:3px;background:#2563EB;transform-origin:left;animation:growBar .9s ease .2s both}
+.rollout-metric{display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid #BFDBFE;border-radius:8px;padding:6px 11px}
+.rollout-metric-label{font-size:10px;color:#64748B;font-family:var(--mono)}
+.rollout-metric-val{font-size:11px;font-weight:700;color:#15803D;font-family:var(--mono)}
+
+/* Security */
 .security-section{background:#F7F6F2;padding:80px 24px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
 .security-inner{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
-.security-left h2{font-size:clamp(24px,3.5vw,34px);font-weight:700;letter-spacing:-.03em;color:var(--text-primary);line-height:1.15;margin-bottom:12px}
-.security-left p{font-size:15px;color:var(--text-secondary);line-height:1.6;margin-bottom:28px}
-.security-badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
-.sec-badge{display:flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--border);padding:6px 12px;border-radius:8px;font-size:11px;font-weight:600;color:var(--text-primary);letter-spacing:.01em}
-.sec-badge-dot{width:6px;height:6px;border-radius:50%;background:#22C55E;flex-shrink:0}
-.security-features{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.sec-feature{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text-secondary);line-height:1.45}
-.sec-feature::before{content:'v';color:#22C55E;font-weight:700;flex-shrink:0;font-size:12px;margin-top:1px}
+.security-left h2{font-size:clamp(24px,3.2vw,32px);font-weight:700;letter-spacing:-.03em;color:var(--text-primary);line-height:1.15;margin-bottom:12px}
+.security-left p{font-size:15px;color:var(--text-secondary);line-height:1.6;margin-bottom:26px}
+.security-badges{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:26px}
+.sec-badge{display:flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--border);padding:5px 11px;border-radius:7px;font-size:11px;font-weight:600;color:var(--text-primary)}
+.sec-badge-dot{width:5px;height:5px;border-radius:50%;background:#22C55E;flex-shrink:0}
+.security-features{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.sec-feature{display:flex;align-items:flex-start;gap:7px;font-size:13px;color:var(--text-secondary);line-height:1.45}
+.sec-feature::before{content:'✓';color:#22C55E;font-weight:700;flex-shrink:0;font-size:11px;margin-top:2px}
 .security-right{display:flex;flex-direction:column;gap:10px}
-.sec-cert{background:#fff;border:1px solid var(--border);border-radius:12px;padding:18px 20px;display:flex;align-items:flex-start;gap:14px}
-.sec-cert-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;background:#F5F4F0}
-.sec-cert-label{font-size:13px;font-weight:700;color:var(--text-primary);letter-spacing:-.01em}
+.sec-cert{background:#fff;border:1px solid var(--border);border-radius:11px;padding:16px 18px;display:flex;align-items:flex-start;gap:13px}
+.sec-cert-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;background:#F5F4F0}
+.sec-cert-label{font-size:13px;font-weight:700;color:var(--text-primary)}
 .sec-cert-sub{font-size:12px;color:var(--text-secondary);margin-top:3px;line-height:1.4}
 
 /* Final CTA */
 .final-cta{background:var(--bg-dark);padding:96px 24px;text-align:center}
-.final-inner{max-width:600px;margin:0 auto}
-.final-cta h2{font-size:clamp(28px,4.5vw,44px);font-weight:700;line-height:1.1;letter-spacing:-.035em;color:#fff;margin-bottom:24px}
+.final-inner{max-width:560px;margin:0 auto}
+.final-cta h2{font-size:clamp(28px,4.5vw,44px);font-weight:700;line-height:1.1;letter-spacing:-.035em;color:#fff;margin-bottom:16px}
 .final-cta h2 .accent{color:var(--accent)}
-.btn-final{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border:none;padding:16px 36px;border-radius:12px;font-size:17px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:background .2s,transform .15s}
+.final-cta p{font-size:17px;color:var(--text-muted-dark);margin-bottom:32px;line-height:1.6}
+.btn-final{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border:none;padding:15px 34px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:background .2s,transform .15s}
 .btn-final:hover{background:var(--accent-hover);transform:translateY(-1px)}
 
-/* CTAs */
+/* Shared CTAs */
 .scta{text-align:center;margin-top:40px}
 .scta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border:none;padding:12px 28px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:background .2s,transform .15s}
 .scta-btn:hover{background:var(--accent-hover);transform:translateY(-1px)}
-.scta-btn svg,.scta-ghost svg,.scta-dark svg{transition:transform .2s}
-.scta-btn:hover svg,.scta-ghost:hover svg{transform:translateX(3px)}
-.scta-ghost{display:inline-flex;align-items:center;gap:8px;background:none;color:var(--accent);border:1px solid var(--accent);padding:12px 28px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:all .2s}
-.scta-ghost:hover{background:var(--accent);color:#fff}
 
-/* Amplitude Footer */
-.amp-footer{background:#0C0C0E;border-top:1px solid #1E1E22;padding:64px 32px 32px;color:#fff}
+/* Footer */
+.amp-footer{background:#0C0C0E;border-top:1px solid #1E1E22;padding:64px 32px 32px}
 .amp-footer-inner{max-width:1120px;margin:0 auto}
 .amp-footer-top{display:grid;grid-template-columns:auto 1fr;gap:80px;margin-bottom:56px;align-items:start}
 .amp-footer-brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;letter-spacing:-.02em;color:#fff;margin-bottom:16px}
@@ -364,7 +374,7 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
 .amp-footer-cols{display:grid;grid-template-columns:repeat(5,1fr);gap:40px}
 .amp-footer-col h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#56554E;margin-bottom:16px}
 .amp-footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
-.amp-footer-col ul li a{font-size:13px;color:#78776F;text-decoration:none;transition:color .2s;line-height:1.4}
+.amp-footer-col ul li a{font-size:13px;color:#78776F;text-decoration:none;transition:color .2s}
 .amp-footer-col ul li a:hover{color:#EEEEE8}
 .amp-footer-bottom{border-top:1px solid #1E1E22;padding-top:28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
 .amp-footer-legal{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
@@ -394,331 +404,176 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
   </div>
 </nav>
 
-<!-- 1. Hero -->
+<!-- 1. HERO -->
 <section class="hero">
   <div class="hero-grid"></div>
   <div class="hero-glow"></div>
   <div class="hero-content">
-    <h1 class="fade-up">See what changed.<br>Fix what broke.<br><span class="accent">Ship what works.</span></h1>
-    <p class="subtitle fade-up-d1">Track every release, catch issues fast, and know what to build next.</p>
+    <h1 class="fade-up">You don't need more data.<br><span class="accent">You need to know what to do.</span></h1>
+    <p class="subtitle fade-up-d1">Most tools show you charts. Amplitude shows where users drop, why it happens, and what to fix next.</p>
+    <p class="hero-clarify fade-up-d2">Analytics, replay, experiments, guides, and AI. All connected.</p>
     <div class="hero-cta fade-up-d2">
       <button class="btn-hero">Start free <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-      <span class="hero-note">No credit card. <span>Data in minutes.</span> Works with your existing stack.</span>
+      <span class="hero-note">No credit card. Data in minutes.</span>
     </div>
   </div>
 </section>
 
-<!-- 2. Hero Visual -->
+<!-- 2. HERO VISUAL: Simple funnel + AI insight -->
 <section class="hero-visual">
   <div class="mock-container">
     <div class="mock-titlebar">
       <div class="mock-dots"><span></span><span></span><span></span></div>
       <div class="mock-tabs">
-        <div class="mock-tab">checkout.tsx</div>
-        <div class="mock-tab active">Terminal</div>
+        <div class="mock-tab">Activation Funnel</div>
+        <div class="mock-tab active">AI Insight</div>
       </div>
     </div>
     <div class="mock-split">
-      <div class="mock-editor">
-        <div class="mock-code-area">
-          <div><span class="ln">14</span><span class="kw">const</span> <span class="vr">CheckoutCTA</span> <span class="op">=</span> () <span class="op">=&gt;</span> {</div>
-          <div><span class="ln">15</span>  <span class="kw">const</span> { <span class="vr">flag</span> } <span class="op">=</span> <span class="fn">useFlag</span>(<span class="str">'checkout_redesign_v2'</span>)</div>
-          <div><span class="ln">16</span>  <span class="kw">return</span> <span class="vr">flag</span> <span class="op">?</span> &lt;<span class="fn">NewCheckout</span> /&gt; <span class="op">:</span> &lt;<span class="fn">LegacyCheckout</span> /&gt;</div>
-          <div><span class="ln">17</span>}</div>
-          <div><span class="ln">18</span></div>
-          <div><span class="ln">19</span><span class="cm">// Deployed 2h ago, watching rollout</span></div>
-          <div><span class="ln">20</span><span class="kw">export default</span> <span class="vr">CheckoutCTA</span></div>
+
+      <!-- Left: Funnel -->
+      <div class="mock-funnel">
+        <div class="mf-hd">
+          <span class="mf-hd-title">Activation Funnel</span>
+          <span class="mf-hd-meta">Last 7 days</span>
         </div>
-        <div class="mock-terminal">
-          <div class="tl"><span class="pr">~/checkout $</span> <span class="cmd">git push origin main</span></div>
-          <div class="tl"><span class="ok">v</span> <span class="cmd">Deployed</span> <span class="fl">checkout_redesign_v2</span> <span class="cmd">to 5% of traffic</span></div>
-          <div class="tl"><span class="ok">v</span> <span class="cmd">Amplitude flag linked, guardrail metrics active</span></div>
-          <div class="tl"><span class="wr">!</span> <span class="wr">Guardrail alert: checkout_completion below threshold</span></div>
+        <div class="mf-step">
+          <span class="mf-step-label">Visit</span>
+          <div class="mf-step-track"><div class="mf-step-fill ok" style="width:100%"></div></div>
+          <span class="mf-step-num">12,400</span>
+        </div>
+        <div class="mf-step">
+          <span class="mf-step-label">Sign up</span>
+          <div class="mf-step-track"><div class="mf-step-fill ok2" style="width:81%"></div></div>
+          <span class="mf-step-num">10,080</span>
+        </div>
+        <div class="mf-step">
+          <span class="mf-step-label">Setup</span>
+          <div class="mf-step-track"><div class="mf-step-fill warn" style="width:57%"></div></div>
+          <span class="mf-step-num">7,068</span>
+        </div>
+        <div class="mf-step">
+          <span class="mf-step-label">Activate</span>
+          <div class="mf-step-track"><div class="mf-step-fill bad" style="width:19%"></div></div>
+          <span class="mf-step-num bad">2,353</span>
+        </div>
+        <div class="mf-drop-callout">
+          <div class="mf-drop-dot"></div>
+          <div class="mf-drop-text"><b>66% of users never activate.</b> Setup-to-activate rate is 3x below benchmark.</div>
         </div>
       </div>
-      <div class="mock-claude">
-        <div class="mock-claude-hd"><span class="cd"></span><span>Claude · Amplitude MCP</span></div>
-        <div class="mock-claude-body">
-          <div class="cm-msg cm-d1"><div class="msg-row"><div class="msg-av msg-av-u">M</div><div class="msg-t msg-t-u">How is checkout_redesign_v2 performing since the deploy?</div></div></div>
-          <div class="cm-msg cm-d2"><div class="msg-row"><div class="msg-av msg-av-c"><i></i></div><div class="msg-t msg-t-c">I pulled your <span class="hl">Amplitude funnel</span> for the flagged cohort. Here's the last 2 hours:</div></div></div>
-          <div class="cm-msg cm-d3">
-            <div class="mf">
-              <div class="mf-bar" style="opacity:.45"><div class="mf-val mf-ok">12.4K</div><div class="mf-fill" style="height:48px;background:#4ade80"></div><div class="mf-lbl">Landing</div></div>
-              <div class="mf-bar" style="opacity:.45"><div class="mf-val mf-ok">3.1K</div><div class="mf-fill" style="height:36px;background:#4ade80"></div><div class="mf-lbl">CTA click</div></div>
-              <div class="mf-bar" style="transform:scale(1.08);transform-origin:bottom center"><div class="mf-val mf-bad" style="font-size:13px;font-weight:700;color:#f87171">890</div><div class="mf-fill" style="height:14px;background:#f87171;box-shadow:0 0 12px rgba(248,113,113,.6)"></div><div class="mf-lbl" style="color:#f87171;font-weight:600">Checkout</div></div>
-              <div class="mf-bar" style="opacity:.45"><div class="mf-val mf-warn">340</div><div class="mf-fill" style="height:8px;background:#fbbf24"></div><div class="mf-lbl">Purchase</div></div>
+
+      <!-- Right: AI insight -->
+      <div class="mock-ai">
+        <div class="mock-ai-hd">
+          <span class="ai-dot"></span>
+          <span>Amplitude · AI Answers</span>
+        </div>
+        <div class="mock-ai-body">
+          <div class="ai-msg ai-d1">
+            <div class="ai-user">Why are users dropping before activation?</div>
+          </div>
+          <div class="ai-msg ai-d2">
+            <div class="ai-response">
+              <div class="ai-resp-hd">
+                <div class="ai-resp-logo"><svg viewBox="0 0 10 10" fill="white"><circle cx="5" cy="5" r="3"/></svg></div>
+                <span class="ai-resp-name">Amplitude</span>
+                <span class="ai-resp-badge">analyzing</span>
+              </div>
+              <div class="ai-resp-body ai-stream">
+                <span class="ai-line hi">62% drop at setup step 2</span>
+                <span class="ai-line sp"></span>
+                <span class="ai-line">847 users tried to connect data. Failed. Left.</span>
+                <span class="ai-line ind dim">Avg 4.2 rage clicks before they leave</span>
+                <span class="ai-line sp"></span>
+                <span class="ai-line grn">Users who complete setup retain 3.2x more</span>
+                <span class="ai-line sp"></span>
+                <span class="ai-line org">Recommendation: guided onboarding flow</span>
+                <span class="ai-line ind dim">Trigger at sign-in for new users</span>
+                <span class="ai-line ind blu">Experiment available: +34% activation in test group<span class="ai-cursor"></span></span>
+              </div>
             </div>
-            <div class="mf-drop" style="background:rgba(248,113,113,.15);border:1px solid rgba(248,113,113,.4);font-weight:700;font-size:12px;color:#f87171"><span>&#9660; 73% drop at checkout &mdash; flagged after 2h</span></div>
           </div>
-          <div class="cm-msg cm-d4"><div class="msg-row"><div class="msg-av msg-av-c"><i></i></div><div class="msg-t msg-t-c"><span class="dr">The new CTA is converting to clicks but losing users at checkout.</span> Session replays show most users abandoning at the address form. It renders below the fold on mobile.</div></div></div>
-          <div class="cm-msg cm-d5"><div class="msg-row"><div class="msg-av msg-av-c"><i></i></div><div class="msg-t msg-t-c">Recommend rolling back the flag or fixing the mobile layout. Want me to <b>open a PR with the fix</b>?</div></div></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 3. Social Proof -->
-<section class="social-proof">
-  <div class="sp-inner">
-    <p class="sp-eyebrow">Trusted by teams building products at scale</p>
-    <div class="logo-grid">
-      <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/squareup.com" alt="Square" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">Square</span></div>
-      <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/clay.com" alt="Clay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">Clay</span></div>
-      <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/doordash.com" alt="DoorDash" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">DoorDash</span></div>
-      <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/walmart.com" alt="Walmart" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">Walmart</span></div>
-      <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/qualtrics.com" alt="Qualtrics" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">Qualtrics</span></div>
-      <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/zoom.us" alt="Zoom" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">Zoom</span></div>
-      <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/capitalone.com" alt="Capital One" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">Capital One</span></div>
-      <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/atlassian.com" alt="Atlassian" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">Atlassian</span></div>
-      <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/autodesk.com" alt="Autodesk" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">Autodesk</span></div>
-      <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/coursera.org" alt="Coursera" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">Coursera</span></div>
-      <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/paloaltonetworks.com" alt="Palo Alto Networks" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">Palo Alto</span></div>
-      <div class="logo-item"><img class="logo-img" src="https://logo.clearbit.com/adidas.com" alt="Adidas" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/><span class="logo-fallback">Adidas</span></div>
-    </div>
-    <p class="sp-stat">Used by thousands of teams to catch issues and ship faster</p>
-  </div>
-</section>
-
-<!-- 4. Real Scenario with Visuals -->
-<section class="aha-section">
-  <div class="aha-inner">
-    <div class="aha-header">
-      <span class="aha-tag">Real example from a live product</span>
-      <h2>Here's what actually happens after you ship</h2>
-      <p>Checkout conversion dropped 51% in 2 hours. Amplitude showed where users dropped off, why it happened, and what to fix.</p>
-    </div>
-    <div class="aha-cards">
-      <!-- Card 1: The crash -->
-      <div class="aha-card problem">
-        <div class="aha-chart problem-chart">
-          <svg class="chart-svg" viewBox="0 0 240 90" preserveAspectRatio="none" style="height:90px">
-            <defs>
-              <linearGradient id="redGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#F87171" stop-opacity=".4"/>
-                <stop offset="100%" stop-color="#F87171" stop-opacity="0"/>
-              </linearGradient>
-            </defs>
-            <line x1="0" y1="20" x2="240" y2="20" stroke="#F5F5F5" stroke-width="1"/>
-            <line x1="0" y1="75" x2="240" y2="75" stroke="#F5F5F5" stroke-width="1"/>
-            <line x1="120" y1="0" x2="120" y2="90" class="deploy-line"/>
-            <text x="122" y="10" class="chart-label">Deploy</text>
-            <text x="4" y="18" class="chart-label">14%</text>
-            <text x="4" y="73" class="chart-label">7%</text>
-            <polygon points="120,20 120,20 180,72 240,74 240,90 120,90" class="crash-fill"/>
-            <polyline points="0,20 30,19 60,21 90,19 120,20" class="steady-line"/>
-            <polyline points="120,20 150,48 180,72 210,74 240,74" class="crash-line"/>
-            <text x="200" y="68" class="chart-label-red">6.9%</text>
-          </svg>
-        </div>
-        <div class="aha-card-body">
-          <span class="aha-card-label">What happened</span>
-          <div class="aha-card-title">Checkout conversion dropped 51% within 2 hours of shipping</div>
-          <ul class="aha-card-points">
-            <li>Revenue metrics turned red fast</li>
-            <li>Nobody knew why</li>
-            <li>Guardrail fired, rollout paused</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="aha-arrow">&#8594;</div>
-
-      <!-- Card 2: The funnel -->
-      <div class="aha-card detect">
-        <div class="aha-chart detect-chart">
-          <svg class="chart-svg" viewBox="0 0 240 90" preserveAspectRatio="none" style="height:90px">
-            <text x="4" y="16" class="chart-label">Landing</text>
-            <text x="4" y="36" class="chart-label">CTA click</text>
-            <text x="4" y="56" class="chart-label">Checkout</text>
-            <text x="4" y="76" class="chart-label">Purchase</text>
-            <rect x="68" y="7" width="168" height="12" rx="3" fill="#BFDBFE" class="bar-anim bar-1"/>
-            <rect x="68" y="27" width="104" height="12" rx="3" fill="#93C5FD" class="bar-anim bar-2"/>
-            <rect x="68" y="43" width="168" height="4" rx="2" fill="#FEE2E2"/>
-            <text x="72" y="51" style="font-family:var(--mono);font-size:8px;fill:#DC2626;font-weight:700">73% drop-off</text>
-            <rect x="68" y="47" width="24" height="12" rx="3" fill="#FCA5A5" class="bar-anim bar-3"/>
-            <rect x="68" y="67" width="12" height="12" rx="3" fill="#FDBA74" class="bar-anim bar-4"/>
-            <text x="200" y="17" class="chart-label" style="fill:#3B82F6;font-weight:700">100%</text>
-            <text x="180" y="37" class="chart-label" style="fill:#3B82F6;font-weight:700">62%</text>
-            <text x="98" y="57" class="chart-label" style="fill:#DC2626;font-weight:700">14%</text>
-            <text x="86" y="77" class="chart-label" style="fill:#EA580C;font-weight:700">7%</text>
-          </svg>
-        </div>
-        <div class="aha-card-body">
-          <span class="aha-card-label">What Amplitude showed</span>
-          <div class="aha-card-title">73% drop between CTA click and checkout start</div>
-          <ul class="aha-card-points">
-            <li>Control group: only 38% dropped here</li>
-            <li>Session replays pinpointed the cause</li>
-            <li>Address form rendered below the fold on mobile</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="aha-arrow">&#8594;</div>
-
-      <!-- Card 3: The recovery -->
-      <div class="aha-card fix">
-        <div class="aha-chart fix-chart">
-          <svg class="chart-svg" viewBox="0 0 240 90" preserveAspectRatio="none" style="height:90px">
-            <defs>
-              <linearGradient id="greenGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#4ADE80" stop-opacity=".35"/>
-                <stop offset="100%" stop-color="#4ADE80" stop-opacity="0"/>
-              </linearGradient>
-            </defs>
-            <line x1="0" y1="20" x2="240" y2="20" stroke="#F0FDF4" stroke-width="1"/>
-            <line x1="0" y1="75" x2="240" y2="75" stroke="#F0FDF4" stroke-width="1"/>
-            <line x1="100" y1="0" x2="100" y2="90" class="deploy-line" style="stroke:#D1FAE5"/>
-            <text x="102" y="10" class="chart-label" style="fill:#22C55E">Fix shipped</text>
-            <text x="4" y="18" class="chart-label">14%</text>
-            <text x="4" y="73" class="chart-label">7%</text>
-            <polygon points="100,74 140,52 180,26 220,20 240,20 240,90 100,90" class="recover-fill"/>
-            <polyline points="0,74 30,75 60,73 100,74" stroke="#FCA5A5" stroke-width="2" fill="none" stroke-dasharray="200" stroke-dashoffset="200" style="animation:drawLine .8s ease .1s forwards"/>
-            <polyline points="100,74 140,52 180,26 220,20 240,20" class="recover-line"/>
-            <text x="10" y="70" style="font-family:var(--mono);font-size:9px;fill:#FCA5A5">6.9%</text>
-            <text x="200" y="16" class="chart-label-green">14.2%</text>
-          </svg>
-        </div>
-        <div class="aha-card-body">
-          <span class="aha-card-label">What happened next</span>
-          <div class="aha-card-title">Flag rolled back. Fix shipped. Conversion recovered.</div>
-          <ul class="aha-card-points">
-            <li>Scrolled the form into view, re-enabled the flag</li>
-            <li>Conversion back to 14.2% within 20 minutes</li>
-            <li>Zero revenue lost after the fix</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 5. Core Value (new benefit-oriented headline) -->
-<section class="section">
-  <div class="core-value-grid">
-    <div class="core-value-text">
-      <h2>Know what changed before your next sprint.</h2>
-      <p class="lead">Find where users drop off, what changed, and how it compares to your control so you know what actually worked.</p>
-      <ul class="core-value-list">
-        <li><span class="dot"></span><span><span class="emphasis">No more guessing</span></span></li>
-        <li><span class="dot"></span><span><span class="emphasis">Every change is measurable</span></span></li>
-        <li><span class="dot"></span><span><span class="emphasis">See where users drop and why</span></span></li>
-        <li><span class="dot"></span><span><span class="emphasis">Ship the fix</span></span></li>
-      </ul>
-    </div>
-    <div>
-      <div class="funnel-frame">
-        <div class="funnel-topbar">
-          <span class="fdot"></span><span class="fdot"></span><span class="fdot"></span>
-          <span class="ftitle">Funnel · checkout_redesign_v2</span>
-        </div>
-        <div class="funnel-body">
-          <div class="funnel-header">
-            <h4>Checkout Funnel (flagged cohort, last 24h)</h4>
-            <span class="funnel-meta">Apr 24, 2026</span>
-          </div>
-          <div class="funnel-steps">
-            <div class="funnel-step"><span class="funnel-step-label">Landing page</span><div class="funnel-step-bar-wrap"><div class="funnel-step-bar good" style="width:100%"></div></div><span class="funnel-step-val good">12,847</span></div>
-            <div class="funnel-step"><span class="funnel-step-label">CTA clicked</span><div class="funnel-step-bar-wrap"><div class="funnel-step-bar ok" style="width:62%"></div></div><span class="funnel-step-val good">7,965</span></div>
-            <div class="funnel-step"><span class="funnel-step-label">Checkout started</span><div class="funnel-step-bar-wrap"><div class="funnel-step-bar bad" style="width:14%"></div></div><span class="funnel-step-val bad">1,798</span></div>
-            <div class="funnel-step"><span class="funnel-step-label">Purchase complete</span><div class="funnel-step-bar-wrap"><div class="funnel-step-bar warn" style="width:7%"></div></div><span class="funnel-step-val bad">891</span></div>
-          </div>
-          <div class="funnel-alert">
-            <span class="funnel-alert-icon">!</span>
-            <span class="funnel-alert-text"><b>77% drop-off between CTA click and checkout start.</b> Control group: 38% at this step. Session replays: address form renders below the fold on mobile.</span>
-          </div>
-          <div class="funnel-conversion">
-            <div class="funnel-stat"><div class="funnel-stat-label">Conversion rate</div><div class="funnel-stat-val red">6.9%</div></div>
-            <div class="funnel-stat"><div class="funnel-stat-label">Control rate</div><div class="funnel-stat-val blue">14.2%</div></div>
-            <div class="funnel-stat"><div class="funnel-stat-label">Users impacted</div><div class="funnel-stat-val red">6,167</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="scta"><button class="scta-btn">Find your drop-off <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
-</section>
-
-<!-- 6. Workflow -->
+<!-- 3. WORKFLOW / MCP — moved up as key differentiator -->
 <section class="workflow-section">
   <div class="workflow-inner">
-
-    <!-- LEFT: copy + question buttons -->
     <div class="wf-left">
-      <h2 style="font-size:clamp(26px,3.5vw,38px);font-weight:700;line-height:1.1;letter-spacing:-.03em;margin-bottom:14px">Ask questions about your product<br>without leaving your workflow</h2>
-      <p class="section-sub" style="margin-bottom:0">Your analytics, session data, and feature flags, queryable from the tools you already use.</p>
-
+      <h2>Ask your product what's happening.<br>Get answers instantly.</h2>
+      <p class="wf-sub">No dashboards. No digging. Just answers from your data, right where you work.</p>
       <div class="wf-questions">
-        <button class="wf-q" data-q="1" onclick="wfSelect(1)">
+        <button class="wf-q active" data-q="1" onclick="wfSelect(1)">
           <span class="pchar">&gt;</span>
-          <span class="wf-qtext">"Why did signups drop this week?"</span>
+          <span class="wf-qtext">"Why are new users dropping before setup?"</span>
           <span class="wf-qarrow">&#8594;</span>
         </button>
         <button class="wf-q" data-q="2" onclick="wfSelect(2)">
           <span class="pchar">&gt;</span>
-          <span class="wf-qtext">"Show me users who hit this error"</span>
+          <span class="wf-qtext">"Show me sessions where users got stuck."</span>
           <span class="wf-qarrow">&#8594;</span>
         </button>
         <button class="wf-q" data-q="3" onclick="wfSelect(3)">
           <span class="pchar">&gt;</span>
-          <span class="wf-qtext">"What should we launch next?"</span>
+          <span class="wf-qtext">"Which source brings users who retain?"</span>
+          <span class="wf-qarrow">&#8594;</span>
+        </button>
+        <button class="wf-q" data-q="4" onclick="wfSelect(4)">
+          <span class="pchar">&gt;</span>
+          <span class="wf-qtext">"What should we build next?"</span>
           <span class="wf-qarrow">&#8594;</span>
         </button>
       </div>
-
-      <p class="workflow-note" style="margin-top:18px">No dashboards. No context-switching. Just answers.</p>
-
-      <div style="margin-top:32px">
-        <div style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-light);margin-bottom:14px">Works inside your existing tools</div>
-        <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:32px">
-          <span class="tool-chip" style="font-size:13px;padding:8px 14px"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M9 2L10.5 6.5H15L11.25 9.5L12.75 14L9 11L5.25 14L6.75 9.5L3 6.5H7.5L9 2Z" fill="#D97757"/></svg>Claude</span>
-          <span class="tool-chip" style="font-size:13px;padding:8px 14px"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="14" height="14" rx="4" fill="#000"/><path d="M6.5 12V7.5C6.5 6.67 7.17 6 8 6H10C10.83 6 11.5 6.67 11.5 7.5V12" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>Cursor</span>
-          <span class="tool-chip" style="font-size:13px;padding:8px 14px"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M9 1C4.58 1 1 4.58 1 9C1 12.54 3.29 15.53 6.47 16.59C6.87 16.66 7.02 16.42 7.02 16.21V14.78C4.73 15.27 4.26 13.71 4.26 13.71C3.89 12.77 3.35 12.53 3.35 12.53C2.6 12.02 3.4 12.03 3.4 12.03C4.22 12.09 4.65 12.87 4.65 12.87C5.37 14.1 6.55 13.74 7.05 13.53C7.12 13.01 7.33 12.66 7.56 12.45C5.78 12.24 3.92 11.5 3.92 8.46C3.92 7.56 4.24 6.83 4.67 6.26C4.59 6.04 4.32 5.22 4.74 4.1C4.74 4.1 5.43 3.87 7.01 4.93C7.68 4.74 8.35 4.65 9.02 4.64C9.69 4.65 10.36 4.74 11.03 4.93C12.61 3.87 13.3 4.1 13.3 4.1C13.72 5.22 13.45 6.04 13.37 6.26C13.8 6.83 14.12 7.56 14.12 8.46C14.12 11.51 12.25 12.24 10.47 12.44C10.76 12.7 11.01 13.19 11.01 13.95V16.21C11.01 16.42 11.16 16.67 11.57 16.59C14.74 15.53 17.02 12.54 17.02 9C17 4.58 13.42 1 9 1Z" fill="#333"/></svg>GitHub</span>
-          <span class="tool-chip" style="font-size:13px;padding:8px 14px"><svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M3 13.5L9 3L15 13.5" stroke="#5E6AD2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10H13" stroke="#5E6AD2" stroke-width="2" stroke-linecap="round"/></svg>Linear</span>
-          <span class="tool-chip" style="font-size:13px;padding:8px 14px;color:var(--text-light);border-style:dashed">+ any MCP tool</span>
-        </div>
-        <!-- Install pill -->
-        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-          <div class="install-pill">
-            <button class="install-btn" style="padding:10px 20px;font-size:13px">
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8.5 1L3 9.5H7.5L7 15L13 6.5H8.5L8.5 1Z" fill="currentColor"/></svg>
-              Install via AI
+      <p class="wf-note">Works inside Cursor, Claude, GitHub, and any MCP-compatible tool.</p>
+      <div class="tool-chips">
+        <span class="tool-chip">
+          <svg width="14" height="14" viewBox="0 0 18 18" fill="none"><path d="M9 2L10.5 6.5H15L11.25 9.5L12.75 14L9 11L5.25 14L6.75 9.5L3 6.5H7.5L9 2Z" fill="#D97757"/></svg>Claude
+        </span>
+        <span class="tool-chip">
+          <svg width="14" height="14" viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="14" height="14" rx="4" fill="#000"/><path d="M6.5 12V7.5C6.5 6.67 7.17 6 8 6H10C10.83 6 11.5 6.67 11.5 7.5V12" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>Cursor
+        </span>
+        <span class="tool-chip">
+          <svg width="14" height="14" viewBox="0 0 18 18" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M9 1C4.58 1 1 4.58 1 9C1 12.54 3.29 15.53 6.47 16.59C6.87 16.66 7.02 16.42 7.02 16.21V14.78C4.73 15.27 4.26 13.71 4.26 13.71C3.89 12.77 3.35 12.53 3.35 12.53C2.6 12.02 3.4 12.03 3.4 12.03C4.22 12.09 4.65 12.87 4.65 12.87C5.37 14.1 6.55 13.74 7.05 13.53C7.12 13.01 7.33 12.66 7.56 12.45C5.78 12.24 3.92 11.5 3.92 8.46C3.92 7.56 4.24 6.83 4.67 6.26C4.59 6.04 4.32 5.22 4.74 4.1C4.74 4.1 5.43 3.87 7.01 4.93C7.68 4.74 8.35 4.65 9.02 4.64C9.69 4.65 10.36 4.74 11.03 4.93C12.61 3.87 13.3 4.1 13.3 4.1C13.72 5.22 13.45 6.04 13.37 6.26C13.8 6.83 14.12 7.56 14.12 8.46C14.12 11.51 12.25 12.24 10.47 12.44C10.76 12.7 11.01 13.19 11.01 13.95V16.21C11.01 16.42 11.16 16.67 11.57 16.59C14.74 15.53 17.02 12.54 17.02 9C17 4.58 13.42 1 9 1Z" fill="#333"/></svg>GitHub
+        </span>
+        <span class="tool-chip">
+          <svg width="14" height="14" viewBox="0 0 18 18" fill="none"><path d="M3 13.5L9 3L15 13.5" stroke="#5E6AD2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10H13" stroke="#5E6AD2" stroke-width="2" stroke-linecap="round"/></svg>Linear
+        </span>
+        <span class="tool-chip" style="color:var(--text-light);border-style:dashed">+ any MCP tool</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        <div class="install-pill">
+          <button class="install-btn">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8.5 1L3 9.5H7.5L7 15L13 6.5H8.5L8.5 1Z" fill="currentColor"/></svg>
+            Install via AI
+          </button>
+          <span class="install-cmd">
+            npx @amplitude/wizard
+            <button class="install-copy" title="Copy" onclick="navigator.clipboard.writeText('npx @amplitude/wizard');this.innerHTML='<svg width=15 height=15 viewBox=\'0 0 16 16\' fill=none><path d=\'M3 8l3.5 3.5L13 4\' stroke=\'#4ade80\' stroke-width=1.5 stroke-linecap=round stroke-linejoin=round/></svg>'">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3 11V3.5C3 2.67 3.67 2 4.5 2H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
             </button>
-            <span class="install-cmd" style="font-size:13px;padding:10px 16px">
-              npx @amplitude/wizard
-              <button class="install-copy" title="Copy" onclick="navigator.clipboard.writeText('npx @amplitude/wizard');this.innerHTML='<svg width=16 height=16 viewBox=\'0 0 16 16\' fill=none><path d=\'M3 8l3.5 3.5L13 4\' stroke=\'#4ade80\' stroke-width=1.5 stroke-linecap=round stroke-linejoin=round/></svg>'"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3 11V3.5C3 2.67 3.67 2 4.5 2H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button>
-            </span>
-          </div>
-          <span style="font-size:12px;color:var(--text-light);font-family:var(--mono)">Install once. Data in minutes.</span>
+          </span>
         </div>
+        <span style="font-size:12px;color:var(--text-light);font-family:var(--mono)">Install once. Data in minutes.</span>
       </div>
     </div>
 
-    <!-- RIGHT: interactive IDE panel -->
+    <!-- RIGHT: interactive panel, pre-loaded with scene 1 -->
     <div class="wf-right">
       <div class="wf-panel">
-        <!-- Panel titlebar -->
         <div class="wf-panel-hd">
           <div class="wf-panel-dots"><span></span><span></span><span></span></div>
-          <span class="wf-panel-context" id="wf-ctx">cursor &mdash; Chat</span>
-          <span class="wf-panel-tab" id="wf-tool-tab">Amplitude MCP</span>
+          <span class="wf-panel-ctx" id="wf-ctx">Cursor — Chat</span>
+          <span class="wf-panel-tab">Amplitude MCP</span>
         </div>
-
-        <!-- Panel body -->
         <div class="wf-panel-body">
 
-          <!-- Empty state -->
-          <div class="wf-empty" id="wf-empty">
-            <div class="wf-empty-icon">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            </div>
-            <p>Click a question to see<br>Amplitude answer it live</p>
-          </div>
-
-          <!-- Scene 1: "Why did signups drop this week?" — Cursor -->
-          <div class="wf-scene" id="wf-scene-1">
-            <div class="wf-user-msg">&gt; "Why did signups drop this week?"</div>
+          <!-- Scene 1 (default active) -->
+          <div class="wf-scene active" id="wf-scene-1">
+            <div class="wf-user-msg">&gt; "Why are new users dropping before setup?"</div>
             <div class="wf-ai-wrap">
               <div class="wf-ai-hd">
                 <div class="wf-ai-logo"><svg viewBox="0 0 10 10" fill="white"><circle cx="5" cy="5" r="3"/></svg></div>
@@ -726,29 +581,26 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
                 <span class="wf-ai-badge">via MCP</span>
               </div>
               <div class="wf-ai-body wf-stream">
-                <span class="wf-line dim">Querying signup funnel (last 7d vs prior 7d)...</span>
+                <span class="wf-line dim">Analyzing signup-to-setup funnel (last 7d)...</span>
                 <span class="wf-line sp"></span>
-                <span class="wf-line hi">Signup completion dropped 23%</span>
-                <span class="wf-line">Mon Apr 21 baseline: 4,102 completions</span>
-                <span class="wf-line red">Thu Apr 24 drop to: 3,162 completions</span>
+                <span class="wf-line hi">67% of signups never start setup</span>
+                <span class="wf-line dim">3,241 signups / 1,847 setup starts this week</span>
                 <span class="wf-line sp"></span>
                 <span class="wf-divider"></span>
-                <span class="wf-line org">Root cause: Email verification step</span>
-                <span class="wf-line ind">847 verification emails bounced</span>
-                <span class="wf-line ind dim">DNS: MX record TTL expired Apr 22 at 2:14 PM</span>
+                <span class="wf-line org">Root cause: empty state at first login</span>
+                <span class="wf-line ind">31% exit within 90 sec, no action taken</span>
+                <span class="wf-line ind dim">No prompt, no guided path shown on dashboard</span>
                 <span class="wf-line sp"></span>
-                <span class="wf-line grn">Users who passed verification converted at 91%</span>
-                <span class="wf-line dim ind">(normal baseline: 89%) &mdash; no behavior change</span>
+                <span class="wf-line grn">Users who start setup within 5 min: 3.2x retention</span>
                 <span class="wf-line sp"></span>
-                <span class="wf-line blu">Fix deployed Apr 23 recovered ~60% of lost flow</span>
-                <span class="wf-line">Session replays: 1,204 available &#8594;<span class="wf-cursor"></span></span>
+                <span class="wf-line blu">847 session replays available: stuck at empty state<span class="wf-cursor"></span></span>
               </div>
             </div>
           </div>
 
-          <!-- Scene 2: "Show me users who hit this error" — VS Code -->
+          <!-- Scene 2 -->
           <div class="wf-scene" id="wf-scene-2">
-            <div class="wf-user-msg">&gt; "Show me users who hit this error"</div>
+            <div class="wf-user-msg">&gt; "Show me sessions where users got stuck."</div>
             <div class="wf-ai-wrap">
               <div class="wf-ai-hd">
                 <div class="wf-ai-logo"><svg viewBox="0 0 10 10" fill="white"><circle cx="5" cy="5" r="3"/></svg></div>
@@ -756,29 +608,28 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
                 <span class="wf-ai-badge">via MCP</span>
               </div>
               <div class="wf-ai-body wf-stream">
-                <span class="wf-line dim">Scanning event stream for TypeError in checkout.js:147...</span>
+                <span class="wf-line dim">Filtering session replay: rage clicks + exits (last 7d)...</span>
                 <span class="wf-line sp"></span>
-                <span class="wf-line hi">2,341 users affected</span>
-                <span class="wf-line dim">Since v2.3.1 deploy &mdash; Apr 19, 3:41 PM</span>
+                <span class="wf-line hi">1,204 sessions flagged with friction signals</span>
                 <span class="wf-line sp"></span>
                 <span class="wf-divider"></span>
-                <span class="wf-line org">Breakdown</span>
-                <span class="wf-line ind">Browser:  Chrome 123 on Windows &mdash; 68%</span>
-                <span class="wf-line ind">Device:   Desktop 81% / Mobile 19%</span>
-                <span class="wf-line ind red">Spike:    3&ndash;7 PM daily (4x baseline)</span>
+                <span class="wf-line org">Top friction points</span>
+                <span class="wf-line ind red">#1: Setup step 2, "Connect data" — 847 sessions</span>
+                <span class="wf-line ind dim">Avg 4.2 rage clicks before abandonment</span>
+                <span class="wf-line ind">#2: Invite teammates modal — 223 sessions</span>
+                <span class="wf-line ind dim">Users close it and don't return to the flow</span>
                 <span class="wf-line sp"></span>
-                <span class="wf-line red">Revenue impact: ~$8,400 blocked checkouts</span>
-                <span class="wf-line dim ind">847 users on free &rarr; paid conversion path</span>
+                <span class="wf-line grn">Users past step 2: 89% activated</span>
+                <span class="wf-line dim ind">vs 9% for those who abandoned here</span>
                 <span class="wf-line sp"></span>
-                <span class="wf-line blu">Session replays: 1,847 available</span>
-                <span class="wf-line grn">Suggested fix: null check on user.id before checkout init<span class="wf-cursor"></span></span>
+                <span class="wf-line blu">Open replays or export segment<span class="wf-cursor"></span></span>
               </div>
             </div>
           </div>
 
-          <!-- Scene 3: "What should we launch next?" — CLI -->
+          <!-- Scene 3 -->
           <div class="wf-scene" id="wf-scene-3">
-            <div class="wf-user-msg">&gt; "What should we launch next?"</div>
+            <div class="wf-user-msg">&gt; "Which source brings users who retain?"</div>
             <div class="wf-ai-wrap">
               <div class="wf-ai-hd">
                 <div class="wf-ai-logo"><svg viewBox="0 0 10 10" fill="white"><circle cx="5" cy="5" r="3"/></svg></div>
@@ -786,86 +637,314 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
                 <span class="wf-ai-badge">via MCP</span>
               </div>
               <div class="wf-ai-body wf-stream">
-                <span class="wf-line dim">Analyzing feature requests, drop-offs, and retention signals (30d)...</span>
+                <span class="wf-line dim">Joining traffic sources to D30 retention cohorts (60d)...</span>
                 <span class="wf-line sp"></span>
-                <span class="wf-line hi">Top opportunities by user demand + revenue impact</span>
+                <span class="wf-line hi">Retention varies 4x across acquisition sources</span>
                 <span class="wf-line sp"></span>
-                <span class="wf-line grn">#1  Bulk export for power users</span>
-                <span class="wf-line ind">Requested by 38% of $500+ MRR accounts</span>
-                <span class="wf-line ind dim">Correlated with 2.4x retention at 90 days</span>
+                <span class="wf-divider"></span>
+                <span class="wf-line grn">AI search:  58% D30 (best cohort, +intent)</span>
+                <span class="wf-line">Referral:   44% D30</span>
+                <span class="wf-line">Direct:     38% D30</span>
+                <span class="wf-line red">Paid ads:   14% D30 (worst cohort)</span>
                 <span class="wf-line sp"></span>
-                <span class="wf-line org">#2  Slack digest integration</span>
-                <span class="wf-line ind">Top requested feature in NPS comments (last 60d)</span>
-                <span class="wf-line ind dim">Users who connect Slack churn 41% less</span>
+                <span class="wf-line grn">AI search users also activate 2.1x faster</span>
+                <span class="wf-line dim ind">Highest intent, strongest product-market fit signal</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-line blu">Recommend: shift budget toward SEO + AI content<span class="wf-cursor"></span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Scene 4 -->
+          <div class="wf-scene" id="wf-scene-4">
+            <div class="wf-user-msg">&gt; "What should we build next?"</div>
+            <div class="wf-ai-wrap">
+              <div class="wf-ai-hd">
+                <div class="wf-ai-logo"><svg viewBox="0 0 10 10" fill="white"><circle cx="5" cy="5" r="3"/></svg></div>
+                <span class="wf-ai-name">Amplitude</span>
+                <span class="wf-ai-badge">via MCP</span>
+              </div>
+              <div class="wf-ai-body wf-stream">
+                <span class="wf-line dim">Analyzing drop-offs, surveys, search events, retention (30d)...</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-line hi">Top opportunities by signal strength</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-line grn">#1  Guided onboarding path</span>
+                <span class="wf-line ind">847 replays show users stuck at setup</span>
+                <span class="wf-line ind dim">Complete setup = 3.2x retention</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-line org">#2  CSV / bulk export</span>
+                <span class="wf-line ind">Top NPS request (last 60d)</span>
+                <span class="wf-line ind dim">Requested by 41% of daily-active accounts</span>
                 <span class="wf-line sp"></span>
                 <span class="wf-line blu">#3  Mobile push notifications</span>
-                <span class="wf-line ind">34% of active users have no re-engagement path</span>
-                <span class="wf-line ind dim">Segment shows highest DAU lift potential<span class="wf-cursor"></span></span>
+                <span class="wf-line ind">38% of active users have no re-engagement path<span class="wf-cursor"></span></span>
               </div>
             </div>
           </div>
 
-        </div><!-- /panel body -->
-      </div><!-- /wf-panel -->
-    </div><!-- /wf-right -->
-
-  </div><!-- /workflow-inner -->
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<script>
-function wfSelect(n){
-  // Update buttons
-  document.querySelectorAll('.wf-q').forEach(function(b){b.classList.remove('active')});
-  document.querySelector('[data-q="'+n+'"]').classList.add('active');
-  // Hide empty state
-  document.getElementById('wf-empty').style.display='none';
-  // Hide all scenes
-  document.querySelectorAll('.wf-scene').forEach(function(s){s.classList.remove('active')});
-  // Show selected scene and re-trigger animation
-  var scene=document.getElementById('wf-scene-'+n);
-  scene.classList.add('active');
-  // Reset stream animation by re-cloning the ai-body
-  var body=scene.querySelector('.wf-ai-body');
-  var clone=body.cloneNode(true);
-  body.parentNode.replaceChild(clone,body);
-  // Update context label
-  var labels=['','Cursor \u2014 Chat','VS Code \u2014 Amplitude','Cursor \u2014 Chat'];
-  document.getElementById('wf-ctx').textContent=labels[n];
-}
-</script>
+<!-- 4. TRACTION: Traffic is up. Why aren't users converting? -->
+<section class="traction-section">
+  <div class="traction-inner">
+    <div class="traction-header">
+      <span class="section-tag">How it plays out in practice</span>
+      <h2>Traffic is up. So why aren't users converting?</h2>
+      <p>Most teams find out something is broken weeks later. Amplitude tells you in real time.</p>
+    </div>
+    <div class="traction-cards">
 
-<!-- 7. Differentiation -->
-<section class="diff-section-wrap">
-  <div class="diff-section-inner">
-    <div style="text-align:center">
-      <h2 style="font-size:clamp(28px,4vw,40px);font-weight:700;line-height:1.1;letter-spacing:-.03em;margin-bottom:16px">Errors show volume. Systems show metrics. <br>Amplitude shows impact.</br></h2>
+      <!-- Card 1: Growth -->
+      <div class="tr-card arrive">
+        <div class="tr-card-vis arrive">
+          <svg width="100%" height="96" viewBox="0 0 220 96" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="blueGrad2" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#3B82F6" stop-opacity=".16"/>
+                <stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <polygon points="0,85 35,77 70,67 105,55 145,40 185,24 220,12 220,96 0,96" fill="url(#blueGrad2)"/>
+            <polyline points="0,85 35,77 70,67 105,55 145,40 185,24 220,12" stroke="#3B82F6" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="700" stroke-dashoffset="700" style="animation:drawLine 1.6s ease .3s forwards"/>
+            <text x="165" y="9" style="font-family:var(--mono);font-size:9px;fill:#3B82F6;font-weight:700">↑ 18%</text>
+          </svg>
+        </div>
+        <div class="tr-card-body">
+          <span class="tr-card-num">01 — Growth</span>
+          <div class="tr-card-title">Signups are up. New channels are working.</div>
+          <ul class="tr-card-points">
+            <li>AI-driven search traffic up 31% this week</li>
+            <li>New user segments arriving from different sources</li>
+            <li>Signup rate holding steady across cohorts</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Card 2: Problem -->
+      <div class="tr-card stuck">
+        <div class="tr-card-vis stuck">
+          <svg width="100%" height="96" viewBox="0 0 220 96" preserveAspectRatio="none">
+            <text x="8" y="17" style="font-family:var(--mono);font-size:8px;fill:#9CA3AF">Signups</text>
+            <rect x="8" y="21" width="204" height="11" rx="3" fill="#FED7AA" style="transform-origin:left;animation:growBar .7s ease .2s both"/>
+            <text x="8" y="50" style="font-family:var(--mono);font-size:8px;fill:#9CA3AF">Activated</text>
+            <rect x="8" y="54" width="39" height="11" rx="3" fill="#FCA5A5" style="transform-origin:left;animation:growBar .7s ease .5s both"/>
+            <text x="53" y="63" style="font-family:var(--mono);font-size:8px;fill:#DC2626;font-weight:700">19% only</text>
+            <text x="8" y="89" style="font-family:var(--mono);font-size:7.5px;fill:#F97316">847 replays show failure at setup step 2</text>
+          </svg>
+        </div>
+        <div class="tr-card-body">
+          <span class="tr-card-num">02 — Silent problem</span>
+          <div class="tr-card-title">No error. No alert. Just users leaving.</div>
+          <ul class="tr-card-points">
+            <li>66% of new signups never activate</li>
+            <li>847 users tried to connect data. Failed. Left.</li>
+            <li>The issue hides in behavior, not bug reports</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Card 3: Fix -->
+      <div class="tr-card next">
+        <div class="tr-card-vis next">
+          <svg width="100%" height="96" viewBox="0 0 220 96" preserveAspectRatio="none">
+            <rect x="8" y="8" width="204" height="21" rx="5" fill="#BBF7D0" style="animation:fadeIn .5s ease .2s both;opacity:0"/>
+            <text x="16" y="23" style="font-family:var(--mono);font-size:9px;fill:#15803D;font-weight:700">Experiment: guided onboarding</text>
+            <rect x="8" y="39" width="204" height="16" rx="4" fill="#D1FAE5" style="animation:fadeIn .5s ease .6s both;opacity:0"/>
+            <text x="16" y="51" style="font-family:var(--mono);font-size:8.5px;fill:#047857">Activation +34% in test group</text>
+            <rect x="8" y="65" width="204" height="16" rx="4" fill="#ECFDF5" style="animation:fadeIn .5s ease 1s both;opacity:0"/>
+            <text x="16" y="77" style="font-family:var(--mono);font-size:8.5px;fill:#065F46">Shipped to 100% — roadmap updated</text>
+          </svg>
+        </div>
+        <div class="tr-card-body">
+          <span class="tr-card-num">03 — Fix</span>
+          <div class="tr-card-title">Now you know what to test.</div>
+          <ul class="tr-card-points">
+            <li>Launch guided onboarding</li>
+            <li>Activation rises 34% in the test group</li>
+            <li>Ship the winner and update the roadmap</li>
+          </ul>
+        </div>
+      </div>
+
     </div>
-    <div class="diff-grid">
-      <div class="diff-card">
-        <div class="tool-name">Sentry</div>
-        <div class="diff-what">shows the error that fired</div>
+  </div>
+</section>
+
+<!-- 5. SOCIAL PROOF -->
+<section class="social-proof">
+  <div class="sp-inner">
+    <p class="sp-eyebrow">Trusted by teams at AI startups, marketplaces, fintech apps, and ecommerce companies</p>
+    <div class="logo-row">
+      <div class="logo-item">
+        <img class="logo-img" src="https://logo.clearbit.com/clay.com" alt="Clay" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/>
+        <span class="logo-text" style="display:none">Clay</span>
       </div>
-      <div class="diff-card">
-        <div class="tool-name">Datadog</div>
-        <div class="diff-what">shows the system that slowed down</div>
+      <div class="logo-item">
+        <img class="logo-img" src="https://logo.clearbit.com/linear.app" alt="Linear" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/>
+        <span class="logo-text" style="display:none">Linear</span>
       </div>
-      <div class="diff-card highlight">
-        <div class="tool-name">Amplitude</div>
-        <div class="diff-what">shows where users dropped off and what caused it</div>
+      <div class="logo-item">
+        <img class="logo-img" src="https://logo.clearbit.com/doordash.com" alt="DoorDash" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/>
+        <span class="logo-text" style="display:none">DoorDash</span>
+      </div>
+      <div class="logo-item">
+        <img class="logo-img" src="https://logo.clearbit.com/brex.com" alt="Brex" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/>
+        <span class="logo-text" style="display:none">Brex</span>
+      </div>
+      <div class="logo-item">
+        <img class="logo-img" src="https://logo.clearbit.com/calm.com" alt="Calm" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/>
+        <span class="logo-text" style="display:none">Calm</span>
+      </div>
+      <div class="logo-item">
+        <img class="logo-img" src="https://logo.clearbit.com/squareup.com" alt="Square" onerror="this.style.display='none';this.nextElementSibling.style.display='block'" loading="lazy"/>
+        <span class="logo-text" style="display:none">Square</span>
       </div>
     </div>
-    <p class="diff-punchline">Errors don't tell you if users recovered. Systems don't tell you if revenue dropped. Amplitude does.</p>
+  </div>
+</section>
+
+<!-- 6. WHY SWITCH -->
+<section class="why-switch-section">
+  <div class="why-switch-inner">
+    <h2>Most analytics tools stop at charts.</h2>
+    <p class="ws-sub">The gap between data and decisions is where products stall. Amplitude closes it.</p>
+    <div class="ws-cols">
+      <div class="ws-col theirs">
+        <span class="ws-col-label">Other tools leave you with</span>
+        <ul class="ws-items">
+          <li><span class="ws-item-icon">—</span>Dashboards you have to interpret yourself</li>
+          <li><span class="ws-item-icon">—</span>Funnels that show drop-off, not cause</li>
+          <li><span class="ws-item-icon">—</span>Raw events without enough context</li>
+          <li><span class="ws-item-icon">—</span>Manual analysis across tools</li>
+          <li><span class="ws-item-icon">—</span>Another meeting to debate what it means</li>
+        </ul>
+      </div>
+      <div class="ws-col ours">
+        <span class="ws-col-label">Amplitude helps you</span>
+        <ul class="ws-items">
+          <li><span class="ws-item-icon">✓</span>Find where users drop</li>
+          <li><span class="ws-item-icon">✓</span>Understand why it happened</li>
+          <li><span class="ws-item-icon">✓</span>Watch real sessions behind the numbers</li>
+          <li><span class="ws-item-icon">✓</span>Get a recommended next step</li>
+          <li><span class="ws-item-icon">✓</span>Test and ship what works</li>
+        </ul>
+      </div>
+    </div>
+    <p class="ws-closer">Data is not the problem. <span>Knowing what to do with it is.</span></p>
+  </div>
+</section>
+
+<!-- 7. PRODUCT BREADTH (renumbered after Why Switch insert) -->
+<section class="breadth-section">
+  <div class="breadth-inner">
+    <div class="breadth-header">
+      <h2>Everything you need to go from insight to action.</h2>
+      <p>Analytics, replay, experiments, guides, and AI. All connected in one platform.</p>
+    </div>
+    <div class="breadth-grid">
+      <div class="breadth-card">
+        <span class="breadth-icon">🌐</span>
+        <div class="breadth-name">Web Analytics</div>
+        <div class="breadth-desc">How users find you</div>
+      </div>
+      <div class="breadth-card">
+        <span class="breadth-icon">📊</span>
+        <div class="breadth-name">Product Analytics</div>
+        <div class="breadth-desc">What users do</div>
+      </div>
+      <div class="breadth-card">
+        <span class="breadth-icon">🎬</span>
+        <div class="breadth-name">Session Replay</div>
+        <div class="breadth-desc">Where they get stuck</div>
+      </div>
+      <div class="breadth-card">
+        <span class="breadth-icon">🧪</span>
+        <div class="breadth-name">Experiment</div>
+        <div class="breadth-desc">What actually works</div>
+      </div>
+      <div class="breadth-card">
+        <span class="breadth-icon">🚦</span>
+        <div class="breadth-name">Feature Flags</div>
+        <div class="breadth-desc">Roll out safely</div>
+      </div>
+      <div class="breadth-card">
+        <span class="breadth-icon">💬</span>
+        <div class="breadth-name">Guides and Surveys</div>
+        <div class="breadth-desc">Nudge and learn in-product</div>
+      </div>
+      <div class="breadth-card" style="background:#F5F5FF">
+        <span class="breadth-icon">⚡</span>
+        <div class="breadth-name">MCP</div>
+        <div class="breadth-desc">Ask from your workflow</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. HOW TEAMS USE AMPLITUDE -->
+<section class="teams-section">
+  <div class="teams-inner">
+    <div class="teams-header">
+      <h2>How teams use Amplitude differently</h2>
+      <p>Not more reports. Faster decisions across product, growth, and engineering.</p>
+    </div>
+    <div class="teams-grid">
+
+      <!-- Product -->
+      <div class="team-card product">
+        <div class="team-card-body">
+          <span class="team-card-role">Product</span>
+          <div class="team-card-title">Decide what to build next</div>
+          <ul class="team-card-points">
+            <li>Find the exact step where users drop</li>
+            <li>Prioritize what to fix based on real behavior</li>
+            <li>Validate changes with experiments</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Growth -->
+      <div class="team-card growth">
+        <div class="team-card-body">
+          <span class="team-card-role">Growth</span>
+          <div class="team-card-title">Act on insights immediately</div>
+          <ul class="team-card-points">
+            <li>See which channels bring users who retain</li>
+            <li>Improve onboarding and conversion</li>
+            <li>Trigger guides when users stall in real time</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Engineering -->
+      <div class="team-card engineering">
+        <div class="team-card-body">
+          <span class="team-card-role">Engineering</span>
+          <div class="team-card-title">Ship with confidence</div>
+          <ul class="team-card-points">
+            <li>Understand real user impact of issues</li>
+            <li>Connect behavior to releases</li>
+            <li>Roll out fixes safely with flags</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
     <div class="scta"><button class="scta-btn">Start free <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
   </div>
 </section>
 
-
-<!-- 9. Security (light background, not adjacent to dark final CTA) -->
+<!-- 8. SECURITY -->
 <section class="security-section">
   <div class="security-inner">
     <div class="security-left">
-      <h2>Reliable in production.<br>Secure by default.</h2>
-      <p>Amplitude ships with enterprise-grade data protection out of the box. No separate compliance plugin, no headache.</p>
+      <h2>Built for real traffic.<br>Ready for production.</h2>
+      <p>Fast queries, reliable pipelines, and security controls that scale from your first deploy to your millionth user.</p>
       <div class="security-badges">
         <span class="sec-badge"><span class="sec-badge-dot"></span>SOC 2 Type II</span>
         <span class="sec-badge"><span class="sec-badge-dot"></span>ISO 27001 &amp; 27018</span>
@@ -874,12 +953,12 @@ function wfSelect(n){
         <span class="sec-badge"><span class="sec-badge-dot"></span>HIPAA Compliant</span>
       </div>
       <div class="security-features">
-        <span class="sec-feature">Event retention &amp; data controls</span>
-        <span class="sec-feature">PII protection built in</span>
-        <span class="sec-feature">AI-driven data governance</span>
-        <span class="sec-feature">Query from your data warehouse</span>
-        <span class="sec-feature">End-to-end encryption</span>
-        <span class="sec-feature">Independently audited</span>
+        <span class="sec-feature">High-volume event collection</span>
+        <span class="sec-feature">Fast queries without lag</span>
+        <span class="sec-feature">Reliable data pipelines</span>
+        <span class="sec-feature">Enterprise-grade security</span>
+        <span class="sec-feature">Privacy and governance controls</span>
+        <span class="sec-feature">Works with your data warehouse</span>
       </div>
     </div>
     <div class="security-right">
@@ -887,44 +966,44 @@ function wfSelect(n){
         <div class="sec-cert-icon">&#128274;</div>
         <div>
           <div class="sec-cert-label">SOC 2 Type II Certified</div>
-          <div class="sec-cert-sub">Annually audited. Security, availability, and confidentiality controls verified.</div>
+          <div class="sec-cert-sub">Annually audited. Security, availability, and confidentiality verified.</div>
         </div>
       </div>
       <div class="sec-cert">
         <div class="sec-cert-icon">&#127757;</div>
         <div>
           <div class="sec-cert-label">GDPR &amp; CCPA Compliant</div>
-          <div class="sec-cert-sub">Data subject rights, consent flows, and regional data residency supported.</div>
+          <div class="sec-cert-sub">Data subject rights, consent flows, and regional residency supported.</div>
         </div>
       </div>
       <div class="sec-cert">
         <div class="sec-cert-icon">&#127973;</div>
         <div>
           <div class="sec-cert-label">HIPAA Compliant</div>
-          <div class="sec-cert-sub">BAA available. Supports teams handling sensitive data.</div>
+          <div class="sec-cert-sub">BAA available. Supports teams handling sensitive health data.</div>
         </div>
       </div>
       <div class="sec-cert">
         <div class="sec-cert-icon">&#128203;</div>
         <div>
           <div class="sec-cert-label">ISO 27001 &amp; 27018 Certified</div>
-          <div class="sec-cert-sub">International standards for information security management and cloud privacy.</div>
+          <div class="sec-cert-sub">International standards for information security and cloud privacy.</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 10. Final CTA (dark, now separated from security by light section above) -->
+<!-- 9. FINAL CTA -->
 <section class="final-cta">
   <div class="final-inner">
-    <h2>You shipped it.<br><span class="accent">Did it work?</span></h2>
-    <p style="font-size:17px;color:var(--text-muted-dark);margin-bottom:32px;line-height:1.6">Track every release. Catch issues before they compound. Build what users actually need.</p>
-    <button class="btn-final">Start free <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <h2>You already have the data.<br><span class="accent">Now know what to do.</span></h2>
+    <p>Stop guessing. Start shipping what works.</p>
+    <button class="btn-final">Start free <svg width="17" height="17" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </div>
 </section>
 
-<!-- Amplitude Footer -->
+<!-- Footer -->
 <footer class="amp-footer">
   <div class="amp-footer-inner">
     <div class="amp-footer-top">
@@ -940,7 +1019,6 @@ function wfSelect(n){
           <h4>Platform</h4>
           <ul>
             <li><a href="https://amplitude.com/ai-agents">AI Agents</a></li>
-            <li><a href="https://amplitude.com/ai-visibility">AI Visibility</a></li>
             <li><a href="https://amplitude.com/mcp-server">Amplitude MCP</a></li>
             <li><a href="https://amplitude.com/amplitude-analytics">Product Analytics</a></li>
             <li><a href="https://amplitude.com/web-analytics">Web Analytics</a></li>
@@ -949,7 +1027,6 @@ function wfSelect(n){
             <li><a href="https://amplitude.com/feature-management">Feature Management</a></li>
             <li><a href="https://amplitude.com/web-experimentation">Web Experimentation</a></li>
             <li><a href="https://amplitude.com/guides-and-surveys">Guides and Surveys</a></li>
-            <li><a href="https://amplitude.com/activation">Activation</a></li>
           </ul>
         </div>
         <div class="amp-footer-col">
@@ -957,7 +1034,6 @@ function wfSelect(n){
           <ul>
             <li><a href="https://amplitude.com/compare/adobe">Adobe</a></li>
             <li><a href="https://amplitude.com/compare/google-analytics">Google Analytics</a></li>
-            <li><a href="https://amplitude.com/compare/contentsquare">Contentsquare</a></li>
             <li><a href="https://amplitude.com/compare/fullstory">Fullstory</a></li>
             <li><a href="https://amplitude.com/compare/heap">Heap</a></li>
             <li><a href="https://amplitude.com/compare/launchdarkly">LaunchDarkly</a></li>
@@ -985,11 +1061,10 @@ function wfSelect(n){
           <ul>
             <li><a href="https://status.amplitude.com">Status</a></li>
             <li><a href="https://amplitude.com/contact">Contact Us</a></li>
-            <li><a href="https://gethelp.amplitude.com/hc/en-us">Customer Help Center</a></li>
+            <li><a href="https://gethelp.amplitude.com/hc/en-us">Help Center</a></li>
             <li><a href="https://amplitude.com/community">Community</a></li>
             <li><a href="https://developers.amplitude.com/docs">Developer Docs</a></li>
             <li><a href="https://amplitude.com/partner-program">Partner Program</a></li>
-            <li><a href="https://amplitude.com/partners">Partner Directory</a></li>
             <li><a href="https://amplitude.com/affiliates">Become an affiliate</a></li>
           </ul>
         </div>
@@ -1029,10 +1104,26 @@ function wfSelect(n){
 </footer>
 
 <script>
+// Nav scroll
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 40);
 });
+
+// Workflow panel
+function wfSelect(n) {
+  document.querySelectorAll('.wf-q').forEach(function(b) { b.classList.remove('active'); });
+  document.querySelector('[data-q="' + n + '"]').classList.add('active');
+  document.querySelectorAll('.wf-scene').forEach(function(s) { s.classList.remove('active'); });
+  var scene = document.getElementById('wf-scene-' + n);
+  scene.classList.add('active');
+  // Re-trigger stream animation
+  var body = scene.querySelector('.wf-ai-body');
+  var clone = body.cloneNode(true);
+  body.parentNode.replaceChild(clone, body);
+  var ctx = ['', 'Cursor — Chat', 'Cursor — Chat', 'Cursor — Chat', 'Cursor — Chat'];
+  document.getElementById('wf-ctx').textContent = ctx[n];
+}
 </script>
 </body>
 </html>
