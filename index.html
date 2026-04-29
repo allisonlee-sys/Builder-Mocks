@@ -41,14 +41,19 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
 /* Nav */
 .nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 32px;transition:background .3s,backdrop-filter .3s}
 .nav.scrolled{background:rgba(12,12,14,.92);backdrop-filter:blur(16px)}
-.nav-inner{max-width:1120px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;height:60px}
-.nav-brand{display:flex;align-items:center;gap:8px;color:#fff;font-weight:600;font-size:15px;letter-spacing:-.02em}
-.nav-actions{display:flex;align-items:center;gap:10px}
-.nav-link{color:var(--text-muted-dark);font-size:13px;font-weight:500;text-decoration:none;padding:6px 12px;border-radius:6px;transition:color .2s}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;height:60px;gap:32px}
+.nav-brand{display:flex;align-items:center;gap:8px;color:#fff;font-weight:600;font-size:15px;letter-spacing:-.02em;flex-shrink:0}
+.nav-links{display:flex;align-items:center;gap:2px;flex:1}
+.nav-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.nav-link{color:var(--text-muted-dark);font-size:13px;font-weight:500;text-decoration:none;padding:6px 11px;border-radius:6px;transition:color .2s;white-space:nowrap;display:flex;align-items:center;gap:4px}
 .nav-link:hover{color:#fff}
-.btn-nav-ghost{background:none;border:1px solid var(--border-dark);color:#fff;padding:7px 16px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--sans);transition:border-color .2s}
+.nav-link svg{opacity:.5;transition:opacity .2s}
+.nav-link:hover svg{opacity:.8}
+.btn-nav-ghost{background:none;border:1px solid var(--border-dark);color:#fff;padding:7px 14px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--sans);transition:border-color .2s,color .2s;white-space:nowrap}
 .btn-nav-ghost:hover{border-color:#666}
-.btn-nav-primary{background:var(--accent);border:none;color:#fff;padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:background .2s}
+.btn-nav-sales{background:none;border:none;color:var(--text-muted-dark);padding:7px 12px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--sans);transition:color .2s;white-space:nowrap}
+.btn-nav-sales:hover{color:#fff}
+.btn-nav-primary{background:var(--accent);border:none;color:#fff;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:background .2s;white-space:nowrap}
 .btn-nav-primary:hover{background:var(--accent-hover)}
 
 /* Hero */
@@ -228,6 +233,9 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
 .traction-header h2{font-size:clamp(24px,3.5vw,36px);font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-bottom:8px}
 .traction-header p{font-size:16px;color:var(--text-secondary)}
 .traction-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.traction-cta{display:flex;align-items:center;justify-content:center;gap:20px;margin-top:36px}
+.traction-demo-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--accent);text-decoration:none;transition:gap .2s}
+.traction-demo-link:hover{gap:9px}
 .tr-card{background:#fff;border-radius:16px;overflow:hidden;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.04)}
 .tr-card-vis{height:110px;padding:14px 14px 0;display:flex;align-items:flex-end;overflow:hidden}
 .tr-card-vis.arrive{background:linear-gradient(to bottom,#EFF6FF,#fff)}
@@ -274,6 +282,9 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
 .breadth-header h2{font-size:clamp(20px,2.6vw,26px);font-weight:700;letter-spacing:-.03em;margin-bottom:6px}
 .breadth-header p{font-size:15px;color:var(--text-secondary)}
 .breadth-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.breadth-cta{display:flex;align-items:center;justify-content:center;gap:20px;margin-top:28px}
+.breadth-demo-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--accent);text-decoration:none;transition:gap .2s}
+.breadth-demo-link:hover{gap:9px}
 .breadth-card{background:#fff;padding:19px 10px;text-align:center;transition:background .15s;cursor:default}
 .breadth-card:hover{background:#FAFAF8}
 .breadth-icon{font-size:17px;margin-bottom:7px;display:block}
@@ -357,8 +368,11 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
 .final-cta h2{font-size:clamp(28px,4.5vw,44px);font-weight:700;line-height:1.1;letter-spacing:-.035em;color:#fff;margin-bottom:16px}
 .final-cta h2 .accent{color:var(--accent)}
 .final-cta p{font-size:17px;color:var(--text-muted-dark);margin-bottom:32px;line-height:1.6}
-.btn-final{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border:none;padding:15px 34px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:background .2s,transform .15s}
+.final-cta-btns{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+.btn-final{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border:none;padding:15px 34px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:background .2s,transform .15s;text-decoration:none}
 .btn-final:hover{background:var(--accent-hover);transform:translateY(-1px)}
+.btn-final-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.25);padding:14px 28px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:border-color .2s,transform .15s;text-decoration:none}
+.btn-final-ghost:hover{border-color:rgba(255,255,255,.55);transform:translateY(-1px)}
 
 /* Shared CTAs */
 .scta{text-align:center;margin-top:40px}
@@ -396,10 +410,17 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" stroke="#fff" stroke-width="1.5"/><path d="M8 16L12 6L16 16" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="9.5" y1="13" x2="14.5" y2="13" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>
       amplitude
     </div>
+    <div class="nav-links">
+      <a href="https://amplitude.com/amplitude-analytics" class="nav-link">Product <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a href="https://amplitude.com/solutions" class="nav-link">Solutions <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a href="https://amplitude.com/resources" class="nav-link">Resources <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a href="https://amplitude.com/enterprise" class="nav-link">Enterprise</a>
+      <a href="https://amplitude.com/pricing" class="nav-link">Pricing</a>
+    </div>
     <div class="nav-actions">
-      <a href="#" class="nav-link">Pricing</a>
+      <button class="btn-nav-sales">Contact sales</button>
       <button class="btn-nav-ghost">Log in</button>
-      <button class="btn-nav-primary">Start free &rarr;</button>
+      <button class="btn-nav-primary">Get started &rarr;</button>
     </div>
   </div>
 </nav>
@@ -772,6 +793,10 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
       </div>
 
     </div>
+    <div class="traction-cta">
+      <button class="btn-hero" style="font-size:14px;padding:12px 26px">Get started <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <a href="https://amplitude.com/demo" class="traction-demo-link">Get a demo <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+    </div>
   </div>
 </section>
 
@@ -882,6 +907,10 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
         <div class="breadth-name">MCP</div>
         <div class="breadth-desc">Ask from your workflow</div>
       </div>
+    </div>
+    <div class="breadth-cta">
+      <button class="btn-hero" style="font-size:14px;padding:12px 26px">Start free <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <a href="https://amplitude.com/demo" class="breadth-demo-link">Get a demo <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     </div>
   </div>
 </section>
@@ -999,7 +1028,10 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
   <div class="final-inner">
     <h2>You already have the data.<br><span class="accent">Now know what to do.</span></h2>
     <p>Stop guessing. Start shipping what works.</p>
-    <button class="btn-final">Start free <svg width="17" height="17" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="final-cta-btns">
+      <button class="btn-final">Start free <svg width="17" height="17" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <a href="https://amplitude.com/demo" class="btn-final-ghost">Talk to sales</a>
+    </div>
   </div>
 </section>
 
