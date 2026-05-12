@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amplitude - Turn user behavior into better products.</title>
+<meta name="description" content="Detect friction. Understand why. Launch experiments, guides, and AI-powered workflows. Measure the impact. Repeat.">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg-dark:#0C0C0E;
+  --bg-light:#FAFAF8;
+  --bg-card:#fff;
+  --text-primary:#0C0C0E;
+  --text-secondary:#64635E;
+  --text-light:#A5A49E;
+  --text-on-dark:#EEEEE8;
+  --text-muted-dark:#78776F;
+  --accent:#1E61F0;
+  --accent-hover:#1754D5;
+  --border:#E8E7E2;
+  --border-dark:#2A2A2E;
+  --mono:'JetBrains Mono',monospace;
+  --sans:'Instrument Sans',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary);-webkit-font-smoothing:antialiased;overflow-x:auto;min-width:1024px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes drawLine{from{stroke-dashoffset:600}to{stroke-dashoffset:0}}
+@keyframes growBar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes streamIn{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+@keyframes blinkCursor{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes pulseRed{0%,100%{box-shadow:0 0 0 0 rgba(248,113,113,.4)}70%{box-shadow:0 0 0 8px rgba(248,113,113,0)}}
+.fade-up{animation:fadeUp .7s ease both}
+.fade-up-d1{animation:fadeUp .7s ease .12s both}
+.fade-up-d2{animation:fadeUp .7s ease .24s both}
+/* Nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 32px;transition:background .3s,backdrop-filter .3s}
+.nav.scrolled{background:rgba(12,12,14,.92);backdrop-filter:blur(16px)}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;height:60px;gap:32px}
+.nav-brand{display:flex;align-items:center;gap:8px;color:#fff;font-weight:600;font-size:15px;letter-spacing:-.02em;flex-shrink:0}
+.nav-links{display:flex;align-items:center;gap:2px;flex:1}
+.nav-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.nav-link{color:var(--text-muted-dark);font-size:13px;font-weight:500;text-decoration:none;padding:6px 11px;border-radius:6px;transition:color .2s;white-space:nowrap;display:flex;align-items:center;gap:4px}
+.nav-link:hover{color:#fff}
+.nav-link svg{opacity:.5;transition:opacity .2s}
+.nav-link:hover svg{opacity:.8}
+.btn-nav-ghost{background:none;border:1px solid var(--border-dark);color:#fff;padding:7px 14px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--sans);transition:border-color .2s,color .2s;white-space:nowrap}
+.btn-nav-ghost:hover{border-color:#666}
+.btn-nav-sales{background:none;border:none;color:var(--text-muted-dark);padding:7px 12px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--sans);transition:color .2s;white-space:nowrap}
+.btn-nav-sales:hover{color:#fff}
+.btn-nav-primary{background:var(--accent);border:none;color:#fff;padding:8px 18px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:background .2s;white-space:nowrap}
+.btn-nav-primary:hover{background:var(--accent-hover)}
+
+/* ═══════════ CYCLING HERO ═══════════ */
+.cycling-hero{background:#fff;padding:120px 24px 48px;position:relative;overflow:hidden}
+.cycling-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:120px;background:linear-gradient(to top,#fff,transparent);pointer-events:none;z-index:1}
+.cycling-hero .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,0,0,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.03) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse at 50% 0%,black 20%,transparent 70%)}
+.cycling-hero .hero-glow{position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse,rgba(30,97,240,.06),transparent 70%);pointer-events:none}
+.ch-content{max-width:800px;margin:0 auto;position:relative;z-index:2}
+.ch-header{text-align:center;margin-bottom:28px}
+.ch-eyebrow{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.ch-h1{font-size:clamp(32px,4.5vw,48px);font-weight:700;line-height:1.08;letter-spacing:-.045em;color:var(--text-primary);margin-bottom:16px}
+.ch-sub{font-size:17px;line-height:1.55;color:var(--text-secondary);max-width:560px;margin:0 auto}
+/* Progress steps */
+.ch-steps{display:flex;align-items:center;max-width:560px;margin:0 auto 14px;padding:0 4px}
+.ch-step-node{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--border);font-size:9px;font-weight:700;color:var(--text-light);flex-shrink:0;transition:all .35s ease}
+.ch-step-node.past{border-color:#22C55E;background:rgba(34,197,94,.08);color:#22C55E}
+.ch-step-node.current{border-color:currentColor;background:rgba(30,97,240,.06);box-shadow:0 0 10px 2px rgba(30,97,240,.15)}
+.ch-step-node svg{width:10px;height:10px}
+.ch-step-line{flex:1;height:2px;margin:0 2px;border-radius:1px;background:var(--border);overflow:hidden;position:relative}
+.ch-step-fill{height:100%;border-radius:1px;position:absolute;left:0;top:0;transition:background .3s}
+/* Stage label */
+.ch-stage-label{display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:12px;min-height:20px}
+.ch-stage-dot{width:5px;height:5px;border-radius:50%;animation:chPulse 1.8s ease infinite}
+.ch-stage-step{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-family:var(--mono)}
+.ch-stage-name{font-size:10px;color:var(--text-light);font-family:var(--mono)}
+@keyframes chPulse{0%,100%{opacity:.4}50%{opacity:1}}
+@keyframes chFadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes chFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes chBarGrow{from{width:0%}to{width:var(--tw)}}
+@keyframes chStreamCursor{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes chCountUp{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+@keyframes chSpinLoop{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes chPopIn{0%{transform:scale(.88);opacity:0}60%{transform:scale(1.03)}100%{transform:scale(1);opacity:1}}
+@keyframes chGlowPulse{0%,100%{box-shadow:0 0 0 0 transparent}50%{box-shadow:0 0 16px 3px var(--glow-c)}}
+/* Product window */
+.ch-window{max-width:560px;margin:0 auto;border-radius:12px;overflow:hidden;border:1px solid #2a2a2f;background:#18181b;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.ch-window-chrome{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;background:#111113;border-bottom:1px solid #2a2a2f}
+.ch-window-dots{display:flex;gap:5px}
+.ch-window-dots span{width:9px;height:9px;border-radius:50%;background:#2a2a2f}
+.ch-window-mid{display:flex;align-items:center;gap:6px}
+.ch-window-mid svg{opacity:.5}
+.ch-window-label{font-size:10px;color:#555;font-family:var(--mono)}
+.ch-window-tag{font-size:8.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:4px;font-family:var(--mono);line-height:14px}
+.ch-window-body{padding:18px 18px 16px;min-height:230px;position:relative;overflow:hidden;background:#0D0D0F}
+.ch-window-content{transition:opacity .45s ease,transform .45s ease}
+.ch-window-content.fading{opacity:0;transform:translateY(6px)}
+.ch-window-bar{display:flex;align-items:center;justify-content:space-between;padding:7px 14px;border-top:1px solid #222226;background:#111113}
+.ch-window-bar-left{display:flex;align-items:center;gap:6px}
+.ch-window-bar-left svg{opacity:.4}
+.ch-window-bar span{font-size:9px;color:#444;font-family:var(--mono)}
+/* Loop line + CTA zone */
+.ch-loop-cta{text-align:center;margin-top:20px;position:relative;z-index:2}
+.ch-loop-line{display:inline-flex;align-items:center;gap:8px;padding:7px 18px;border-radius:20px;background:rgba(30,97,240,.04);border:1px solid rgba(30,97,240,.1);margin-bottom:18px;font-size:12px;color:var(--text-secondary);font-weight:500}
+.ch-loop-line svg{flex-shrink:0}
+.ch-loop-line strong{color:var(--accent);font-weight:600}
+.ch-cta-row{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.ch-note{font-size:12px;color:var(--text-light);font-family:var(--mono)}
+/* Shared button styles */
+.btn-hero{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border:none;padding:14px 34px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:background .2s,transform .15s}
+.btn-hero:hover{background:var(--accent-hover);transform:translateY(-1px)}
+.btn-hero svg{transition:transform .2s}
+.btn-hero:hover svg{transform:translateX(3px)}
+.btn-hero-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--accent);border:1.5px solid var(--accent);padding:13px 28px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:background .2s,color .2s,border-color .2s,transform .15s;text-decoration:none}
+.btn-hero-ghost:hover{background:rgba(30,97,240,.06);transform:translateY(-1px)}
+.hero-note{font-size:13px;color:var(--text-light);font-family:var(--mono)}
+
+/* ═══ Internal card styles ═══ */
+.chi-bar-track{height:3px;border-radius:2px;background:rgba(255,255,255,.06);overflow:hidden;width:100%}
+.chi-bar-fill{height:100%;border-radius:2px}
+.chi-tag{display:inline-flex;align-items:center;padding:2px 7px;border-radius:4px;font-size:8.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;font-family:var(--mono);line-height:14px}
+.chi-metric-row{display:flex;gap:8px}
+.chi-metric-box{flex:1;background:#111116;border:1px solid #222228;border-radius:7px;padding:7px 10px}
+.chi-metric-label{font-size:9px;color:#555;font-family:var(--mono)}
+.chi-metric-val{font-size:15px;font-weight:700;font-family:var(--mono);letter-spacing:-.5px}
+.chi-compare{display:flex;gap:8px;background:#111116;border-radius:7px;padding:8px 10px;border:1px solid #222228}
+.chi-compare-col{flex:1}
+.chi-compare-label{font-size:8px;color:#555;text-transform:uppercase;letter-spacing:.05em;font-family:var(--mono);margin-bottom:2px}
+.chi-compare-val{font-size:14px;font-weight:600;font-family:var(--mono)}
+.chi-compare-divider{width:1px;background:#222228}
+
+/* Social proof (hero-adjacent) */
+.social-proof-hero{background:#fff;padding:0 24px 48px;text-align:center}
+.sph-inner{max-width:880px;margin:0 auto}
+.sph-eyebrow{font-size:13px;font-weight:500;color:var(--text-light);margin-bottom:22px;letter-spacing:.01em}
+.sph-logos{display:flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.sph-logo{display:flex;align-items:center;justify-content:center;padding:18px 0;border-right:1px solid var(--border);flex:1;min-height:60px}
+.sph-logo:last-child{border-right:none}
+.sph-logo img{height:20px;width:auto;max-width:82px;object-fit:contain;filter:grayscale(100%) opacity(30%);transition:filter .2s}
+.sph-logo:hover img{filter:grayscale(100%) opacity(52%)}
+.sph-logo .fallback{font-size:11px;font-weight:700;letter-spacing:.04em;color:#C0BFB9;text-transform:uppercase;display:none}
+
+/* ─── BUILDERS SECTION ─── */
+.builders-section{background:#F5F4F0;padding:72px 24px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.builders-inner{max-width:780px;margin:0 auto;text-align:center}
+.builders-eyebrow{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-light);margin-bottom:10px}
+.builders-h2{font-size:clamp(22px,3vw,30px);font-weight:700;letter-spacing:-.03em;line-height:1.15;margin-bottom:24px}
+
+/* ─── TAB STYLES (CHANGED: active = blue fill) ─── */
+.builders-tabs{display:inline-flex;background:#E8E7E2;border:1px solid var(--border);border-radius:10px;padding:3px;gap:2px;margin-bottom:28px}
+.builders-tab{padding:8px 26px;border-radius:8px;font-size:14px;font-weight:600;color:var(--text-secondary);cursor:pointer;border:none;background:transparent;font-family:var(--sans);transition:all .2s;user-select:none}
+.builders-tab.active{background:var(--accent);color:#fff;box-shadow:0 2px 10px rgba(30,97,240,.35)}
+.builders-tab:hover:not(.active){background:rgba(0,0,0,.06);color:var(--text-primary)}
+
+.builders-cards{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.builders-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:24px 12px 20px;text-align:center;transition:border-color .2s,box-shadow .2s;cursor:default}
+.builders-card:hover{border-color:#ccc;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.builders-card-icon{width:48px;height:48px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center}
+.builders-card-icon img{width:40px;height:40px;object-fit:contain}
+.builders-card-icon svg{width:36px;height:36px}
+.builders-card-name{font-size:14px;font-weight:600;color:var(--text-primary)}
+.builders-scene{display:none}
+.builders-scene.active{display:grid}
+.builders-install{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:24px}
+.builders-install-pill{display:inline-flex;align-items:center;background:#fff;border:1px solid var(--border);border-radius:40px;padding:4px}
+.builders-install-btn{display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:#fff;border:none;padding:8px 16px;border-radius:32px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--sans)}
+.builders-install-cmd{padding:8px 12px;color:var(--text-primary);font-family:var(--mono);font-size:12px;font-weight:500;display:flex;align-items:center;gap:8px}
+.builders-install-copy{background:none;border:none;cursor:pointer;color:var(--text-light);padding:2px;display:flex;transition:color .2s}
+.builders-install-copy:hover{color:var(--text-primary)}
+.builders-note{font-size:12px;color:var(--text-light);font-family:var(--mono)}
+/* Builders install blocks */
+.bs-install-block{text-align:left;max-width:680px;margin:0 auto}
+.bs-option-label{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:10px}
+.bs-option-label span{font-weight:400;color:var(--text-secondary)}
+.bs-code-block{background:#fff;border:1px solid var(--border);border-radius:10px;padding:18px 20px;font-family:var(--mono);font-size:13px;line-height:1.8;color:var(--text-primary);position:relative;margin-bottom:6px;white-space:pre-wrap}
+.bs-code-copy{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;background:var(--text-primary);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:opacity .2s}
+.bs-code-copy:hover{opacity:.8}
+.bs-code-copy svg{color:#fff}
+.bs-divider{height:1px;background:var(--border);margin:24px 0}
+.bs-terminal{background:#F7F6F2;border:1px solid var(--border);border-radius:10px;padding:16px 20px;font-family:var(--mono);font-size:13px;color:var(--text-primary);position:relative;margin-bottom:6px}
+.bs-terminal .dollar{color:#E8530E;font-weight:700;margin-right:4px}
+.bs-docs-link{font-size:14px;color:var(--text-secondary);margin-top:16px}
+.bs-docs-link a{color:var(--accent);font-weight:600;text-decoration:underline;text-decoration-color:rgba(30,97,240,.3);text-underline-offset:2px;transition:text-decoration-color .2s}
+.bs-docs-link a:hover{text-decoration-color:var(--accent)}
+
+/* Workflow / MCP section */
+.workflow-section{background:#fff;padding:96px 24px;border-top:1px solid var(--border)}
+.workflow-inner{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.wf-left h2{font-size:clamp(26px,3.5vw,38px);font-weight:700;line-height:1.1;letter-spacing:-.03em;margin-bottom:14px}
+.wf-left .wf-sub{font-size:16px;line-height:1.6;color:var(--text-secondary);margin-bottom:28px}
+.wf-questions{display:flex;flex-direction:column;gap:9px;margin-bottom:20px}
+.wf-q{background:var(--bg-dark);color:var(--text-on-dark);padding:13px 17px;border-radius:10px;font-family:var(--mono);font-size:12.5px;line-height:1.5;display:flex;align-items:center;gap:11px;cursor:pointer;border:1.5px solid transparent;text-align:left;width:100%;transition:border-color .2s,background .2s}
+.wf-q .pchar{color:#444;font-weight:600;font-size:14px;flex-shrink:0;transition:color .2s}
+.wf-q:hover{border-color:rgba(30,97,240,.35);background:#16161a}
+.wf-q.active{border-color:var(--accent);background:#0B1424}
+.wf-q.active .pchar{color:var(--accent)}
+.wf-qtext{flex:1}
+.wf-qarrow{opacity:0;transform:translateX(-4px);transition:opacity .2s,transform .2s;color:var(--accent);flex-shrink:0;font-size:13px}
+.wf-q.active .wf-qarrow{opacity:1;transform:translateX(0)}
+
+/* ─── WORKS-IN ROW (compact logo strip) ─── */
+.wf-works-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:nowrap}
+.wf-works-label{font-size:13px;font-weight:600;color:var(--text-secondary);white-space:nowrap;flex-shrink:0}
+.wf-tool-logos{display:flex;align-items:center;gap:6px}
+.wf-tool-logo{display:flex;align-items:center;gap:5px;background:#F5F4F0;border:1px solid var(--border);border-radius:7px;padding:5px 9px;font-size:12px;font-weight:600;color:var(--text-primary);white-space:nowrap;transition:border-color .18s}
+.wf-tool-logo:hover{border-color:#bbb}
+.wf-tool-logo svg,.wf-tool-logo img{width:14px;height:14px;flex-shrink:0}
+
+.install-pill{display:inline-flex;align-items:center;background:#F0F0EC;border-radius:40px;padding:5px}
+.install-btn{display:inline-flex;align-items:center;gap:7px;background:var(--accent);color:#fff;border:none;padding:9px 18px;border-radius:32px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--sans)}
+.install-cmd{padding:9px 14px;color:var(--text-primary);font-family:var(--mono);font-size:13px;font-weight:500;display:flex;align-items:center;gap:9px}
+.install-copy{background:none;border:none;cursor:pointer;color:var(--text-light);padding:3px;display:flex;align-items:center;transition:color .2s}
+.install-copy:hover{color:var(--text-primary)}
+.wf-right{position:sticky;top:80px}
+.wf-panel{background:#111113;border:1px solid #2a2a2f;border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.3)}
+.wf-panel-hd{background:#0D0D0F;border-bottom:1px solid #222226;padding:10px 14px;display:flex;align-items:center;gap:8px}
+.wf-panel-dots{display:flex;gap:5px}
+.wf-panel-dots span{width:9px;height:9px;border-radius:50%}
+.wf-panel-dots span:nth-child(1){background:#FF5F57}
+.wf-panel-dots span:nth-child(2){background:#FFBD2E}
+.wf-panel-dots span:nth-child(3){background:#28C840}
+.wf-panel-ctx{font-size:11px;color:#444;font-family:var(--mono);margin-left:6px;flex:1}
+.wf-panel-tab{font-size:11px;font-family:var(--mono);color:#666;padding:3px 10px;background:#1e1e22;border-radius:5px;border:1px solid #333}
+.wf-panel-body{padding:18px;min-height:340px;display:flex;flex-direction:column}
+.wf-scene{display:none;flex-direction:column;gap:11px}
+.wf-scene.active{display:flex;animation:fadeUp .3s ease}
+.wf-user-msg{background:#1C1C28;border:1px solid #2a2a44;border-radius:10px 10px 2px 10px;padding:10px 13px;font-family:var(--mono);font-size:12px;color:#9999bb;align-self:flex-end;max-width:90%;line-height:1.5}
+.wf-ai-wrap{display:flex;flex-direction:column}
+.wf-ai-hd{display:flex;align-items:center;gap:7px;margin-bottom:9px}
+.wf-ai-logo{width:17px;height:17px;border-radius:4px;background:linear-gradient(135deg,#1E61F0,#7C3AED);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.wf-ai-logo svg{width:9px;height:9px}
+.wf-ai-name{font-size:11px;color:#555;font-family:var(--mono);font-weight:600}
+.wf-ai-badge{font-size:9px;color:#4ade80;font-family:var(--mono);margin-left:auto;background:rgba(74,222,128,.1);padding:2px 7px;border-radius:4px;border:1px solid rgba(74,222,128,.2)}
+.wf-ai-body{background:#161618;border:1px solid #242428;border-radius:3px 12px 12px 12px;padding:13px 15px;font-family:var(--mono);font-size:12px;line-height:1.9;color:#888}
+.wf-line{display:block}.wf-line.dim{color:#3a3a3a}.wf-line.hi{color:#ddd;font-weight:500}.wf-line.blu{color:#7aa7ff}.wf-line.grn{color:#4ade80}.wf-line.org{color:#fbbf24}.wf-line.red{color:#f87171}.wf-line.ind{padding-left:14px}.wf-line.sp{display:block;height:5px}
+.wf-divider{display:block;height:1px;background:#242428;margin:5px 0}
+.wf-stream .wf-line,.wf-stream .wf-divider{opacity:0;animation:streamIn .2s ease forwards}
+.wf-stream .wf-line:nth-child(1){animation-delay:.05s}.wf-stream .wf-line:nth-child(2){animation-delay:.18s}.wf-stream .wf-line:nth-child(3){animation-delay:.32s}.wf-stream .wf-line:nth-child(4){animation-delay:.46s}.wf-stream .wf-line:nth-child(5){animation-delay:.60s}.wf-stream .wf-line:nth-child(6){animation-delay:.74s}.wf-stream .wf-line:nth-child(7){animation-delay:.88s}.wf-stream .wf-line:nth-child(8){animation-delay:1.02s}.wf-stream .wf-line:nth-child(9){animation-delay:1.16s}.wf-stream .wf-line:nth-child(10){animation-delay:1.30s}.wf-stream .wf-line:nth-child(11){animation-delay:1.44s}.wf-stream .wf-line:nth-child(12){animation-delay:1.58s}.wf-stream .wf-line:nth-child(13){animation-delay:1.72s}.wf-stream .wf-line:nth-child(14){animation-delay:1.86s}.wf-stream .wf-line:nth-child(15){animation-delay:2.00s}
+.wf-cursor{display:inline-block;width:6px;height:12px;background:var(--accent);vertical-align:middle;margin-left:2px;border-radius:1px;animation:blinkCursor .85s step-start infinite}
+/* Social proof */
+.social-proof{background:#fff;padding:0 24px 52px;border-bottom:1px solid var(--border)}
+.sp-inner{max-width:880px;margin:0 auto;text-align:center}
+.sp-eyebrow{font-size:13px;font-weight:500;color:var(--text-light);margin-bottom:26px;letter-spacing:.01em}
+.logo-row{display:flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.logo-item{display:flex;align-items:center;justify-content:center;padding:20px 0;border-right:1px solid var(--border);flex:1;min-height:64px}
+.logo-item:last-child{border-right:none}
+.logo-img{height:21px;width:auto;max-width:86px;object-fit:contain;filter:grayscale(100%) opacity(30%);transition:filter .2s}
+.logo-item:hover .logo-img{filter:grayscale(100%) opacity(52%)}
+.logo-text{font-size:11px;font-weight:700;letter-spacing:.04em;color:#C0BFB9;text-transform:uppercase}
+/* Traction */
+.traction-section{background:#fff;padding:80px 24px;border-bottom:1px solid var(--border)}
+.traction-inner{max-width:1000px;margin:0 auto}
+.traction-header{text-align:center;margin-bottom:40px}
+.section-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:rgba(30,97,240,.08);padding:4px 12px;border-radius:20px;margin-bottom:14px}
+.traction-header h2{font-size:clamp(24px,3.5vw,36px);font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-bottom:8px}
+.traction-header p{font-size:16px;color:var(--text-secondary)}
+.traction-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.traction-cta{display:flex;align-items:center;justify-content:center;gap:20px;margin-top:36px}
+.traction-demo-link{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--accent);text-decoration:none;transition:gap .2s}
+.traction-demo-link:hover{gap:9px}
+.tr-card{background:#fff;border-radius:16px;overflow:hidden;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.tr-card-vis{height:110px;padding:14px 14px 0;display:flex;align-items:flex-end;overflow:hidden}
+.tr-card-vis.arrive{background:linear-gradient(to bottom,#EFF6FF,#fff)}
+.tr-card-vis.stuck{background:linear-gradient(to bottom,#FFF7ED,#fff)}
+.tr-card-vis.next{background:linear-gradient(to bottom,#F0FDF4,#fff)}
+.tr-card-body{padding:16px 18px 20px}
+.tr-card-num{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px;display:block}
+.tr-card.arrive .tr-card-num{color:#2563EB}.tr-card.stuck .tr-card-num{color:#D97706}.tr-card.next .tr-card-num{color:#16A34A}
+.tr-card-title{font-size:15px;font-weight:700;line-height:1.3;margin-bottom:9px;letter-spacing:-.01em}
+.tr-card-points{list-style:none;display:flex;flex-direction:column;gap:5px}
+.tr-card-points li{font-size:12.5px;color:var(--text-secondary);line-height:1.45;display:flex;gap:7px;align-items:flex-start}
+.tr-card.arrive .tr-card-points li::before{content:'↑';color:#60A5FA;flex-shrink:0;font-weight:700}
+.tr-card.stuck .tr-card-points li::before{content:'·';color:#FCA5A5;flex-shrink:0;font-weight:900;font-size:17px;line-height:1}
+.tr-card.next .tr-card-points li::before{content:'→';color:#22C55E;flex-shrink:0;font-weight:700}
+/* Why Switch */
+.why-switch-section{background:var(--bg-dark);padding:96px 24px}
+.why-switch-inner{max-width:900px;margin:0 auto}
+.why-switch-inner h2{font-size:clamp(26px,3.8vw,38px);font-weight:700;line-height:1.1;letter-spacing:-.03em;color:#fff;text-align:center;margin-bottom:14px}
+.why-switch-inner .ws-sub{font-size:16px;color:var(--text-muted-dark);text-align:center;margin-bottom:52px;line-height:1.5}
+.ws-cols{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border-dark);border-radius:16px;overflow:hidden}
+.ws-col{padding:40px}.ws-col.theirs{background:#141416}.ws-col.ours{background:#0B1424}
+.ws-col-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:22px;display:block}
+.ws-col.theirs .ws-col-label{color:#888}.ws-col.ours .ws-col-label{color:var(--accent)}
+.ws-items{list-style:none;display:flex;flex-direction:column;gap:14px}
+.ws-item,.ws-items li{display:flex;align-items:flex-start;gap:12px;font-size:14.5px;line-height:1.45}
+.ws-item-icon{font-size:12px;flex-shrink:0;margin-top:2px;width:16px;text-align:center}
+.ws-col.theirs .ws-item,.ws-col.theirs .ws-items li{color:#C8C7C0}.ws-col.theirs .ws-item-icon{color:#888}
+.ws-col.ours .ws-item,.ws-col.ours .ws-items li{color:#EEEEE8}.ws-col.ours .ws-item-icon{color:#4ade80}
+.ws-closer{font-size:16px;font-weight:600;color:var(--text-muted-dark);text-align:center;margin-top:40px;line-height:1.5}
+.ws-closer span{color:#fff}
+/* Teams */
+.teams-section{background:#fff;padding:96px 24px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.teams-inner{max-width:1040px;margin:0 auto}
+.teams-header{text-align:center;margin-bottom:52px}
+.teams-header h2{font-size:clamp(26px,3.8vw,38px);font-weight:700;line-height:1.1;letter-spacing:-.03em;margin-bottom:12px}
+.teams-header p{font-size:17px;color:var(--text-secondary);max-width:500px;margin:0 auto}
+.teams-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.team-card{background:#fff;border:1px solid var(--border);border-radius:18px;overflow:hidden}
+.team-card-body{padding:22px 24px 26px}
+.team-card-role{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;display:block}
+.team-card.product .team-card-role{color:#7C3AED}.team-card.growth .team-card-role{color:#D97706}.team-card.engineering .team-card-role{color:#0EA5E9}
+.team-card-title{font-size:16px;font-weight:700;line-height:1.3;margin-bottom:12px;letter-spacing:-.01em}
+.team-card-points{list-style:none;display:flex;flex-direction:column;gap:6px}
+.team-card-points li{font-size:13px;color:var(--text-secondary);line-height:1.4;display:flex;gap:8px;align-items:flex-start}
+.team-card.product .team-card-points li::before{content:'→';color:#7C3AED;flex-shrink:0;font-weight:700}
+.team-card.growth .team-card-points li::before{content:'→';color:#D97706;flex-shrink:0;font-weight:700}
+.team-card.engineering .team-card-points li::before{content:'→';color:#0EA5E9;flex-shrink:0;font-weight:700}
+.scta{text-align:center;margin-top:40px}
+.scta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border:none;padding:12px 28px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:background .2s,transform .15s}
+.scta-btn:hover{background:var(--accent-hover);transform:translateY(-1px)}
+/* Security */
+.security-section{background:#F7F6F2;padding:80px 24px;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.security-inner{max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.security-left h2{font-size:clamp(24px,3.2vw,32px);font-weight:700;letter-spacing:-.03em;line-height:1.15;margin-bottom:12px}
+.security-left p{font-size:15px;color:var(--text-secondary);line-height:1.6;margin-bottom:26px}
+.security-badges{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:26px}
+.sec-badge{display:flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--border);padding:5px 11px;border-radius:7px;font-size:11px;font-weight:600}
+.sec-badge-dot{width:5px;height:5px;border-radius:50%;background:#22C55E;flex-shrink:0}
+.security-features{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.sec-feature{display:flex;align-items:flex-start;gap:7px;font-size:13px;color:var(--text-secondary);line-height:1.45}
+.sec-feature::before{content:'✓';color:#22C55E;font-weight:700;flex-shrink:0;font-size:11px;margin-top:2px}
+.security-right{display:flex;flex-direction:column;gap:10px}
+.sec-cert{background:#fff;border:1px solid var(--border);border-radius:11px;padding:16px 18px;display:flex;align-items:flex-start;gap:13px}
+.sec-cert-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;background:#F5F4F0}
+.sec-cert-label{font-size:13px;font-weight:700}.sec-cert-sub{font-size:12px;color:var(--text-secondary);margin-top:3px;line-height:1.4}
+/* Final CTA */
+.final-cta{background:var(--bg-dark);padding:96px 24px;text-align:center}
+.final-inner{max-width:560px;margin:0 auto}
+.final-cta h2{font-size:clamp(28px,4.5vw,44px);font-weight:700;line-height:1.1;letter-spacing:-.035em;color:#fff;margin-bottom:16px}
+.final-cta h2 .accent{color:var(--accent)}
+.final-cta p{font-size:17px;color:var(--text-muted-dark);margin-bottom:32px;line-height:1.6}
+.final-cta-btns{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+.btn-final{display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border:none;padding:15px 34px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:background .2s,transform .15s;text-decoration:none}
+.btn-final:hover{background:var(--accent-hover);transform:translateY(-1px)}
+.btn-final-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.25);padding:14px 28px;border-radius:12px;font-size:16px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:border-color .2s,transform .15s;text-decoration:none}
+.btn-final-ghost:hover{border-color:rgba(255,255,255,.55);transform:translateY(-1px)}
+/* Footer */
+.amp-footer{background:#0C0C0E;border-top:1px solid #1E1E22;padding:64px 32px 32px}
+.amp-footer-inner{max-width:1120px;margin:0 auto}
+.amp-footer-top{display:grid;grid-template-columns:auto 1fr;gap:80px;margin-bottom:56px;align-items:start}
+.amp-footer-brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;letter-spacing:-.02em;color:#fff;margin-bottom:16px}
+.amp-footer-brand-block p{font-size:13px;color:#56554E;line-height:1.6;max-width:200px;margin-top:4px}
+.amp-footer-cols{display:grid;grid-template-columns:repeat(5,1fr);gap:40px}
+.amp-footer-col h4{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#56554E;margin-bottom:16px}
+.amp-footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.amp-footer-col ul li a{font-size:13px;color:#78776F;text-decoration:none;transition:color .2s}
+.amp-footer-col ul li a:hover{color:#EEEEE8}
+.amp-footer-bottom{border-top:1px solid #1E1E22;padding-top:28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.amp-footer-legal{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.amp-footer-legal a{font-size:12px;color:#56554E;text-decoration:none;transition:color .2s}
+.amp-footer-legal a:hover{color:#78776F}
+.amp-footer-copy{font-size:12px;color:#3A3A3E}
+.amp-footer-social{display:flex;align-items:center;gap:16px}
+.amp-footer-social a{color:#56554E;text-decoration:none;font-size:12px;font-weight:600;letter-spacing:.04em;transition:color .2s;display:flex;align-items:center;gap:5px}
+.amp-footer-social a:hover{color:#EEEEE8}
+.amp-footer-social svg{fill:currentColor}
+
+/* ═══ UNIFIED AI-NATIVE SECTION (v3) ═══ */
+.unified-section{background:#F7F6F2;padding:80px 24px 0;border-top:1px solid var(--border)}
+.unified-top{max-width:1040px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.unified-top .wf-left h2{font-size:clamp(26px,3.5vw,38px);font-weight:700;line-height:1.1;letter-spacing:-.03em;margin-bottom:14px}
+.unified-top .wf-sub{font-size:16px;line-height:1.6;color:var(--text-secondary);margin-bottom:28px}
+.unified-top .wf-questions{display:flex;flex-direction:column;gap:9px;margin-bottom:0}
+/* Transition strip between value demo and quick start */
+.qs-bridge{max-width:1040px;margin:48px auto 0;display:flex;align-items:center;gap:0}
+.qs-bridge-line{flex:1;height:1px;background:var(--border)}
+.qs-bridge-text{display:flex;align-items:center;gap:8px;padding:0 20px;white-space:nowrap;font-size:12px;font-weight:600;color:var(--text-light);letter-spacing:.06em;text-transform:uppercase;font-family:var(--mono)}
+.qs-bridge-text svg{flex-shrink:0;opacity:.5}
+/* Quick-start compact install area */
+.qs-area{background:transparent;border-top:1px solid rgba(0,0,0,.07);margin-top:0;padding:32px 24px 48px}
+.qs-inner{max-width:760px;margin:0 auto}
+.qs-tabs-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.qs-label{font-size:13px;font-weight:600;color:var(--text-secondary)}
+.qs-tabs{display:inline-flex;background:#E8E7E2;border:1px solid var(--border);border-radius:8px;padding:3px;gap:2px}
+.qs-tab{padding:6px 18px;border-radius:6px;font-size:13px;font-weight:600;color:var(--text-secondary);cursor:pointer;border:none;background:transparent;font-family:var(--sans);transition:all .2s;user-select:none}
+.qs-tab.active{background:var(--accent);color:#fff;box-shadow:0 2px 8px rgba(30,97,240,.3)}
+.qs-tab:hover:not(.active){background:rgba(0,0,0,.06);color:var(--text-primary)}
+.qs-panel{display:none}.qs-panel.active{display:block;animation:fadeUp .25s ease}
+/* MCP panel: compact logo strip + command */
+.qs-mcp-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.qs-mcp-logos{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.qs-mcp-logo{display:flex;align-items:center;gap:5px;background:#fff;border:1px solid var(--border);border-radius:6px;padding:5px 9px;font-size:12px;font-weight:600;color:var(--text-primary);transition:border-color .18s}
+.qs-mcp-logo:hover{border-color:#bbb}
+.qs-mcp-logo svg{width:13px;height:13px;flex-shrink:0}
+.qs-mcp-logo span{font-size:11px}
+.qs-mcp-cta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px}
+/* SDK / CLI terminal blocks */
+.qs-terminal{background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-family:var(--mono);font-size:13px;color:var(--text-primary);position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.qs-terminal .dollar{color:#E8530E;font-weight:700;margin-right:4px}
+.qs-terminal .cmd{flex:1}
+.qs-copy-btn{background:none;border:1px solid var(--border);border-radius:6px;cursor:pointer;color:var(--text-light);padding:5px 8px;display:flex;align-items:center;gap:4px;font-size:11px;font-weight:600;font-family:var(--sans);transition:color .2s,border-color .2s;white-space:nowrap;flex-shrink:0}
+.qs-copy-btn:hover{color:var(--text-primary);border-color:#bbb}
+.qs-install-pill{display:inline-flex;align-items:center;background:#fff;border:1px solid var(--border);border-radius:40px;padding:4px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.qs-install-btn{display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:#fff;border:none;padding:9px 18px;border-radius:32px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:background .2s}
+.qs-install-btn:hover{background:var(--accent-hover)}
+.qs-install-cmd{padding:8px 14px;color:var(--text-primary);font-family:var(--mono);font-size:12.5px;font-weight:500;display:flex;align-items:center;gap:8px}
+.qs-note{font-size:12px;color:var(--text-light);font-family:var(--mono)}
+.qs-docs-link{font-size:13px;color:var(--accent);font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:4px;transition:gap .15s;margin-left:auto}
+.qs-docs-link:hover{gap:7px}
+.qs-sub{font-size:12px;color:var(--text-secondary);margin-top:6px;line-height:1.5;font-family:var(--mono)}
+</style>
+</head>
+<body>
+<!-- Nav -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <div class="nav-brand">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#fff"/><path d="M8 16.5L12 6.5L16 16.5" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><line x1="9.5" y1="13.5" x2="14.5" y2="13.5" stroke="#111" stroke-width="1.6" stroke-linecap="round"/></svg>
+      amplitude
+    </div>
+    <div class="nav-links">
+      <a href="https://amplitude.com/amplitude-analytics" class="nav-link">Product <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a href="https://amplitude.com/solutions" class="nav-link">Solutions <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a href="https://amplitude.com/resources" class="nav-link">Resources <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a href="https://amplitude.com/enterprise" class="nav-link">Enterprise</a>
+      <a href="https://amplitude.com/pricing" class="nav-link">Pricing</a>
+    </div>
+    <div class="nav-actions">
+      <button class="btn-nav-sales">Contact sales</button>
+      <button class="btn-nav-ghost">Log in</button>
+      <button class="btn-nav-primary">Get started &rarr;</button>
+    </div>
+  </div>
+</nav>
+
+<!-- CYCLING HERO -->
+<section class="cycling-hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="ch-content">
+    <div class="ch-header fade-up">
+      <div class="ch-eyebrow">The action and intelligence layer</div>
+      <h1 class="ch-h1">Turn user behavior into better products.</h1>
+      <p class="ch-sub">Detect friction. Understand why. Launch experiments, guides, and AI-powered workflows. Measure the impact. Repeat.</p>
+      <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:24px">
+        <button class="btn-hero">Start free <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <a href="https://amplitude.com/demo" class="btn-hero-ghost">Talk to Sales</a>
+      </div>
+      <div style="text-align:center;margin-top:8px"><span class="ch-note">No credit card. Data in minutes.</span></div>
+    </div>
+    <div class="ch-steps fade-up-d1" id="chSteps"></div>
+    <div class="ch-stage-label fade-up-d1" id="chLabel"></div>
+    <div class="ch-window fade-up-d2">
+      <div class="ch-window-chrome">
+        <div class="ch-window-dots"><span></span><span></span><span></span></div>
+        <div class="ch-window-mid">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#555" stroke-width="1"/><circle cx="6" cy="6" r="1.8" fill="#555"/></svg>
+          <span class="ch-window-label">Amplitude</span>
+        </div>
+        <span class="ch-window-tag" id="chTag"></span>
+      </div>
+      <div class="ch-window-body">
+        <div class="ch-window-content" id="chContent"></div>
+      </div>
+      <div class="ch-window-bar">
+        <div class="ch-window-bar-left">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" id="chLoopIcon"><path d="M5.5 1.5a4 4 0 1 1-2.8 1.2" stroke="#555" stroke-width="1" stroke-linecap="round"/><path d="M2.7 1v1.7h1.7" stroke="#555" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>Continuous optimization loop</span>
+        </div>
+        <span id="chNext"></span>
+      </div>
+    </div>
+    <div class="ch-loop-cta fade-up-d2">
+      <div class="ch-loop-line">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" id="chLoopSpin"><path d="M6.5 1.5a5 5 0 1 1-3.5 1.5" stroke="var(--accent)" stroke-width="1.2" stroke-linecap="round"/><path d="M3 1l0 2 2 0" stroke="var(--accent)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Detect &rarr; Diagnose &rarr; Recommend &rarr; Experiment &rarr; Outcome &rarr; <strong>Continuously Improve</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section class="social-proof-hero">
+  <div class="sph-inner">
+    <p class="sph-eyebrow">Behind today's fastest-improving products</p>
+    <div class="sph-logos">
+      <div class="sph-logo"><img src="https://amplitude.com/next-image/amplitude-com/media/WKfFKBxcShCe4ICwAE4a0.svg" alt="NBCUniversal" loading="lazy"/></div>
+      <div class="sph-logo"><img src="https://amplitude.com/next-image/amplitude-com/media/7fvjEAIBxaIQJzFzN7XuZ.svg" alt="Walmart" loading="lazy"/></div>
+      <div class="sph-logo"><img src="https://amplitude.com/next-image/amplitude-com/media/6hbk8rw5FGO2zcwBqG9JYm.svg" alt="Dropbox" loading="lazy"/></div>
+      <div class="sph-logo"><img src="https://amplitude.com/next-image/amplitude-com/media/4A5aFP3EZxWnZhBJH6mmQ4.svg" alt="Atlassian" loading="lazy"/></div>
+      <div class="sph-logo"><img src="https://amplitude.com/next-image/amplitude-com/media/0fef7f37a35c08d2eb3d5bd18c5ddc62.svg" alt="Square" loading="lazy"/></div>
+      <div class="sph-logo"><img src="https://amplitude.com/next-image/amplitude-com/media/1e7yFMZz6JhPLJ0Hkfy96d.svg" alt="Calm" loading="lazy"/></div>
+    </div>
+  </div>
+</section>
+
+<!-- UNIFIED AI-NATIVE WORKFLOW + QUICK START (v3) -->
+<section class="unified-section">
+
+  <!-- ── PART 1: Value / workflow demo ── -->
+  <div class="unified-top">
+    <div class="wf-left">
+      <h2>Ask your product what's happening.<br>Get answers instantly.</h2>
+      <p class="wf-sub">No dashboards. No digging. Just answers from your data, right where you work — in Cursor, Claude, GitHub, and anywhere MCP runs.</p>
+      <div class="wf-questions">
+        <button class="wf-q active" data-q="1" onclick="wfSelect(1)"><span class="pchar">&gt;</span><span class="wf-qtext">"Why are new users dropping before setup?"</span><span class="wf-qarrow">&#8594;</span></button>
+        <button class="wf-q" data-q="2" onclick="wfSelect(2)"><span class="pchar">&gt;</span><span class="wf-qtext">"Show me sessions where users got stuck."</span><span class="wf-qarrow">&#8594;</span></button>
+        <button class="wf-q" data-q="3" onclick="wfSelect(3)"><span class="pchar">&gt;</span><span class="wf-qtext">"What should we build next?"</span><span class="wf-qarrow">&#8594;</span></button>
+      </div>
+    </div>
+
+    <div class="wf-right">
+      <div class="wf-panel">
+        <div class="wf-panel-hd"><div class="wf-panel-dots"><span></span><span></span><span></span></div><span class="wf-panel-ctx" id="wf-ctx">Cursor &mdash; Chat</span><span class="wf-panel-tab">Amplitude MCP</span></div>
+        <div class="wf-panel-body">
+          <div class="wf-scene active" id="wf-scene-1">
+            <div class="wf-user-msg">&gt; "Why are new users dropping before setup?"</div>
+            <div class="wf-ai-wrap">
+              <div class="wf-ai-hd"><div class="wf-ai-logo"><svg viewBox="0 0 10 10" fill="white"><circle cx="5" cy="5" r="3"/></svg></div><span class="wf-ai-name">Amplitude</span><span class="wf-ai-badge">via MCP</span></div>
+              <div class="wf-ai-body wf-stream">
+                <span class="wf-line dim">Analyzing signup-to-setup funnel (last 7d)...</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-line hi">67% of signups never start setup</span>
+                <span class="wf-line dim">3,241 signups / 1,847 setup starts this week</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-divider"></span>
+                <span class="wf-line org">Root cause: empty state at first login</span>
+                <span class="wf-line ind">31% exit within 90 sec, no action taken</span>
+                <span class="wf-line ind dim">No prompt, no guided path shown on dashboard</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-line grn">Users who start setup within 5 min: 3.2x retention</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-line blu">847 session replays available: stuck at empty state<span class="wf-cursor"></span></span>
+              </div>
+            </div>
+          </div>
+          <div class="wf-scene" id="wf-scene-2">
+            <div class="wf-user-msg">&gt; "Show me sessions where users got stuck."</div>
+            <div class="wf-ai-wrap">
+              <div class="wf-ai-hd"><div class="wf-ai-logo"><svg viewBox="0 0 10 10" fill="white"><circle cx="5" cy="5" r="3"/></svg></div><span class="wf-ai-name">Amplitude</span><span class="wf-ai-badge">via MCP</span></div>
+              <div class="wf-ai-body wf-stream">
+                <span class="wf-line dim">Filtering session replay: rage clicks + exits (last 7d)...</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-line hi">1,204 sessions flagged with friction signals</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-divider"></span>
+                <span class="wf-line org">Top friction points</span>
+                <span class="wf-line ind red">#1: Setup step 2, "Connect data" &mdash; 847 sessions</span>
+                <span class="wf-line ind dim">Avg 4.2 rage clicks before abandonment</span>
+                <span class="wf-line ind">#2: Invite teammates modal &mdash; 223 sessions</span>
+                <span class="wf-line ind dim">Users close it and don't return to the flow</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-line grn">Users past step 2: 89% activated</span>
+                <span class="wf-line dim ind">vs 9% for those who abandoned here</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-line blu">Open replays or export segment<span class="wf-cursor"></span></span>
+              </div>
+            </div>
+          </div>
+          <div class="wf-scene" id="wf-scene-3">
+            <div class="wf-user-msg">&gt; "What should we build next?"</div>
+            <div class="wf-ai-wrap">
+              <div class="wf-ai-hd"><div class="wf-ai-logo"><svg viewBox="0 0 10 10" fill="white"><circle cx="5" cy="5" r="3"/></svg></div><span class="wf-ai-name">Amplitude</span><span class="wf-ai-badge">via MCP</span></div>
+              <div class="wf-ai-body wf-stream">
+                <span class="wf-line dim">Analyzing drop-offs, surveys, search events, retention (30d)...</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-line hi">Top opportunities by signal strength</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-line grn">#1  Guided onboarding path</span>
+                <span class="wf-line ind">847 replays show users stuck at setup</span>
+                <span class="wf-line ind dim">Complete setup = 3.2x retention</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-line org">#2  CSV / bulk export</span>
+                <span class="wf-line ind">Top NPS request (last 60d)</span>
+                <span class="wf-line ind dim">Requested by 41% of daily-active accounts</span>
+                <span class="wf-line sp"></span>
+                <span class="wf-line blu">#3  Mobile push notifications</span>
+                <span class="wf-line ind">38% of active users have no re-engagement path<span class="wf-cursor"></span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TRANSITION: value → setup ── -->
+  <div class="qs-bridge">
+    <div class="qs-bridge-line"></div>
+    <div class="qs-bridge-text">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1.5a4.5 4.5 0 1 1-3.2 1.3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M2.8.8v1.7h1.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Install once. Ask anything.
+    </div>
+    <div class="qs-bridge-line"></div>
+  </div>
+
+  <!-- ── PART 2: Compact quick-start ── -->
+  <div class="qs-area">
+    <div class="qs-inner">
+      <div class="qs-tabs-row">
+        <span class="qs-label">Quick start</span>
+        <div class="qs-tabs">
+          <button class="qs-tab active" onclick="qsTab('mcp',this)">MCP</button>
+          <button class="qs-tab" onclick="qsTab('sdk',this)">SDK</button>
+          <button class="qs-tab" onclick="qsTab('cli',this)">CLI</button>
+        </div>
+      </div>
+
+      <!-- MCP panel -->
+      <div class="qs-panel active" id="qs-mcp">
+        <div class="qs-mcp-row">
+          <div class="qs-mcp-logos">
+            <span class="qs-mcp-logo"><svg viewBox="0 0 18 18" fill="none"><path d="M9 2L10.5 6.5H15L11.25 9.5L12.75 14L9 11L5.25 14L6.75 9.5L3 6.5H7.5L9 2Z" fill="#D97757"/></svg><span>Claude</span></span>
+            <span class="qs-mcp-logo"><svg viewBox="0 0 18 18" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M9 1C4.58 1 1 4.58 1 9c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.43c-2.29.49-2.76-1.07-2.76-1.07-.37-.94-1.01-1.19-1.01-1.19-.83-.56.06-.55.06-.55.92.07 1.4.94 1.4.94.82 1.52 2.14 1.08 2.66.83.08-.64.32-1.08.58-1.33-2.03-.23-4.16-.97-4.16-4.32 0-.95.34-1.73.9-2.34-.09-.23-.39-1.1.09-2.3 0 0 .74-.23 2.42 1.01a8.4 8.4 0 0 1 2.2-.3c.75.01 1.5.1 2.2.3 1.68-1.24 2.42-1.01 2.42-1.01.48 1.2.18 2.07.09 2.3.56.6.9 1.38.9 2.34 0 3.36-2.05 4.1-4 4.32.31.27.59.8.59 1.62v2.4c0 .21.15.47.56.39C14.72 15.53 17 12.54 17 9c0-4.42-3.58-8-8-8Z" fill="#24292E"/></svg><span>GitHub</span></span>
+            <span class="qs-mcp-logo"><svg viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="14" height="14" rx="4" fill="#000"/><path d="M6.5 13V8c0-1.1.9-2 2-2h1c1.1 0 2 .9 2 2v5" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg><span>Cursor</span></span>
+            <span class="qs-mcp-logo"><svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" fill="#FF4B6E"/><path d="M9 13.5C9 13.5 4.5 10.5 4.5 7.5 4.5 6.1 5.6 5 7 5c.8 0 1.5.4 2 1 .5-.6 1.2-1 2-1 1.4 0 2.5 1.1 2.5 2.5C13.5 10.5 9 13.5 9 13.5Z" fill="#fff"/></svg><span>Lovable</span></span>
+            <span class="qs-mcp-logo" style="color:var(--text-light);border-style:dashed;font-size:11px">+ any MCP tool</span>
+          </div>
+        </div>
+        <div class="qs-mcp-cta">
+          <div class="qs-install-pill">
+            <button class="qs-install-btn"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8.5 1L3 9.5H7.5L7 15L13 6.5H8.5Z" fill="currentColor"/></svg>Install with AI</button>
+            <span class="qs-install-cmd">npx @amplitude/wizard<button class="qs-copy-btn" style="border:none;background:none;padding:0 4px" onclick="navigator.clipboard.writeText('npx @amplitude/wizard')" title="Copy"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3 11V3.5C3 2.67 3.67 2 4.5 2H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button></span>
+          </div>
+          <a href="https://amplitude.com/docs/sdks/mcp" target="_blank" class="qs-docs-link">MCP docs <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+        <p class="qs-sub">Connects to Claude, Cursor, GitHub Copilot, Windsurf, and any MCP-compatible AI environment.</p>
+      </div>
+
+      <!-- SDK panel -->
+      <div class="qs-panel" id="qs-sdk">
+        <div class="qs-terminal">
+          <span><span class="dollar">$</span><span class="cmd">npm install @amplitude/analytics-browser</span></span>
+          <button class="qs-copy-btn" onclick="copyCmd(this,'npm install @amplitude/analytics-browser')"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3 11V3.5C3 2.67 3.67 2 4.5 2H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg> Copy</button>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px;flex-wrap:wrap;gap:8px">
+          <p class="qs-sub" style="margin:0">TypeScript, Python, Go, Swift, Kotlin, and more.</p>
+          <a href="https://www.docs.developers.amplitude.com/sdks/" target="_blank" class="qs-docs-link" style="margin-left:0">SDK docs <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+      <!-- CLI panel -->
+      <div class="qs-panel" id="qs-cli">
+        <div class="qs-terminal">
+          <span><span class="dollar">$</span><span class="cmd">npx @amplitude/wizard</span></span>
+          <button class="qs-copy-btn" onclick="copyCmd(this,'npx @amplitude/wizard')"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3 11V3.5C3 2.67 3.67 2 4.5 2H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg> Copy</button>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px;flex-wrap:wrap;gap:8px">
+          <p class="qs-sub" style="margin:0">Detects your stack, instruments events, and validates your setup automatically.</p>
+          <a href="https://www.docs.developers.amplitude.com/getting-started/cli-wizard/" target="_blank" class="qs-docs-link" style="margin-left:0">CLI docs <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TRACTION -->
+<section class="traction-section">
+  <div class="traction-inner">
+    <div class="traction-header"><span class="section-tag">How it plays out in practice</span><h2>Traffic is up. So why aren't users converting?</h2><p>Most teams find out something is broken weeks later. Amplitude tells you in real time.</p></div>
+    <div class="traction-cards">
+      <div class="tr-card arrive"><div class="tr-card-vis arrive"><svg width="100%" height="96" viewBox="0 0 220 96" preserveAspectRatio="none"><defs><linearGradient id="blueGrad2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3B82F6" stop-opacity=".16"/><stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/></linearGradient></defs><polygon points="0,85 35,77 70,67 105,55 145,40 185,24 220,12 220,96 0,96" fill="url(#blueGrad2)"/><polyline points="0,85 35,77 70,67 105,55 145,40 185,24 220,12" stroke="#3B82F6" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="700" stroke-dashoffset="700" style="animation:drawLine 1.6s ease .3s forwards"/><text x="165" y="9" style="font-family:var(--mono);font-size:9px;fill:#3B82F6;font-weight:700">↑ 18%</text></svg></div><div class="tr-card-body"><span class="tr-card-num">01 — Growth</span><div class="tr-card-title">Signups are up. New channels are working.</div><ul class="tr-card-points"><li>AI-driven search traffic up 31% this week</li><li>New user segments arriving from different sources</li><li>Signup rate holding steady across cohorts</li></ul></div></div>
+      <div class="tr-card stuck"><div class="tr-card-vis stuck"><svg width="100%" height="96" viewBox="0 0 220 96" preserveAspectRatio="none"><text x="8" y="17" style="font-family:var(--mono);font-size:8px;fill:#9CA3AF">Signups</text><rect x="8" y="21" width="204" height="11" rx="3" fill="#FED7AA" style="transform-origin:left;animation:growBar .7s ease .2s both"/><text x="8" y="50" style="font-family:var(--mono);font-size:8px;fill:#9CA3AF">Activated</text><rect x="8" y="54" width="39" height="11" rx="3" fill="#FCA5A5" style="transform-origin:left;animation:growBar .7s ease .5s both"/><text x="53" y="63" style="font-family:var(--mono);font-size:8px;fill:#DC2626;font-weight:700">19% only</text><text x="8" y="89" style="font-family:var(--mono);font-size:7.5px;fill:#F97316">847 replays show failure at setup step 2</text></svg></div><div class="tr-card-body"><span class="tr-card-num">02 — Silent problem</span><div class="tr-card-title">No error. No alert. Just users leaving.</div><ul class="tr-card-points"><li>66% of new signups never activate</li><li>847 users tried to connect data. Failed. Left.</li><li>The issue hides in behavior, not bug reports</li></ul></div></div>
+      <div class="tr-card next"><div class="tr-card-vis next"><svg width="100%" height="96" viewBox="0 0 220 96" preserveAspectRatio="none"><rect x="8" y="8" width="204" height="21" rx="5" fill="#BBF7D0" style="animation:fadeIn .5s ease .2s both;opacity:0"/><text x="16" y="23" style="font-family:var(--mono);font-size:9px;fill:#15803D;font-weight:700">Experiment: guided onboarding</text><rect x="8" y="39" width="204" height="16" rx="4" fill="#D1FAE5" style="animation:fadeIn .5s ease .6s both;opacity:0"/><text x="16" y="51" style="font-family:var(--mono);font-size:8.5px;fill:#047857">Activation +34% in test group</text><rect x="8" y="65" width="204" height="16" rx="4" fill="#ECFDF5" style="animation:fadeIn .5s ease 1s both;opacity:0"/><text x="16" y="77" style="font-family:var(--mono);font-size:8.5px;fill:#065F46">Shipped to 100% — roadmap updated</text></svg></div><div class="tr-card-body"><span class="tr-card-num">03 — Fix</span><div class="tr-card-title">Now you know what to test.</div><ul class="tr-card-points"><li>Launch guided onboarding</li><li>Activation rises 34% in the test group</li><li>Ship the winner and update the roadmap</li></ul></div></div>
+    </div>
+    <div class="traction-cta"><button class="btn-hero" style="font-size:14px;padding:12px 26px">Get started <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><a href="https://amplitude.com/demo" class="traction-demo-link">Get a demo <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+  </div>
+</section>
+
+<!-- WHY SWITCH -->
+<section class="why-switch-section">
+  <div class="why-switch-inner">
+    <h2>Most analytics tools stop at charts.</h2>
+    <p class="ws-sub">The gap between data and decisions is where products stall. Amplitude closes it.</p>
+    <div class="ws-cols">
+      <div class="ws-col theirs"><span class="ws-col-label">Other tools leave you with</span><ul class="ws-items"><li><span class="ws-item-icon">—</span>Dashboards you have to interpret yourself</li><li><span class="ws-item-icon">—</span>Funnels that show drop-off, not cause</li><li><span class="ws-item-icon">—</span>Raw events without enough context</li><li><span class="ws-item-icon">—</span>Manual analysis across tools</li><li><span class="ws-item-icon">—</span>Another meeting to debate what it means</li></ul></div>
+      <div class="ws-col ours"><span class="ws-col-label">Amplitude helps you</span><ul class="ws-items"><li><span class="ws-item-icon">✓</span>Find where users drop</li><li><span class="ws-item-icon">✓</span>Understand why it happened</li><li><span class="ws-item-icon">✓</span>Watch real sessions behind the numbers</li><li><span class="ws-item-icon">✓</span>Get a recommended next step</li><li><span class="ws-item-icon">✓</span>Test and ship what works</li></ul></div>
+    </div>
+    <p class="ws-closer">Data is not the problem. <span>Knowing what to do with it is.</span></p>
+  </div>
+</section>
+
+<!-- TEAMS -->
+<section class="teams-section">
+  <div class="teams-inner">
+    <div class="teams-header"><h2>How teams use Amplitude differently</h2><p>Not more reports. Faster decisions across product, growth, and engineering.</p></div>
+    <div class="teams-grid">
+      <div class="team-card product"><div class="team-card-body"><span class="team-card-role">Product</span><div class="team-card-title">Decide what to build next</div><ul class="team-card-points"><li>Find the exact step where users drop</li><li>Prioritize what to fix based on real behavior</li><li>Validate changes with experiments</li></ul></div></div>
+      <div class="team-card growth"><div class="team-card-body"><span class="team-card-role">Growth</span><div class="team-card-title">Act on insights immediately</div><ul class="team-card-points"><li>See which channels bring users who retain</li><li>Improve onboarding and conversion</li><li>Trigger guides when users stall in real time</li></ul></div></div>
+      <div class="team-card engineering"><div class="team-card-body"><span class="team-card-role">Engineering</span><div class="team-card-title">Ship with confidence</div><ul class="team-card-points"><li>Understand real user impact of issues</li><li>Connect behavior to releases</li><li>Roll out fixes safely with flags</li></ul></div></div>
+    </div>
+    <div class="scta" style="display:flex;align-items:center;justify-content:center;gap:16px"><button class="scta-btn">Start free <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><a href="https://amplitude.com/demo" style="display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--accent);text-decoration:none;transition:gap .2s" onmouseover="this.style.gap='9px'" onmouseout="this.style.gap='6px'">Watch a demo <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+  </div>
+</section>
+
+<!-- SECURITY -->
+<section class="security-section">
+  <div class="security-inner">
+    <div class="security-left">
+      <h2>Built for real traffic.<br>Ready for production.</h2>
+      <p>Fast queries, reliable pipelines, and security controls that scale from your first deploy to your millionth user.</p>
+      <div class="security-badges"><span class="sec-badge"><span class="sec-badge-dot"></span>SOC 2 Type II</span><span class="sec-badge"><span class="sec-badge-dot"></span>ISO 27001 &amp; 27018</span><span class="sec-badge"><span class="sec-badge-dot"></span>GDPR Compliant</span><span class="sec-badge"><span class="sec-badge-dot"></span>CCPA Compliant</span><span class="sec-badge"><span class="sec-badge-dot"></span>HIPAA Compliant</span></div>
+      <div class="security-features"><span class="sec-feature">High-volume event collection</span><span class="sec-feature">Fast queries without lag</span><span class="sec-feature">Reliable data pipelines</span><span class="sec-feature">Enterprise-grade security</span><span class="sec-feature">Privacy and governance controls</span><span class="sec-feature">Works with your data warehouse</span></div>
+    </div>
+    <div class="security-right">
+      <div class="sec-cert"><div class="sec-cert-icon">&#128274;</div><div><div class="sec-cert-label">SOC 2 Type II Certified</div><div class="sec-cert-sub">Annually audited. Security, availability, and confidentiality verified.</div></div></div>
+      <div class="sec-cert"><div class="sec-cert-icon">&#127757;</div><div><div class="sec-cert-label">GDPR &amp; CCPA Compliant</div><div class="sec-cert-sub">Data subject rights, consent flows, and regional residency supported.</div></div></div>
+      <div class="sec-cert"><div class="sec-cert-icon">&#127973;</div><div><div class="sec-cert-label">HIPAA Compliant</div><div class="sec-cert-sub">BAA available. Supports teams handling sensitive health data.</div></div></div>
+      <div class="sec-cert"><div class="sec-cert-icon">&#128203;</div><div><div class="sec-cert-label">ISO 27001 &amp; 27018 Certified</div><div class="sec-cert-sub">International standards for information security and cloud privacy.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="final-inner">
+    <h2>You already have the data.<br><span class="accent">Now know what to do.</span></h2>
+    <p>Stop guessing. Start shipping what works.</p>
+    <div class="final-cta-btns"><button class="btn-final">Start free <svg width="17" height="17" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button><a href="https://amplitude.com/demo" class="btn-final-ghost">Talk to sales</a></div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="amp-footer">
+  <div class="amp-footer-inner">
+    <div class="amp-footer-top">
+      <div class="amp-footer-brand-block"><div class="amp-footer-brand"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="12" fill="#fff"/><path d="M8 16.5L12 6.5L16 16.5" stroke="#111" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><line x1="9.5" y1="13.5" x2="14.5" y2="13.5" stroke="#111" stroke-width="1.6" stroke-linecap="round"/></svg>amplitude</div><p>Build better products with the leading digital analytics platform.</p></div>
+      <div class="amp-footer-cols">
+        <div class="amp-footer-col"><h4>Platform</h4><ul><li><a href="https://amplitude.com/ai-agents">AI Agents</a></li><li><a href="https://amplitude.com/mcp-server">Amplitude MCP</a></li><li><a href="https://amplitude.com/amplitude-analytics">Product Analytics</a></li><li><a href="https://amplitude.com/web-analytics">Web Analytics</a></li><li><a href="https://amplitude.com/session-replay">Session Replay</a></li><li><a href="https://amplitude.com/amplitude-experiment">Feature Experimentation</a></li><li><a href="https://amplitude.com/feature-management">Feature Management</a></li><li><a href="https://amplitude.com/web-experimentation">Web Experimentation</a></li><li><a href="https://amplitude.com/guides-and-surveys">Guides and Surveys</a></li></ul></div>
+        <div class="amp-footer-col"><h4>Compare us</h4><ul><li><a href="https://amplitude.com/compare/adobe">Adobe</a></li><li><a href="https://amplitude.com/compare/google-analytics">Google Analytics</a></li><li><a href="https://amplitude.com/compare/fullstory">Fullstory</a></li><li><a href="https://amplitude.com/compare/heap">Heap</a></li><li><a href="https://amplitude.com/compare/launchdarkly">LaunchDarkly</a></li><li><a href="https://amplitude.com/compare/mixpanel">Mixpanel</a></li><li><a href="https://amplitude.com/compare/optimizely">Optimizely</a></li><li><a href="https://amplitude.com/compare/pendo">Pendo</a></li><li><a href="https://amplitude.com/compare/posthog">PostHog</a></li></ul></div>
+        <div class="amp-footer-col"><h4>Resources</h4><ul><li><a href="https://amplitude.com/resources">Resource Library</a></li><li><a href="https://amplitude.com/blog">Blog</a></li><li><a href="https://amplitude.com/prompt-library">Agent Prompt Library</a></li><li><a href="https://amplitude.com/releases">Product Updates</a></li><li><a href="https://amplitude.com/amp-champs">Amp Champs</a></li><li><a href="https://academy.amplitude.com">Amplitude Academy</a></li><li><a href="https://amplitude.com/events">Events</a></li><li><a href="https://amplitude.com/glossary/terms">Glossary</a></li></ul></div>
+        <div class="amp-footer-col"><h4>Partners &amp; Support</h4><ul><li><a href="https://status.amplitude.com">Status</a></li><li><a href="https://amplitude.com/contact">Contact Us</a></li><li><a href="https://gethelp.amplitude.com/hc/en-us">Help Center</a></li><li><a href="https://amplitude.com/community">Community</a></li><li><a href="https://developers.amplitude.com/docs">Developer Docs</a></li><li><a href="https://amplitude.com/partner-program">Partner Program</a></li><li><a href="https://amplitude.com/affiliates">Become an affiliate</a></li></ul></div>
+        <div class="amp-footer-col"><h4>Company</h4><ul><li><a href="https://amplitude.com/company">About Us</a></li><li><a href="https://amplitude.com/careers">Careers</a></li><li><a href="https://amplitude.com/press">Press &amp; News</a></li><li><a href="https://investors.amplitude.com">Investor Relations</a></li><li><a href="https://amplitude.com/diversity-equity-inclusion">Diversity, Equity &amp; Inclusion</a></li></ul></div>
+      </div>
+    </div>
+    <div class="amp-footer-bottom">
+      <div class="amp-footer-social"><a href="https://www.linkedin.com/company/amplitude-analytics/" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a><a href="https://twitter.com/Amplitude_HQ" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>Twitter</a><a href="https://www.g2.com/products/amplitude/reviews" target="_blank" rel="noopener">G2</a></div>
+      <div class="amp-footer-legal"><a href="https://amplitude.com/terms">Terms of Service</a><a href="https://amplitude.com/privacy/archive/2025-12">Privacy Notice</a><a href="https://amplitude.com/aup">Acceptable Use Policy</a><a href="https://amplitude.com/legal">Legal</a></div>
+      <p class="amp-footer-copy">&copy; 2026 Amplitude, Inc. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ═══ BUILDERS TABS (updated: passes btn reference) ═══
+function buildersTab(id, btn){
+  document.querySelectorAll('.builders-tab').forEach(function(t){ t.classList.remove('active'); });
+  document.querySelectorAll('.builders-scene').forEach(function(s){ s.classList.remove('active'); s.style.display='none'; });
+  btn.classList.add('active');
+  var scene = document.getElementById('bs-'+id);
+  scene.classList.add('active');
+  scene.style.display = id === 'mcp' ? 'grid' : 'block';
+  document.getElementById('bs-docs-cta').style.display = id === 'mcp' ? 'block' : 'none';
+}
+
+// ═══ Nav scroll ═══
+var nav = document.getElementById('nav');
+window.addEventListener('scroll', function(){ nav.classList.toggle('scrolled', window.scrollY > 40); });
+
+// ═══ Workflow panel (3 questions now) ═══
+function wfSelect(n){
+  document.querySelectorAll('.wf-q').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelector('[data-q="'+n+'"]').classList.add('active');
+  document.querySelectorAll('.wf-scene').forEach(function(s){ s.classList.remove('active'); });
+  var scene = document.getElementById('wf-scene-'+n);
+  scene.classList.add('active');
+  var body = scene.querySelector('.wf-ai-body');
+  var clone = body.cloneNode(true);
+  body.parentNode.replaceChild(clone, body);
+}
+
+// ═══ Quick-start tabs (v3) ═══
+function qsTab(id, btn){
+  document.querySelectorAll('.qs-tab').forEach(function(t){ t.classList.remove('active'); });
+  document.querySelectorAll('.qs-panel').forEach(function(p){ p.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById('qs-'+id).classList.add('active');
+}
+function copyCmd(btn, text){
+  navigator.clipboard.writeText(text);
+  var orig = btn.innerHTML;
+  btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="#22C55E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Copied';
+  btn.style.color = '#22C55E'; btn.style.borderColor = '#22C55E';
+  setTimeout(function(){ btn.innerHTML = orig; btn.style.color=''; btn.style.borderColor=''; }, 1600);
+}
+
+// ═══ Cycling Hero Engine ═══
+(function(){
+  var CYCLE=4200, FADE=450;
+  var STAGES=[
+    {id:'detect',label:'Problem Detected',tag:'Anomaly',tagBg:'rgba(251,191,36,.12)',tagColor:'#FBBF24',accent:'#FBBF24'},
+    {id:'diagnose',label:'Root Cause Identified',tag:'Session Replay',tagBg:'rgba(248,113,113,.12)',tagColor:'#FF7D78',accent:'#FF7D78'},
+    {id:'recommend',label:'AI Recommendation',tag:'Action Ready',tagBg:'rgba(64,131,255,.12)',tagColor:'#4083FF',accent:'#4083FF'},
+    {id:'experiment',label:'Experiment Running',tag:'A/B Test',tagBg:'rgba(163,115,255,.12)',tagColor:'#A373FF',accent:'#A373FF'},
+    {id:'outcome',label:'Outcome Measured',tag:'Successful',tagBg:'rgba(52,211,153,.12)',tagColor:'#34D399',accent:'#34D399'},
+    {id:'learn',label:'System Learned',tag:'Loop Continues',tagBg:'rgba(64,131,255,.12)',tagColor:'#4083FF',accent:'#4083FF'}
+  ];
+
+  var idx=0, stepsEl=document.getElementById('chSteps'), labelEl=document.getElementById('chLabel'),
+      tagEl=document.getElementById('chTag'), contentEl=document.getElementById('chContent'),
+      nextEl=document.getElementById('chNext'), loopIcon=document.getElementById('chLoopIcon'),
+      startTime=Date.now(), raf;
+
+  var nodesHtml='';
+  STAGES.forEach(function(s,i){
+    nodesHtml += '<div class="ch-step-node" id="chNode'+i+'"><span>'+(i+1)+'</span></div>';
+    if(i < STAGES.length-1) nodesHtml += '<div class="ch-step-line"><div class="ch-step-fill" id="chFill'+i+'"></div></div>';
+  });
+  stepsEl.innerHTML = nodesHtml;
+
+  function renderContent(id){
+    var h='';
+    if(id==='detect'){
+      h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span style="font-size:11px;font-weight:600;color:#eee;font-family:var(--mono)">Activation Funnel</span><span class="chi-tag" style="background:rgba(251,191,36,.12);color:#FBBF24">62% drop-off</span></div>';
+      var steps=[{l:'Landing Page',v:'12,847',p:100,f:0},{l:'Sign Up',v:'6,218',p:48,f:0},{l:'Setup Step 2',v:'2,361',p:18,f:1},{l:'First Event Sent',v:'1,890',p:15,f:0}];
+      steps.forEach(function(r,i){
+        var c=r.f?'#FBBF24':'#4083FF';
+        h+='<div style="margin-bottom:6px"><div style="display:flex;justify-content:space-between;margin-bottom:2px"><span style="font-size:10px;color:'+(r.f?'#FBBF24':'#666')+';font-weight:'+(r.f?'500':'400')+';font-family:var(--mono)">'+r.l+'</span><span style="font-size:9px;color:#555;font-family:var(--mono)">'+r.v+'</span></div><div class="chi-bar-track"><div class="chi-bar-fill" style="background:'+c+';--tw:'+r.p+'%;animation:chBarGrow .8s ease '+(0.15+i*0.08)+'s both"></div></div>';
+        if(r.f) h+='<div style="font-size:9px;color:#FBBF24;font-weight:500;margin-top:2px;font-family:var(--mono)">&#9660; 62% of users abandon here</div>';
+        h+='</div>';
+      });
+    } else if(id==='diagnose'){
+      h+='<div style="background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.18);border-radius:7px;padding:10px 11px;margin-bottom:8px"><div style="font-size:11px;color:#FF7D78;font-weight:500;margin-bottom:3px;font-family:var(--mono)">847 users rage-clicked during onboarding</div><div style="font-size:9.5px;color:#666;font-family:var(--mono)">Setup Step 2 &rarr; SDK Configuration modal. Users can\'t locate their API key.</div></div>';
+      h+='<div style="background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.15);border-radius:7px;padding:10px 11px;margin-bottom:8px"><div style="font-size:11px;color:#FBBF24;font-weight:500;margin-bottom:3px;font-family:var(--mono)">Time on step: 4m 32s</div><div style="font-size:9.5px;color:#666;font-family:var(--mono)">3.1x above benchmark. Copy-paste attempts: 2.4x normal.</div></div>';
+      h+='<div style="display:flex;align-items:center;gap:5px;font-size:9px;color:#555;font-family:var(--mono)"><span style="display:inline-block;width:5px;height:5px;border-radius:50%;background:#FF7D78;animation:chPulse 1.8s ease infinite"></span>Session Replay + Behavioral Analytics cross-referenced</div>';
+    } else if(id==='recommend'){
+      h+='<div style="display:flex;align-items:center;gap:6px;margin-bottom:8px"><svg width="13" height="13" viewBox="0 0 13 13"><circle cx="6.5" cy="6.5" r="5.5" fill="none" stroke="#4083FF" stroke-width="1.2"/><circle cx="6.5" cy="6.5" r="2" fill="#4083FF"/></svg><span style="font-size:10px;font-weight:600;color:#4083FF;letter-spacing:.05em;text-transform:uppercase;font-family:var(--mono)">AI Analysis</span></div>';
+      h+='<div id="chStreamBox" style="font-size:10.5px;color:#888;line-height:1.7;font-family:var(--mono);white-space:pre-wrap"></div>';
+    } else if(id==='experiment'){
+      h+='<div class="chi-metric-row" style="margin-bottom:10px"><div class="chi-metric-box" id="chExpVariant"><div class="chi-metric-label">Walkthrough (variant)</div><div class="chi-metric-val" style="color:#eee" id="chExpVal">...</div><div class="chi-metric-label">activation rate</div></div><div class="chi-metric-box"><div class="chi-metric-label">Control</div><div class="chi-metric-val" style="color:#eee">18.4%</div><div class="chi-metric-label">activation rate</div></div></div>';
+      h+='<div class="chi-bar-track" style="margin-bottom:6px"><div class="chi-bar-fill" id="chExpBar" style="background:#A373FF;width:0%;transition:width .1s linear"></div></div>';
+      h+='<div style="font-size:9px;color:#666;font-family:var(--mono)" id="chExpStatus">Collecting data... 0% complete</div>';
+    } else if(id==='outcome'){
+      h+='<div style="display:flex;gap:14px;margin-bottom:12px">';
+      [{v:'+34%',l:'Activation lift',c:'#34D399'},{v:'2,361',l:'Users recovered',c:'#4083FF'},{v:'0.00%',l:'Error regression',c:'#888'}].forEach(function(m,i){
+        h+='<div style="animation:chCountUp .4s ease '+(i*0.12)+'s both"><div style="font-size:20px;font-weight:700;color:'+m.c+';font-family:var(--mono);letter-spacing:-.8px">'+m.v+'</div><div style="font-size:9px;color:#555;font-family:var(--mono)">'+m.l+'</div></div>';
+      });
+      h+='</div>';
+      h+='<div class="chi-compare"><div class="chi-compare-col"><div class="chi-compare-label">Before</div><div class="chi-compare-val" style="color:#FBBF24">18.4%</div></div><div class="chi-compare-divider"></div><div class="chi-compare-col"><div class="chi-compare-label">After</div><div class="chi-compare-val" style="color:#34D399">52.1%</div></div><div class="chi-compare-divider"></div><div class="chi-compare-col"><div class="chi-compare-label">Lift</div><div class="chi-compare-val" style="color:#34D399">+183%</div></div></div>';
+    } else if(id==='learn'){
+      h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px"><div style="width:30px;height:30px;border-radius:50%;background:rgba(64,131,255,.12);border:1.5px solid rgba(64,131,255,.3);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 16 16" style="animation:chSpinLoop 3.5s linear infinite"><path d="M8 2a6 6 0 1 1-4.2 1.8" fill="none" stroke="#4083FF" stroke-width="1.4" stroke-linecap="round"/><path d="M3.8 1.2v2.3h2.3" fill="none" stroke="#4083FF" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div style="font-size:12px;font-weight:600;color:#eee">Outcome absorbed. Loop continues.</div><div style="font-size:9.5px;color:#888;margin-top:1px">Next optimization cycle starting.</div></div></div>';
+      h+='<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">';
+      [{i:'&#128202;',l:'Funnel recalibrated',d:'New baseline: 52.1%'},{i:'&#127919;',l:'Pattern stored',d:'API key &rarr; walkthrough'},{i:'&#128257;',l:'Next target found',d:'Event validation step 3'}].forEach(function(item,j){
+        h+='<div style="background:#111116;border-radius:6px;padding:7px 9px;border:1px solid #222228;animation:chFadeUp .35s ease '+(0.15+j*0.1)+'s both;opacity:0"><div style="font-size:11px;margin-bottom:2px">'+item.i+'</div><div style="font-size:9px;font-weight:600;color:#4083FF;margin-bottom:1px;font-family:var(--mono)">'+item.l+'</div><div style="font-size:8.5px;color:#555;line-height:1.3;font-family:var(--mono)">'+item.d+'</div></div>';
+      });
+      h+='</div>';
+    }
+    return h;
+  }
+
+  function updateStage(){
+    var s = STAGES[idx];
+    tagEl.style.background = s.tagBg; tagEl.style.color = s.tagColor; tagEl.textContent = s.tag;
+    labelEl.innerHTML = '<span class="ch-stage-dot" style="background:'+s.accent+'"></span><span class="ch-stage-step" style="color:'+s.accent+'">Step '+(idx+1)+' of 6</span><span class="ch-stage-name" style="margin-left:3px">&middot; '+s.label+'</span>';
+    STAGES.forEach(function(_,i){
+      var node = document.getElementById('chNode'+i);
+      node.className='ch-step-node'; node.style.color=''; node.style.borderColor=''; node.style.background=''; node.style.boxShadow='';
+      if(i < idx){ node.classList.add('past'); node.innerHTML='<svg width="10" height="10" viewBox="0 0 10 10"><path d="M2.5 5.5L4.5 7.5L7.5 3.5" fill="none" stroke="#22C55E" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
+      else if(i === idx){ node.classList.add('current'); node.style.color=s.accent; node.style.borderColor=s.accent; node.style.background=s.tagBg; node.style.boxShadow='0 0 10px 2px '+s.accent+'30'; node.innerHTML='<span>'+(i+1)+'</span>'; }
+      else{ node.innerHTML='<span>'+(i+1)+'</span>'; }
+      if(i < STAGES.length-1){
+        var fill = document.getElementById('chFill'+i);
+        if(i < idx){ fill.style.width='100%'; fill.style.background='#22C55E'; fill.style.transition='width .4s ease'; }
+        else if(i > idx){ fill.style.width='0%'; fill.style.background='transparent'; }
+      }
+    });
+    contentEl.innerHTML = renderContent(s.id);
+    contentEl.classList.remove('fading');
+    if(s.id === 'recommend') startStream();
+    if(s.id === 'experiment') startExperiment();
+    if(idx === 5){ nextEl.textContent='Restarting cycle...'; loopIcon.style.animation='chSpinLoop 2s linear infinite'; }
+    else{ nextEl.textContent='Next: '+STAGES[(idx+1)%6].label; loopIcon.style.animation='none'; }
+    startTime = Date.now();
+  }
+
+  function startStream(){
+    var box = document.getElementById('chStreamBox'); if(!box) return;
+    var full = "Root cause: API key field has no inline help. Users reach SDK config without context.\n\nRecommended action: Launch guided walkthrough with auto-populated API key.\n\nExpected impact: +28\u201336% activation lift.";
+    var i = 0;
+    var iv = setInterval(function(){
+      if(i < full.length){ box.textContent = full.slice(0, ++i); box.innerHTML += '<span style="color:#4083FF;animation:chStreamCursor .6s step-end infinite">&#9611;</span>'; }
+      else clearInterval(iv);
+    }, 12);
+  }
+
+  function startExperiment(){
+    var bar = document.getElementById('chExpBar'), val = document.getElementById('chExpVal'), stat = document.getElementById('chExpStatus');
+    if(!bar) return; var pct = 0;
+    var iv = setInterval(function(){
+      pct += 2; if(pct > 100) pct = 100;
+      bar.style.width = pct+'%';
+      val.textContent = (18.4 + (52.1-18.4)*(pct/100)).toFixed(1)+'%';
+      stat.textContent = pct >= 100 ? '\u2713 94.7% confidence. Winner: Walkthrough variant.' : 'Collecting data... '+pct+'% complete';
+      if(pct >= 100){ bar.style.background='#34D399'; val.style.color='#34D399'; stat.style.color='#34D399'; clearInterval(iv); }
+    }, 35);
+  }
+
+  function tick(){
+    var elapsed = Date.now() - startTime;
+    var p = Math.min(100, elapsed/CYCLE*100);
+    if(idx < STAGES.length-1){
+      var fill = document.getElementById('chFill'+idx);
+      if(fill){ fill.style.width=p+'%'; fill.style.background=STAGES[idx].accent; fill.style.transition='none'; }
+    }
+    raf = requestAnimationFrame(tick);
+  }
+  raf = requestAnimationFrame(tick);
+
+  setInterval(function(){
+    contentEl.classList.add('fading');
+    setTimeout(function(){ idx=(idx+1)%STAGES.length; updateStage(); }, FADE);
+  }, CYCLE);
+
+  updateStage();
+})();
+</script>
+</body>
+</html>
