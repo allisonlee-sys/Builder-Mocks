@@ -365,42 +365,62 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
 .unified-top .wf-sub{font-size:16px;line-height:1.6;color:var(--text-secondary);margin-bottom:28px}
 .unified-top .wf-questions{display:flex;flex-direction:column;gap:9px;margin-bottom:0}
 /* Transition strip between value demo and quick start */
-.qs-bridge{max-width:1040px;margin:48px auto 0;display:flex;align-items:center;gap:0}
-.qs-bridge-line{flex:1;height:1px;background:var(--border)}
-.qs-bridge-text{display:flex;align-items:center;gap:8px;padding:0 20px;white-space:nowrap;font-size:12px;font-weight:600;color:var(--text-light);letter-spacing:.06em;text-transform:uppercase;font-family:var(--mono)}
+.qs-bridge{max-width:1040px;margin:40px auto 0;text-align:center}
+.qs-bridge-text{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;color:var(--text-light);letter-spacing:.08em;text-transform:uppercase;font-family:var(--mono)}
 .qs-bridge-text svg{flex-shrink:0;opacity:.5}
-/* Quick-start compact install area */
-.qs-area{background:transparent;border-top:1px solid rgba(0,0,0,.07);margin-top:0;padding:32px 24px 48px}
-.qs-inner{max-width:760px;margin:0 auto}
-.qs-tabs-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
-.qs-label{font-size:13px;font-weight:600;color:var(--text-secondary)}
+.qs-area{background:transparent;border-top:1px solid rgba(0,0,0,.07);margin-top:28px;padding:36px 24px 56px}
+.qs-inner{max-width:840px;margin:0 auto}
+.qs-tabs-row{display:flex;align-items:center;justify-content:center;margin-bottom:28px}
 .qs-tabs{display:inline-flex;background:#E8E7E2;border:1px solid var(--border);border-radius:8px;padding:3px;gap:2px}
-.qs-tab{padding:6px 18px;border-radius:6px;font-size:13px;font-weight:600;color:var(--text-secondary);cursor:pointer;border:none;background:transparent;font-family:var(--sans);transition:all .2s;user-select:none}
+.qs-tab{padding:7px 22px;border-radius:6px;font-size:13px;font-weight:600;color:var(--text-secondary);cursor:pointer;border:none;background:transparent;font-family:var(--sans);transition:all .2s;user-select:none}
 .qs-tab.active{background:var(--accent);color:#fff;box-shadow:0 2px 8px rgba(30,97,240,.3)}
 .qs-tab:hover:not(.active){background:rgba(0,0,0,.06);color:var(--text-primary)}
 .qs-panel{display:none}.qs-panel.active{display:block;animation:fadeUp .25s ease}
-/* MCP panel: compact logo strip + command */
-.qs-mcp-row{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.qs-mcp-logos{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.qs-mcp-logo{display:flex;align-items:center;gap:5px;background:#fff;border:1px solid var(--border);border-radius:6px;padding:5px 9px;font-size:12px;font-weight:600;color:var(--text-primary);transition:border-color .18s}
-.qs-mcp-logo:hover{border-color:#bbb}
-.qs-mcp-logo svg{width:13px;height:13px;flex-shrink:0}
-.qs-mcp-logo span{font-size:11px}
-.qs-mcp-cta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px}
-/* SDK / CLI terminal blocks */
-.qs-terminal{background:#fff;border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-family:var(--mono);font-size:13px;color:var(--text-primary);position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px}
-.qs-terminal .dollar{color:#E8530E;font-weight:700;margin-right:4px}
-.qs-terminal .cmd{flex:1}
-.qs-copy-btn{background:none;border:1px solid var(--border);border-radius:6px;cursor:pointer;color:var(--text-light);padding:5px 8px;display:flex;align-items:center;gap:4px;font-size:11px;font-weight:600;font-family:var(--sans);transition:color .2s,border-color .2s;white-space:nowrap;flex-shrink:0}
-.qs-copy-btn:hover{color:var(--text-primary);border-color:#bbb}
-.qs-install-pill{display:inline-flex;align-items:center;background:#fff;border:1px solid var(--border);border-radius:40px;padding:4px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.qs-install-btn{display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:#fff;border:none;padding:9px 18px;border-radius:32px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:background .2s}
-.qs-install-btn:hover{background:var(--accent-hover)}
-.qs-install-cmd{padding:8px 14px;color:var(--text-primary);font-family:var(--mono);font-size:12.5px;font-weight:500;display:flex;align-items:center;gap:8px}
-.qs-note{font-size:12px;color:var(--text-light);font-family:var(--mono)}
-.qs-docs-link{font-size:13px;color:var(--accent);font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:4px;transition:gap .15s;margin-left:auto}
-.qs-docs-link:hover{gap:7px}
-.qs-sub{font-size:12px;color:var(--text-secondary);margin-top:6px;line-height:1.5;font-family:var(--mono)}
+/* MCP tool grid */
+.qs-tool-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.qs-tool-card{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:18px 12px 14px;text-align:center;cursor:pointer;transition:border-color .18s,box-shadow .18s,transform .15s;display:flex;flex-direction:column;align-items:center;gap:10px;user-select:none}
+.qs-tool-card:hover{border-color:var(--accent);box-shadow:0 2px 12px rgba(30,97,240,.12);transform:translateY(-1px)}
+.qs-tool-card:active{transform:translateY(0)}
+.qs-tool-icon{width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:10px;flex-shrink:0}
+.qs-tool-icon svg{width:36px;height:36px}
+.qs-tool-name{font-size:12px;font-weight:700;color:var(--text-primary);line-height:1.2}
+.qs-tool-card.qs-more{cursor:default;border-style:dashed}
+.qs-tool-card.qs-more:hover{border-color:var(--border);box-shadow:none;transform:none}
+.qs-tool-card.qs-more .qs-tool-name{color:var(--text-light)}
+.qs-mcp-docs{text-align:center;margin-top:4px}
+.qs-mcp-docs a{font-size:12px;color:var(--accent);font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:4px;transition:gap .15s}
+.qs-mcp-docs a:hover{gap:7px}
+/* SDK / CLI install blocks */
+.qs-install-block{max-width:680px;margin:0 auto}
+.qs-opt-label{font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:10px}
+.qs-opt-label span{font-weight:400;color:var(--text-secondary)}
+.qs-code-block{background:#fff;border:1px solid var(--border);border-radius:10px;padding:18px 20px;font-family:var(--mono);font-size:13px;line-height:1.8;color:var(--text-primary);position:relative;margin-bottom:6px;white-space:pre-wrap}
+.qs-copy-oval{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;background:#111;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:opacity .2s}
+.qs-copy-oval:hover{opacity:.8}
+.qs-divider{height:1px;background:var(--border);margin:20px 0}
+.qs-terminal-line{background:#F7F6F2;border:1px solid var(--border);border-radius:10px;padding:14px 18px;font-family:var(--mono);font-size:13px;color:var(--text-primary);position:relative;display:flex;align-items:center;justify-content:space-between}
+.qs-terminal-line .dollar{color:#E8530E;font-weight:700;margin-right:5px}
+.qs-copy-oval-sm{width:38px;height:38px;border-radius:50%;background:#111;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .2s}
+.qs-copy-oval-sm:hover{opacity:.8}
+.qs-docs-row{padding-top:20px;border-top:1px solid var(--border);margin-top:6px;font-size:14px;color:var(--text-secondary)}
+.qs-docs-row a{color:var(--accent);font-weight:600;text-decoration:underline;text-decoration-color:rgba(30,97,240,.3);text-underline-offset:2px;transition:text-decoration-color .2s}
+.qs-docs-row a:hover{text-decoration-color:var(--accent)}
+/* MCP Modal */
+.mcp-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s ease}
+.mcp-modal-overlay.open{opacity:1;pointer-events:all}
+.mcp-modal{background:#F5F4F0;border-radius:16px;padding:36px 40px 32px;max-width:560px;width:90%;position:relative;transform:translateY(12px);transition:transform .2s ease;box-shadow:0 24px 60px rgba(0,0,0,.25)}
+.mcp-modal-overlay.open .mcp-modal{transform:translateY(0)}
+.mcp-modal-close{position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:var(--text-secondary);font-size:20px;line-height:1;padding:4px;transition:color .2s}
+.mcp-modal-close:hover{color:var(--text-primary)}
+.mcp-modal-icon{width:56px;height:56px;border-radius:12px;background:#fff;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+.mcp-modal-icon svg{width:34px;height:34px}
+.mcp-modal h3{font-size:22px;font-weight:700;letter-spacing:-.02em;margin-bottom:12px;color:var(--text-primary)}
+.mcp-modal-desc{font-size:15px;color:var(--text-secondary);margin-bottom:18px;line-height:1.5}
+.mcp-modal-code{background:#fff;border:1px solid var(--border);border-radius:10px;padding:20px 56px 20px 20px;font-family:var(--mono);font-size:13px;line-height:1.75;color:var(--text-primary);position:relative;white-space:pre-wrap;margin-bottom:20px;min-height:100px}
+.mcp-modal-copy{position:absolute;top:14px;right:14px;width:40px;height:40px;border-radius:50%;background:#111;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:opacity .2s}
+.mcp-modal-copy:hover{opacity:.8}
+.mcp-modal-open{display:inline-flex;align-items:center;gap:8px;background:#111;color:#fff;border:none;padding:14px 28px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;font-family:var(--sans);text-decoration:none;transition:background .2s}
+.mcp-modal-open:hover{background:#333}
 </style>
 </head>
 <body>
@@ -579,19 +599,16 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
 
   <!-- ── TRANSITION: value → setup ── -->
   <div class="qs-bridge">
-    <div class="qs-bridge-line"></div>
     <div class="qs-bridge-text">
       <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1.5a4.5 4.5 0 1 1-3.2 1.3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><path d="M2.8.8v1.7h1.7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Install once. Ask anything.
     </div>
-    <div class="qs-bridge-line"></div>
   </div>
 
-  <!-- ── PART 2: Compact quick-start ── -->
+  <!-- ── PART 2: Install ── -->
   <div class="qs-area">
     <div class="qs-inner">
       <div class="qs-tabs-row">
-        <span class="qs-label">Quick start</span>
         <div class="qs-tabs">
           <button class="qs-tab active" onclick="qsTab('mcp',this)">MCP</button>
           <button class="qs-tab" onclick="qsTab('sdk',this)">SDK</button>
@@ -599,54 +616,95 @@ body{font-family:var(--sans);background:var(--bg-light);color:var(--text-primary
         </div>
       </div>
 
-      <!-- MCP panel -->
+      <!-- MCP panel: click a tool to open modal -->
       <div class="qs-panel active" id="qs-mcp">
-        <div class="qs-mcp-row">
-          <div class="qs-mcp-logos">
-            <span class="qs-mcp-logo"><svg viewBox="0 0 18 18" fill="none"><path d="M9 2L10.5 6.5H15L11.25 9.5L12.75 14L9 11L5.25 14L6.75 9.5L3 6.5H7.5L9 2Z" fill="#D97757"/></svg><span>Claude</span></span>
-            <span class="qs-mcp-logo"><svg viewBox="0 0 18 18" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M9 1C4.58 1 1 4.58 1 9c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.43c-2.29.49-2.76-1.07-2.76-1.07-.37-.94-1.01-1.19-1.01-1.19-.83-.56.06-.55.06-.55.92.07 1.4.94 1.4.94.82 1.52 2.14 1.08 2.66.83.08-.64.32-1.08.58-1.33-2.03-.23-4.16-.97-4.16-4.32 0-.95.34-1.73.9-2.34-.09-.23-.39-1.1.09-2.3 0 0 .74-.23 2.42 1.01a8.4 8.4 0 0 1 2.2-.3c.75.01 1.5.1 2.2.3 1.68-1.24 2.42-1.01 2.42-1.01.48 1.2.18 2.07.09 2.3.56.6.9 1.38.9 2.34 0 3.36-2.05 4.1-4 4.32.31.27.59.8.59 1.62v2.4c0 .21.15.47.56.39C14.72 15.53 17 12.54 17 9c0-4.42-3.58-8-8-8Z" fill="#24292E"/></svg><span>GitHub</span></span>
-            <span class="qs-mcp-logo"><svg viewBox="0 0 18 18" fill="none"><rect x="2" y="2" width="14" height="14" rx="4" fill="#000"/><path d="M6.5 13V8c0-1.1.9-2 2-2h1c1.1 0 2 .9 2 2v5" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg><span>Cursor</span></span>
-            <span class="qs-mcp-logo"><svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" fill="#FF4B6E"/><path d="M9 13.5C9 13.5 4.5 10.5 4.5 7.5 4.5 6.1 5.6 5 7 5c.8 0 1.5.4 2 1 .5-.6 1.2-1 2-1 1.4 0 2.5 1.1 2.5 2.5C13.5 10.5 9 13.5 9 13.5Z" fill="#fff"/></svg><span>Lovable</span></span>
-            <span class="qs-mcp-logo" style="color:var(--text-light);border-style:dashed;font-size:11px">+ any MCP tool</span>
+        <div class="qs-tool-grid">
+          <div class="qs-tool-card" onclick="openMcpModal('claude')">
+            <div class="qs-tool-icon"><svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="#FFF4EE"/><path d="M20 10C16 10 12 13 12 17C12 14 15 12 18 14C17 11 20 8 24 12C22 10 26 12 26 16C28 14 30 17 28 20C30 20 31 23 28 25C30 27 28 30 25 28C26 31 23 32 21 29C22 32 19 33 17 30C15 32 12 30 14 27C11 28 10 25 13 23C10 23 9 20 12 18C10 17 12 14 15 15C13 12 16 10 20 10Z" fill="#E8530E"/></svg></div>
+            <div class="qs-tool-name">Claude</div>
+          </div>
+          <div class="qs-tool-card" onclick="openMcpModal('claudecode')">
+            <div class="qs-tool-icon"><svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="#FFF4EE"/><rect x="11" y="14" width="18" height="14" rx="3" fill="#E8530E"/><circle cx="16.5" cy="21" r="1.8" fill="#fff"/><circle cx="23.5" cy="21" r="1.8" fill="#fff"/><rect x="14" y="12" width="2.5" height="4" rx="1.2" fill="#E8530E"/><rect x="23.5" y="12" width="2.5" height="4" rx="1.2" fill="#E8530E"/><text x="20" y="33" text-anchor="middle" font-size="5" font-weight="800" fill="#E8530E" font-family="monospace">&lt;/&gt;</text></svg></div>
+            <div class="qs-tool-name">Claude Code</div>
+          </div>
+          <div class="qs-tool-card" onclick="openMcpModal('cursor')">
+            <div class="qs-tool-icon"><svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="#F5F5F5"/><rect x="11" y="11" width="18" height="18" rx="5" fill="#000"/><path d="M16 28V20C16 18.3 17.3 17 19 17H21C22.7 17 24 18.3 24 20V28" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>
+            <div class="qs-tool-name">Cursor</div>
+          </div>
+          <div class="qs-tool-card" onclick="openMcpModal('github')">
+            <div class="qs-tool-icon"><svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="#F5F5F5"/><path d="M20 10C14.48 10 10 14.48 10 20C10 24.42 12.87 28.17 16.84 29.49C17.34 29.57 17.52 29.27 17.52 29.01V27.36C14.73 27.94 14.18 26.04 14.18 26.04C13.73 24.92 13.08 24.62 13.08 24.62C12.17 24 13.15 24.01 13.15 24.01C14.15 24.08 14.68 25.04 14.68 25.04C15.55 26.55 16.98 26.12 17.55 25.87C17.64 25.23 17.89 24.8 18.17 24.56C15.95 24.31 13.62 23.43 13.62 19.58C13.62 18.52 13.99 17.64 14.71 16.96C14.62 16.71 14.28 15.72 14.79 14.38C14.79 14.38 15.61 14.12 17.51 15.41C18.31 15.19 19.16 15.08 20.01 15.07C20.86 15.08 21.72 15.19 22.52 15.41C24.42 14.12 25.23 14.38 25.23 14.38C25.74 15.72 25.41 16.71 25.32 16.96C26.04 17.64 26.41 18.52 26.41 19.58C26.41 23.44 24.07 24.31 21.84 24.55C22.18 24.85 22.5 25.44 22.5 26.37V29.01C22.5 29.27 22.68 29.58 23.19 29.49C27.15 28.17 30.01 24.42 30.01 20C30 14.48 25.52 10 20 10Z" fill="#24292E"/></svg></div>
+            <div class="qs-tool-name">GitHub Copilot</div>
+          </div>
+          <div class="qs-tool-card" onclick="openMcpModal('windsurf')">
+            <div class="qs-tool-icon"><svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="#F3F1FF"/><path d="M11 29L20 9L29 29" stroke="#5E6AD2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 23H26" stroke="#5E6AD2" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+            <div class="qs-tool-name">Windsurf</div>
+          </div>
+          <div class="qs-tool-card" onclick="openMcpModal('replit')">
+            <div class="qs-tool-icon"><svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="#F0FFF4"/><path d="M14 13H22C23.1 13 24 13.9 24 15V19H14V13Z" fill="#F26207"/><path d="M14 19H24V23H14V19Z" fill="#F26207" opacity=".7"/><path d="M14 23H26C27.1 23 28 23.9 28 25V27H14V23Z" fill="#F26207" opacity=".5"/></svg></div>
+            <div class="qs-tool-name">Replit</div>
+          </div>
+          <div class="qs-tool-card" onclick="openMcpModal('codex')">
+            <div class="qs-tool-icon"><svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="#F9F9F9"/><path d="M20 11L28 15.5V25L20 29.5L12 25V15.5L20 11Z" fill="#111"/><path d="M20 11L28 15.5L20 20L12 15.5L20 11Z" fill="#333"/><path d="M20 20V29.5" stroke="#666" stroke-width="1"/></svg></div>
+            <div class="qs-tool-name">Codex</div>
+          </div>
+          <div class="qs-tool-card qs-more">
+            <div class="qs-tool-icon" style="background:#F5F4F0;border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="5" cy="10" r="1.5" fill="#A5A49E"/><circle cx="10" cy="10" r="1.5" fill="#A5A49E"/><circle cx="15" cy="10" r="1.5" fill="#A5A49E"/></svg></div>
+            <div class="qs-tool-name">Any MCP tool</div>
           </div>
         </div>
-        <div class="qs-mcp-cta">
-          <div class="qs-install-pill">
-            <button class="qs-install-btn"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8.5 1L3 9.5H7.5L7 15L13 6.5H8.5Z" fill="currentColor"/></svg>Install with AI</button>
-            <span class="qs-install-cmd">npx @amplitude/wizard<button class="qs-copy-btn" style="border:none;background:none;padding:0 4px" onclick="navigator.clipboard.writeText('npx @amplitude/wizard')" title="Copy"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3 11V3.5C3 2.67 3.67 2 4.5 2H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></button></span>
-          </div>
-          <a href="https://amplitude.com/docs/sdks/mcp" target="_blank" class="qs-docs-link">MCP docs <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
-        </div>
-        <p class="qs-sub">Connects to Claude, Cursor, GitHub Copilot, Windsurf, and any MCP-compatible AI environment.</p>
+        <div class="qs-mcp-docs"><a href="https://amplitude.com/docs/amplitude-ai/amplitude-mcp" target="_blank">View MCP setup docs <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
       </div>
 
-      <!-- SDK panel -->
+      <!-- SDK panel: Zapier-style -->
       <div class="qs-panel" id="qs-sdk">
-        <div class="qs-terminal">
-          <span><span class="dollar">$</span><span class="cmd">npm install @amplitude/analytics-browser</span></span>
-          <button class="qs-copy-btn" onclick="copyCmd(this,'npm install @amplitude/analytics-browser')"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3 11V3.5C3 2.67 3.67 2 4.5 2H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg> Copy</button>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px;flex-wrap:wrap;gap:8px">
-          <p class="qs-sub" style="margin:0">TypeScript, Python, Go, Swift, Kotlin, and more.</p>
-          <a href="https://www.docs.developers.amplitude.com/sdks/" target="_blank" class="qs-docs-link" style="margin-left:0">SDK docs <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="qs-install-block">
+          <p class="qs-opt-label">Option 1: <span>Paste the following prompt into your AI editor:</span></p>
+          <div class="qs-code-block" id="qs-sdk-prompt">Install the Amplitude Browser SDK for me.
+
+Run:
+npm install @amplitude/analytics-browser
+
+After it installs, read the Amplitude SDK docs and help me initialize tracking:
+https://amplitude.com/docs/sdks<button class="qs-copy-oval" onclick="copyBlock('qs-sdk-prompt',this)" title="Copy"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="8" rx="1.5" stroke="#fff" stroke-width="1.3"/><path d="M3 11V3.5C3 2.67 3.67 2 4.5 2H10" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/></svg></button></div>
+          <div class="qs-divider"></div>
+          <p class="qs-opt-label">Option 2: <span>Paste the following command into your terminal:</span></p>
+          <div class="qs-terminal-line"><span><span class="dollar">$</span>npm install @amplitude/analytics-browser</span><button class="qs-copy-oval-sm" onclick="copyText('npm install @amplitude/analytics-browser',this)" title="Copy"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="8" rx="1.5" stroke="#fff" stroke-width="1.3"/><path d="M3 11V3.5C3 2.67 3.67 2 4.5 2H10" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/></svg></button></div>
+          <div class="qs-docs-row">See the <a href="https://amplitude.com/docs/sdks" target="_blank">Amplitude SDK docs</a> for all platforms (TypeScript, Python, Go, Swift, Kotlin, and more).</div>
         </div>
       </div>
 
-      <!-- CLI panel -->
+      <!-- CLI panel: Zapier-style -->
       <div class="qs-panel" id="qs-cli">
-        <div class="qs-terminal">
-          <span><span class="dollar">$</span><span class="cmd">npx @amplitude/wizard</span></span>
-          <button class="qs-copy-btn" onclick="copyCmd(this,'npx @amplitude/wizard')"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3 11V3.5C3 2.67 3.67 2 4.5 2H10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg> Copy</button>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px;flex-wrap:wrap;gap:8px">
-          <p class="qs-sub" style="margin:0">Detects your stack, instruments events, and validates your setup automatically.</p>
-          <a href="https://www.docs.developers.amplitude.com/getting-started/cli-wizard/" target="_blank" class="qs-docs-link" style="margin-left:0">CLI docs <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="qs-install-block">
+          <p class="qs-opt-label">Option 1: <span>Paste the following prompt into your AI editor:</span></p>
+          <div class="qs-code-block" id="qs-cli-prompt">Install Amplitude for me using the CLI Wizard.
+
+Run:
+npx @amplitude/wizard
+
+After it runs, read the CLI Wizard docs and help me get my first events flowing:
+https://amplitude.com/docs/get-started/setup-wizard-cli<button class="qs-copy-oval" onclick="copyBlock('qs-cli-prompt',this)" title="Copy"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="8" rx="1.5" stroke="#fff" stroke-width="1.3"/><path d="M3 11V3.5C3 2.67 3.67 2 4.5 2H10" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/></svg></button></div>
+          <div class="qs-divider"></div>
+          <p class="qs-opt-label">Option 2: <span>Paste the following command into your terminal:</span></p>
+          <div class="qs-terminal-line"><span><span class="dollar">$</span>npx @amplitude/wizard</span><button class="qs-copy-oval-sm" onclick="copyText('npx @amplitude/wizard',this)" title="Copy"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="8" rx="1.5" stroke="#fff" stroke-width="1.3"/><path d="M3 11V3.5C3 2.67 3.67 2 4.5 2H10" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/></svg></button></div>
+          <div class="qs-docs-row">See the <a href="https://amplitude.com/docs/get-started/setup-wizard-cli" target="_blank">CLI Wizard docs</a> for more details.</div>
         </div>
       </div>
 
     </div>
   </div>
-</section>
+
+  <!-- MCP Modal overlay -->
+  <div class="mcp-modal-overlay" id="mcpModalOverlay" onclick="closeMcpModalOnBg(event)">
+    <div class="mcp-modal">
+      <button class="mcp-modal-close" onclick="closeMcpModal()" aria-label="Close">&times;</button>
+      <div class="mcp-modal-icon" id="modalIcon"></div>
+      <h3 id="modalTitle">Connect to Claude</h3>
+      <p class="mcp-modal-desc">Paste the following prompt into a new conversation and follow the instructions:</p>
+      <div class="mcp-modal-code" id="modalPrompt"><button class="mcp-modal-copy" id="modalCopyBtn" onclick="copyModalPrompt()" title="Copy"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="8" rx="1.5" stroke="#fff" stroke-width="1.3"/><path d="M3 11V3.5C3 2.67 3.67 2 4.5 2H10" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/></svg></button></div>
+      <a href="#" class="mcp-modal-open" id="modalOpenBtn" target="_blank">Open Claude</a>
+    </div>
+  </div>
 
 <!-- TRACTION -->
 <section class="traction-section">
@@ -770,13 +828,115 @@ function qsTab(id, btn){
   btn.classList.add('active');
   document.getElementById('qs-'+id).classList.add('active');
 }
-function copyCmd(btn, text){
+
+function copyText(text, btn){
   navigator.clipboard.writeText(text);
-  var orig = btn.innerHTML;
-  btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="#22C55E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Copied';
-  btn.style.color = '#22C55E'; btn.style.borderColor = '#22C55E';
-  setTimeout(function(){ btn.innerHTML = orig; btn.style.color=''; btn.style.borderColor=''; }, 1600);
+  var svg = btn.innerHTML;
+  btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  setTimeout(function(){ btn.innerHTML = svg; }, 1600);
 }
+
+function copyBlock(id, btn){
+  var el = document.getElementById(id);
+  var text = el.innerText.replace(btn.innerText||'','').trim();
+  // innerText includes button text in some browsers, use textContent approach
+  var clone = el.cloneNode(true);
+  var btns = clone.querySelectorAll('button');
+  btns.forEach(function(b){ b.remove(); });
+  var clean = clone.innerText || clone.textContent;
+  navigator.clipboard.writeText(clean.trim());
+  var svg = btn.innerHTML;
+  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  setTimeout(function(){ btn.innerHTML = svg; }, 1600);
+}
+
+// ═══ MCP Modal ═══
+var mcpTools = {
+  claude: {
+    name: 'Claude',
+    url: 'https://claude.ai',
+    icon: '<svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="#FFF4EE"/><path d="M20 10C16 10 12 13 12 17C12 14 15 12 18 14C17 11 20 8 24 12C22 10 26 12 26 16C28 14 30 17 28 20C30 20 31 23 28 25C30 27 28 30 25 28C26 31 23 32 21 29C22 32 19 33 17 30C15 32 12 30 14 27C11 28 10 25 13 23C10 23 9 20 12 18C10 17 12 14 15 15C13 12 16 10 20 10Z" fill="#E8530E"/></svg>',
+    prompt: "Connect to Amplitude MCP for me. If I haven't already added Amplitude as an MCP server, prompt me to install it following the guide at https://amplitude.com/docs/amplitude-ai/amplitude-mcp. After the connector is installed, use the Amplitude MCP to show me my top product events and help me identify where users are dropping off."
+  },
+  claudecode: {
+    name: 'Claude Code',
+    url: 'https://claude.ai/download',
+    icon: '<svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="#FFF4EE"/><rect x="11" y="14" width="18" height="14" rx="3" fill="#E8530E"/><circle cx="16.5" cy="21" r="1.8" fill="#fff"/><circle cx="23.5" cy="21" r="1.8" fill="#fff"/><rect x="14" y="12" width="2.5" height="4" rx="1.2" fill="#E8530E"/><rect x="23.5" y="12" width="2.5" height="4" rx="1.2" fill="#E8530E"/></svg>',
+    prompt: "Set up the Amplitude MCP server in my Claude Code session. Follow the setup instructions at https://amplitude.com/docs/amplitude-ai/amplitude-mcp. Once connected, help me query user behavior data for the project I'm currently working on and surface any key drop-off points."
+  },
+  cursor: {
+    name: 'Cursor',
+    url: 'https://cursor.sh',
+    icon: '<svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="#F5F5F5"/><rect x="11" y="11" width="18" height="18" rx="5" fill="#000"/><path d="M16 28V20C16 18.3 17.3 17 19 17H21C22.7 17 24 18.3 24 20V28" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>',
+    prompt: "Add the Amplitude MCP server to my Cursor environment. If it isn't configured yet, follow the setup at https://amplitude.com/docs/amplitude-ai/amplitude-mcp. Once connected, help me query my product analytics directly from my editor — start by showing me my funnel and top drop-off points."
+  },
+  github: {
+    name: 'GitHub Copilot',
+    url: 'https://github.com/features/copilot',
+    icon: '<svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="#F5F5F5"/><path d="M20 10C14.48 10 10 14.48 10 20C10 24.42 12.87 28.17 16.84 29.49C17.34 29.57 17.52 29.27 17.52 29.01V27.36C14.73 27.94 14.18 26.04 14.18 26.04C13.73 24.92 13.08 24.62 13.08 24.62C12.17 24 13.15 24.01 13.15 24.01C14.15 24.08 14.68 25.04 14.68 25.04C15.55 26.55 16.98 26.12 17.55 25.87C17.64 25.23 17.89 24.8 18.17 24.56C15.95 24.31 13.62 23.43 13.62 19.58C13.62 18.52 13.99 17.64 14.71 16.96C14.62 16.71 14.28 15.72 14.79 14.38C15.61 14.12 17.51 15.41 17.51 15.41C18.31 15.19 19.16 15.08 20.01 15.07C20.86 15.08 21.72 15.19 22.52 15.41C24.42 14.12 25.23 14.38 25.23 14.38C25.74 15.72 25.41 16.71 25.32 16.96C26.04 17.64 26.41 18.52 26.41 19.58C26.41 23.44 24.07 24.31 21.84 24.55C22.18 24.85 22.5 25.44 22.5 26.37V29.01C22.5 29.27 22.68 29.58 23.19 29.49C27.15 28.17 30.01 24.42 30.01 20C30 14.48 25.52 10 20 10Z" fill="#24292E"/></svg>',
+    prompt: "Connect to Amplitude MCP in my GitHub Copilot environment. Follow the setup guide at https://amplitude.com/docs/amplitude-ai/amplitude-mcp to add Amplitude as an MCP server. Once connected, help me understand user behavior patterns in the features I'm building."
+  },
+  windsurf: {
+    name: 'Windsurf',
+    url: 'https://windsurf.com',
+    icon: '<svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="#F3F1FF"/><path d="M11 29L20 9L29 29" stroke="#5E6AD2" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 23H26" stroke="#5E6AD2" stroke-width="2.5" stroke-linecap="round"/></svg>',
+    prompt: "Add the Amplitude MCP server to my Windsurf configuration. If it isn't set up yet, use the instructions at https://amplitude.com/docs/amplitude-ai/amplitude-mcp. After connecting, use Amplitude MCP to help me explore user behavior and surface drop-off points for the project I'm working in."
+  },
+  replit: {
+    name: 'Replit',
+    url: 'https://replit.com',
+    icon: '<svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="#F0FFF4"/><path d="M14 13H22C23.1 13 24 13.9 24 15V19H14V13Z" fill="#F26207"/><path d="M14 19H24V23H14V19Z" fill="#F26207" opacity=".7"/><path d="M14 23H26C27.1 23 28 23.9 28 25V27H14V23Z" fill="#F26207" opacity=".5"/></svg>',
+    prompt: "Set up Amplitude MCP in my Replit Agent. Follow the configuration guide at https://amplitude.com/docs/amplitude-ai/amplitude-mcp to connect Amplitude. Once configured, help me track user behavior in this project and surface analytics insights directly in my Replit workspace."
+  },
+  codex: {
+    name: 'Codex',
+    url: 'https://platform.openai.com/codex',
+    icon: '<svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="18" fill="#F9F9F9"/><path d="M20 11L28 15.5V25L20 29.5L12 25V15.5L20 11Z" fill="#111"/><path d="M20 11L28 15.5L20 20L12 15.5L20 11Z" fill="#333"/><path d="M20 20V29.5" stroke="#666" stroke-width="1"/></svg>',
+    prompt: "Connect to Amplitude MCP in OpenAI Codex. Use the setup instructions at https://amplitude.com/docs/amplitude-ai/amplitude-mcp to configure the MCP server. After connecting, use Amplitude to help me analyze user behavior patterns and surface the most impactful areas to improve in my product."
+  }
+};
+
+function openMcpModal(toolId){
+  var tool = mcpTools[toolId];
+  if(!tool) return;
+  document.getElementById('modalIcon').innerHTML = tool.icon;
+  document.getElementById('modalTitle').textContent = 'Connect to ' + tool.name;
+  // Set prompt text (before the button)
+  var promptEl = document.getElementById('modalPrompt');
+  promptEl.innerHTML = '';
+  var textNode = document.createTextNode(tool.prompt);
+  promptEl.appendChild(textNode);
+  var copyBtn = document.createElement('button');
+  copyBtn.className = 'mcp-modal-copy';
+  copyBtn.id = 'modalCopyBtn';
+  copyBtn.setAttribute('title','Copy');
+  copyBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="5" y="5" width="8" height="8" rx="1.5" stroke="#fff" stroke-width="1.3"/><path d="M3 11V3.5C3 2.67 3.67 2 4.5 2H10" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/></svg>';
+  copyBtn.onclick = function(){ copyModalPrompt(tool.prompt, copyBtn); };
+  promptEl.appendChild(copyBtn);
+  var openBtn = document.getElementById('modalOpenBtn');
+  openBtn.textContent = 'Open ' + tool.name;
+  openBtn.href = tool.url;
+  document.getElementById('mcpModalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeMcpModal(){
+  document.getElementById('mcpModalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeMcpModalOnBg(e){
+  if(e.target === document.getElementById('mcpModalOverlay')) closeMcpModal();
+}
+
+function copyModalPrompt(text, btn){
+  navigator.clipboard.writeText(text);
+  var svg = btn.innerHTML;
+  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  setTimeout(function(){ btn.innerHTML = svg; }, 1600);
+}
+
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeMcpModal(); });
 
 // ═══ Cycling Hero Engine ═══
 (function(){
